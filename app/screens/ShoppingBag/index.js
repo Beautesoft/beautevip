@@ -38,13 +38,13 @@ export default function ShoppingBag({ navigation }) {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [modifiedItem, setmodifiedItem] = useState({});
-  
 
 
 
 
-  const AddToCart = (item,iQty) => {
-    console.log("Item>>>Line>>46>>",""+item);
+
+  const AddToCart = (item, iQty) => {
+    console.log("Item>>>Line>>46>>", "" + item);
 
     setloader(true);
     const data = {
@@ -62,7 +62,7 @@ export default function ShoppingBag({ navigation }) {
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 33 ~ .then ~ result', result);
         if (result?.success == 1) {
-           //navigation.goBack();
+          //navigation.goBack();
           // navigation.navigate('ShoppingScreen');
           GetCartItemList();
           CartSummary();
@@ -99,7 +99,13 @@ export default function ShoppingBag({ navigation }) {
           result,
         );
         if (result?.success == 1) {
-          setitemList(result?.result);
+          if (result.result) {
+            setitemList(result?.result);
+          } else {
+            setitemList([])
+          }
+        } else {
+          setitemList([])
         }
         setloader(false);
       })
@@ -131,9 +137,19 @@ export default function ShoppingBag({ navigation }) {
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
+        console.log('🚀 ~ file: shopping bag.js ~ line 134 ~ result', result);
         if (result?.success == 1) {
-          setSummaryData(result?.result[0]);
-          setsubTotal(result?.result[0]?.subTotal);
+          if (result?.result) {
+            setSummaryData(result?.result[0]);
+            setsubTotal(result?.result[0]?.subTotal);
+          } else {
+            setSummaryData({});
+            setsubTotal(0);
+          }
+
+        } else {
+          setSummaryData({});
+          setsubTotal(0);
         }
         setloader(false);
       })
@@ -217,22 +233,22 @@ export default function ShoppingBag({ navigation }) {
                   color={BaseColor.amberTxt}
                 /> */}
 
-            <TouchableOpacity
-                style={styles.dropCont}
-                activeOpacity={0.7}
-                onPress={() => {
-                 // Alert.alert(`Item qty> ${item?.itemQuantity}`);
-                  
-                  setmodifiedItem(item)
-                  setshowQuantity(true);
-                }}>
-                <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
-                <Image
-                  style={{ height: 16, width: 16,tintColor:BaseColor.amberTxt }}
-                  resizeMode="center"
-                  source={Icons.drop_icon}
-                />
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.dropCont}
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    // Alert.alert(`Item qty> ${item?.itemQuantity}`);
+
+                    setmodifiedItem(item)
+                    setshowQuantity(true);
+                  }}>
+                  <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
+                  <Image
+                    style={{ height: 16, width: 16, tintColor: BaseColor.amberTxt }}
+                    resizeMode="center"
+                    source={Icons.drop_icon}
+                  />
+                </TouchableOpacity>
 
               </View>
               {/* <Image
@@ -293,141 +309,148 @@ export default function ShoppingBag({ navigation }) {
           style={{ textAlign: 'center' }}
         />
         <FlatList data={itemList} renderItem={renderItem} />
-        <CText value={t('haveDicoundCode')} size={14} />
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            alignItems: 'center',
-            backgroundColor: BaseColor.white,
-            alignSelf: 'center',
-            padding: 4,
-            borderRadius: 40,
-            paddingHorizontal: 8,
-            marginTop: 8,
-          }}>
-          <Image
-            source={Images.goals}
-            style={{ height: 22, width: 22 }}
-            resizeMode="contain"
-          />
-          <TextInput
-            placeholder="Enter Here"
-            placeholderTextColor={'#A3A3A3'}
-            style={{
-              flex: 1,
-              marginHorizontal: 8,
-              fontSize: 14,
-              fontFamily: FontFamily.Poppins_Regular,
-              color: BaseColor.black,
-            }}
-          />
-          <View
-            style={{
-              height: 38,
-              width: 38,
-              borderRadius: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: BaseColor.amber,
-            }}>
-            <Image
-              source={Icons.right_arrow}
-              style={{ height: '40%', width: '40%' }}
-              resizeMode="contain"
-              tintColor={BaseColor.darkGrey}
+        {
+          !!subTotal &&
+          <>
+            <CText value={t('haveDicoundCode')} size={14} />
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                alignItems: 'center',
+                backgroundColor: BaseColor.white,
+                alignSelf: 'center',
+                padding: 4,
+                borderRadius: 40,
+                paddingHorizontal: 8,
+                marginTop: 8,
+              }}>
+              <Image
+                source={Images.goals}
+                style={{ height: 22, width: 22 }}
+                resizeMode="contain"
+              />
+              <TextInput
+                placeholder="Enter Here"
+                placeholderTextColor={'#A3A3A3'}
+                style={{
+                  flex: 1,
+                  marginHorizontal: 8,
+                  fontSize: 14,
+                  fontFamily: FontFamily.Poppins_Regular,
+                  color: BaseColor.black,
+                }}
+              />
+              <View
+                style={{
+                  height: 38,
+                  width: 38,
+                  borderRadius: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: BaseColor.amber,
+                }}>
+                <Image
+                  source={Icons.right_arrow}
+                  style={{ height: '40%', width: '40%' }}
+                  resizeMode="contain"
+                  tintColor={BaseColor.darkGrey}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                height: 1,
+                backgroundColor: BaseColor.white50,
+                marginVertical: 24,
+              }}
             />
-          </View>
-        </View>
-        <View
-          style={{
-            height: 1,
-            backgroundColor: BaseColor.white50,
-            marginVertical: 24,
-          }}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 16,
-          }}>
-          <CText
-            value={t('subtotal')}
-            size={20}
-            fontFamily={FontFamily.Poppins_Medium}
-            color={BaseColor.white}
-          />
-          <CText
-            value={`$${subTotal}`}
-            size={20}
-            fontFamily={FontFamily.Poppins_Medium}
-            color={BaseColor.amberTxt}
-          />
-        </View>
-        <CButton
-          title={t('placeOrder')}
-          style={{ maringTop: 16 }}
-          onPress={() =>
-            navigation.navigate('Checkout', {
-              data: itemList,
-              subTotal,
-              orderSummary: SummaryData,
-            })
-          }
-        />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginBottom: 16,
+              }}>
+              <CText
+                value={t('subtotal')}
+                size={20}
+                fontFamily={FontFamily.Poppins_Medium}
+                color={BaseColor.white}
+              />
+              <CText
+                value={`$${subTotal}`}
+                size={20}
+                fontFamily={FontFamily.Poppins_Medium}
+                color={BaseColor.amberTxt}
+              />
+            </View>
+
+            <CButton
+              title={t('placeOrder')}
+              style={{ maringTop: 16 }}
+              onPress={() =>
+                navigation.navigate('Checkout', {
+                  data: itemList,
+                  subTotal,
+                  orderSummary: SummaryData,
+                })
+              }
+            />
+          </>
+        }
+
       </View>
       <Loader loader={loader} />
 
       <Modal style={{ flex: 1 }} transparent visible={showQuantity}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00000070',
+          }}>
           <View
             style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#00000070',
+              height: 350,
+              backgroundColor: '#fff',
+              width: '90%',
+              borderRadius: 8,
             }}>
-            <View
-              style={{
-                height: 350,
-                backgroundColor: '#fff',
-                width: '90%',
-                borderRadius: 8,
-              }}>
-              <FlatList
-                data={quantity}
-                keyExtractor={(item, index) => index}
-                renderItem={({ item, index }) => {
-                  return (
-                    <TouchableOpacity
+            <FlatList
+              data={quantity}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      padding: 8,
+                      borderBottomWidth: 1,
+                      borderColor: BaseColor.black,
+                      borderRadius: 8,
+                    }}
+                    onPress={() => {
+                      setshowQuantity(false);
+                      setselectedQuantity(item);
+                      //Alert.alert(`item>${item},${selectedQuantity}`);
+                      AddToCart(modifiedItem, item);
+                    }}>
+                    <CText
+                      value={item}
+                      color={BaseColor.black}
+                      size={20}
+                      fontFamily={FontFamily.Poppins_Medium}
                       style={{
-                        padding: 8,
-                        borderBottomWidth: 1,
-                        borderColor: BaseColor.black,
-                        borderRadius: 8,
+                        textAlign: 'center',
                       }}
-                      onPress={() => {
-                        setshowQuantity(false);
-                        setselectedQuantity(item);
-                        //Alert.alert(`item>${item},${selectedQuantity}`);
-                        AddToCart(modifiedItem,item);
-                      }}>
-                      <CText
-                        value={item}
-                        color={BaseColor.black}
-                        size={20}
-                        fontFamily={FontFamily.Poppins_Medium}
-                        style={{
-                          textAlign: 'center',
-                        }}
-                      />
-                    </TouchableOpacity>
-                  );
-                }}
-              />
-            </View>
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
     </>
   );

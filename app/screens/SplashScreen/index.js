@@ -13,7 +13,7 @@ export default function SplashScreen({ navigation }) {
   const { setUserData, setStoreData } = AuthAction;
   const dispatch = useDispatch();
 
-  const uData={"clientLogo": "http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg", "country": "Singapore", "currency": "SGD", "customerAddress": "", "customerCode": "CUSTAPP001", "customerName": "", "customerPhone": "", "customerStripeId": "", "email": "", "mobileUserFrom": "", "nric": "", "pdpaStatus": false, "profilePic": "http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg", "referenceCode": "", "salutation": "", "siteCode": "TN01", "storeName": "TC"};
+  const uData = { "clientLogo": "http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg", "country": "Singapore", "currency": "SGD", "customerAddress": "", "customerCode": "CUSTAPP001", "customerName": "", "customerPhone": "", "customerStripeId": "", "email": "", "mobileUserFrom": "", "nric": "", "pdpaStatus": false, "profilePic": "http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg", "referenceCode": "", "salutation": "", "siteCode": "TN01", "storeName": "TC" };
 
 
 
@@ -37,10 +37,10 @@ export default function SplashScreen({ navigation }) {
           <CButton
             title={t('getStarted')}
             style={styles.btnStyle}
-            onPress={() => 
-              //navigation.navigate('Login')
-              dispatch(setUserData(uData))
-          }
+            onPress={() =>
+              navigation.navigate('Login')
+              //dispatch(setUserData(uData))
+            }
           />
         </View>
       </View>

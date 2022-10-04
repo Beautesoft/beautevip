@@ -2,7 +2,7 @@
  * Main color use for whole application
  */
 const BaseColor = {
-  darkRed:'#8B0000',
+  darkRed: '#8B0000',
   yellow: '#F2C962',
   amber: '#B48101',
   darkAmber: '#594000',
@@ -22,6 +22,7 @@ const BaseColor = {
   placeholderTextColor: '#3f3f3f',
   darkGrey: '#110C08',
   greyYellow: '#443400',
+  color_fffaf0: "#fffaf0"
 };
 
 export default BaseColor;

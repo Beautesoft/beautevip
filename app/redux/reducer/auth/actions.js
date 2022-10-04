@@ -9,20 +9,20 @@ const actions = {
 
   remmoveUsrData: () => (dispatch) =>
     dispatch({
-      type:actions.REMOVE_USR_DATA,
+      type: actions.REMOVE_USR_DATA,
     }),
 
-  setUserData: (userData) => (dispatch) =>
+  setUserData: (userData) => async (dispatch) =>
     dispatch({
       type: actions.SET_USERDATA,
-      userData,
+      data: { ...userData },
     }),
 
-    updateUserData: (userData) => (dispatch) =>
+  updateUserData: (userData) => (dispatch) =>
     dispatch({
       type: actions.UPDATE_USERDATA,
       userData,
-    }),  
+    }),
 
 
   setCurrentLanguage: (currentLanguage) => (dispatch) =>

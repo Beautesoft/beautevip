@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
 import styles from './styles';
 import CText from '../../components/CText';
@@ -17,9 +17,10 @@ import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
+import { cloneDeep } from "lodash";
 
 export default function Login({ navigation }) {
-  const { setUserData, setStoreData ,logout} = AuthAction;
+  const { setUserData, setStoreData, logout, updateUserData } = AuthAction;
   const dispatch = useDispatch();
   const [moNumber, setmoNumber] = useState('');
   const [password, setpassword] = useState('');
@@ -29,15 +30,15 @@ export default function Login({ navigation }) {
 
   const Validate = () => {
     if (isEmpty(moNumber)) {
-      Alert.alert('Error !','Please Enter Mobile Number!');
+      Alert.alert('Error !', 'Please Enter Mobile Number!');
     } else if (isEmpty(password)) {
-      Alert.alert('Error !','Please Enter Password!');
+      Alert.alert('Error !', 'Please Enter Password!');
     } else {
-      Login();
+      handleLogin();
     }
   };
 
-  const Login = () => {
+  const handleLogin = () => {
     setloader(true);
     const data = {
       phoneNumber: moNumber,
@@ -49,12 +50,14 @@ export default function Login({ navigation }) {
       .then((result) => {
         setloader(false);
         if (result?.success == 1) {
-          dispatch(logout());
-          dispatch(setUserData(result?.result));
-          navigation.navigate('Home');
+          //  dispatch(setUserData(result?.result));
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            data: result?.result
+          })
         }
         Toast.show(result?.error);
-        
+
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
@@ -124,9 +127,9 @@ export default function Login({ navigation }) {
             />
             <View style={styles.forgotStyle}>
               <TouchableOpacity activeOpacity={0.7}
-              onPress={() => 
-                navigation.navigate('ForgotPassword')
-              }>
+                onPress={() =>
+                  navigation.navigate('ForgotPassword')
+                }>
                 <CText
                   value={t('forgotPassword')}
                   color={BaseColor.yellow}
@@ -149,7 +152,7 @@ export default function Login({ navigation }) {
         </View>
       </ScrollView>
 
-      
+
       <CLoader loader={loader} />
     </>
   );

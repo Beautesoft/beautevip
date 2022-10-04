@@ -131,7 +131,6 @@ export default function HomeScreen({ navigation }) {
 
   const StoreDetails = (sid) => {
     setloader(true);
-
     const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
     // const url = `/dashBoardF21?siteCode=TN01&customerCode=GC01T1100002`;
 
@@ -142,21 +141,21 @@ export default function HomeScreen({ navigation }) {
           setserviceList(result?.service);
           // setproductList(result?.product);
           // setfilterArr(result?.product);
-          var allList=[];
+          var allList = [];
           for (let i = 0; i < result?.product.length; i++) {
             for (let j = 0; j < result?.product[i].items.length; j++) {
-              if(sid == 2){
-                if(result?.product[i].items[j].isBestSelling){
+              if (sid == 2) {
+                if (result?.product[i].items[j].isBestSelling) {
                   allList.push(result?.product[i].items[j]);
                 }
-              }else if(sid == 3){
-                if(result?.product[i].items[j].isNewArrived){
+              } else if (sid == 3) {
+                if (result?.product[i].items[j].isNewArrived) {
                   allList.push(result?.product[i].items[j]);
                 }
-              }else{
-                  // if(result?.product[i].items[j].isForYou){
-                    allList.push(result?.product[i].items[j]);
-                  // }
+              } else {
+                // if(result?.product[i].items[j].isForYou){
+                allList.push(result?.product[i].items[j]);
+                // }
               }
             }
           }
@@ -273,13 +272,13 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.searchCont}>
             <Image
               source={Icons.search}
-              style={{ height: 18, width: 18 }} 
+              style={{ height: 18, width: 18 }}
               resizeMode="center"
             />
             <TextInput
               placeholder={t('searchServices')}
               style={{
-                
+
                 marginStart: 12,
                 marginEnd: 8,
                 color: BaseColor.yellow,
@@ -308,7 +307,7 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={Icons.notification}
               style={{
-                
+
                 marginHorizontal: 8,
                 marginEnd: 8,
               }}
@@ -321,7 +320,7 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={Icons.exit}
               style={{
-                
+
                 height: 20,
                 width: 20,
                 marginHorizontal: 8,
@@ -333,40 +332,40 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
       <View>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          padding: 8,
-        }}
-        nestedScrollEnabled
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
+        {/* <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            padding: 8,
+          }}
+          nestedScrollEnabled
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }> */}
         <View>
 
-        <View>
-          <FlatList
-            ref={bannerListRef}
-            horizontal={true}
-            keyExtractor={(item, index) => index}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{}}
-            onViewableItemsChanged={onViewRef.current}
-            viewabilityConfig={viewConfigRef.current}
-            renderItem={({ item, index }) => {
-              return (
-                <View style={styles.mainCont}>
-                  <View style={styles.scrollImgCont} key={index}>
-                    <Image source={item.image} style={styles.scrollImg} />
+          <View>
+            <FlatList
+              ref={bannerListRef}
+              horizontal={true}
+              keyExtractor={(item, index) => index}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}
+              onViewableItemsChanged={onViewRef.current}
+              viewabilityConfig={viewConfigRef.current}
+              renderItem={({ item, index }) => {
+                return (
+                  <View style={styles.mainCont}>
+                    <View style={styles.scrollImgCont} key={index}>
+                      <Image source={item.image} style={styles.scrollImg} />
+                    </View>
                   </View>
-                </View>
-              );
-            }}
-            data={imageArr}
-            pagingEnabled
-          />
-        </View>
+                );
+              }}
+              data={imageArr}
+              pagingEnabled
+            />
+          </View>
 
           <View style={styles.dotConSty}>
             {imageArr.map((item, index) => {
@@ -400,18 +399,18 @@ export default function HomeScreen({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-            <View>
-              <FlatList
-              
-                numColumns={4}
-                data={serviceList}
-                renderItem={renderServiceBtn}
-                // contentContainerStyle={{
-                //   width: '100%',
-                // }}
-                keyExtractor={(item, index) => index}
-              />
-            </View>
+          <View>
+            <FlatList
+
+              numColumns={4}
+              data={serviceList}
+              renderItem={renderServiceBtn}
+              // contentContainerStyle={{
+              //   width: '100%',
+              // }}
+              keyExtractor={(item, index) => index}
+            />
+          </View>
         </View>
 
         <View style={{ padding: 12 }}>
@@ -465,7 +464,7 @@ export default function HomeScreen({ navigation }) {
                         item.id === selectedTab.id ? BaseColor.amberTxt : '#434343'
                       }
                       size={14}
-                      
+
                     />
                   </TouchableOpacity>
                 );
@@ -475,20 +474,20 @@ export default function HomeScreen({ navigation }) {
           </View>
 
           <View>
-              <FlatList
-              
-                keyExtractor={(item, index) => index}
-                data={filterArr}
-                renderItem={renderProducts}
-                scrollEnabled={false}
-                numColumns={2}
-                contentContainerStyle={{ marginTop: 16 }}
-                
-              />
-            </View>
-            
+            <FlatList
+
+              keyExtractor={(item, index) => index}
+              data={filterArr}
+              renderItem={renderProducts}
+              scrollEnabled={false}
+              numColumns={2}
+              contentContainerStyle={{ marginTop: 16 }}
+
+            />
+          </View>
+
         </View>
-      </ScrollView>
+        {/* </ScrollView> */}
       </View>
       <Loader loader={loader} />
     </View>

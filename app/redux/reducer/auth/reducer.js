@@ -2,36 +2,39 @@
 import types from './actions';
 
 const initialState = {
-  userData: {},
+  userData: null,
   signupData: {},
   storeData: {},
   currentLanguage: 'en',
 };
 
 export default function reducer(state = initialState, action) {
+
   switch (action.type) {
-    case types.SET_USERDATA:
+    case "LOGIN_SUCCESS":
+      return {
+        ...state,
+        userData: { ...action.data }
+      };
+
+    case types.UPDATE_USERDATA:
       return {
         ...state,
         userData: action.userData,
       };
-      
-      case types.UPDATE_USERDATA:
-        return {
-          ...state,
-          userData: action.userData,
-        };
 
     case types.SET_SIGNUPDATA:
       return {
         ...state,
         signupData: action.signupData,
       };
+
     case types.SET_STOREDATA:
       return {
         ...state,
         storeData: action.storeData,
       };
+
     case types.SET_LANGUAGE:
       return {
         ...state,
@@ -40,13 +43,15 @@ export default function reducer(state = initialState, action) {
 
     case types.LOGOUT:
       return {
-        signupData: {},
+        ...state,
+        signupData: null,
         userData: {},
         storeData: {},
       };
 
-      case types.REMOVE_USR_DATA:
+    case types.REMOVE_USR_DATA:
       return {
+        ...state,
         userData: {},
       };
 
@@ -54,3 +59,25 @@ export default function reducer(state = initialState, action) {
       return state;
   }
 }
+
+
+// import types from './actions';
+// const initialState = {
+//   userData: null
+// };
+
+// const authReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case types.SET_USERDATA:
+//       return {
+//         ...state,
+//         userData: action.userData
+//       };
+
+
+
+//     default:
+//       return state;
+//   }
+// };
+// export default authReducer;

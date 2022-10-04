@@ -8,6 +8,7 @@ import { persistor, store } from './app/redux/store/configureStore';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { ModalPortal } from 'react-native-modals';
 import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 export default function App() {
@@ -24,7 +25,9 @@ export default function App() {
         merchantIdentifier="merchant.beautesoft.vip">
         <Provider store={store}>
           <PersistGate loading={false} persistor={persistor}>
-            <NavStart />
+            <NavigationContainer>
+              <NavStart />
+            </NavigationContainer>
           </PersistGate>
           <ModalPortal />
         </Provider>

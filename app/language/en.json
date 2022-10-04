@@ -41,7 +41,7 @@
     "selectAvail": "Select Available Beautician",
     "orders": "Orders",
     "all": "All",
-    "history":"History",
+    "history": "History",
     "confirm": "Confirm",
     "waiting": "Waiting",
     "cancel": "Cancel",
@@ -132,6 +132,11 @@
     "viewOrderDetails": "View Order Details",
     "changeLanguage": "Change Language",
     "resetPassword": "Reset Password",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "myPoints": "My Points",
+    "totalPoints": "Total Points",
+    "points": "Points",
+    "redeem": "Redeem",
+    "reward": "Reward"
   }
 }

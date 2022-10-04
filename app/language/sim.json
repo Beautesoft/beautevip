@@ -131,6 +131,11 @@
     "viewOrderDetails": "View Order Details",
     "changeLanguage": "语言设置",
     "resetPassword": "Reset Password",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "myPoints": "My Points",
+    "totalPoints": "Total Points",
+    "points": "Points",
+    "redeem": "Redeem",
+    "reward": "Reward"
   }
 }

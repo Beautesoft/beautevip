@@ -79,10 +79,11 @@ export default function Checkout({ navigation, route }) {
       customerEmail: userData?.email,
       customerPhone: userData?.customerPhone,
     };
+    console.log("StripeCustomerCreate");
 
     getApiData(BaseSetting.endpoints.stripeCustomerCreate, 'post', data)
       .then((result) => {
-        console.log('🚀 ~ file: index.js ~ line 83 ~ .then ~ result', result);
+        console.log('🚀 ~ file: index.js ~ line 86 ~ .then ~ result', result);
         if (result?.success == 1) {
           setcustomerStripeID(result?.result?.id);
           StripePaymentIntentCreate(result?.result?.id);
@@ -97,7 +98,7 @@ export default function Checkout({ navigation, route }) {
 
   const StripePaymentIntentCreate = (customerId) => {
     setloader(true);
-
+    console.log("inside StripePaymentIntentCreate--->")
     const data = {
       customerId: customerId,
       customerCode: userData?.customerCode,
@@ -110,6 +111,7 @@ export default function Checkout({ navigation, route }) {
       //     : 0,
       currency: 'usd',
     };
+    console.log("StripePaymentIntentCreate data", data);
 
     getApiData(BaseSetting.endpoints.stripePaymentIntentCreate, 'post', data)
       .then((result) => {
@@ -437,11 +439,11 @@ export default function Checkout({ navigation, route }) {
           value={`Total payable amount: $${subTotal}`}
           size={22}
           style={{
-            paddingTop:8,
-            paddingBottom:8
+            paddingTop: 8,
+            paddingBottom: 8
           }}
           color={BaseColor.amberTxt}
-          />
+        />
         <CButton
           title={t('placeOrderNow')}
           onPress={() => {

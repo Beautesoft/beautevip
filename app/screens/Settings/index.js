@@ -37,16 +37,17 @@ export default function Settings({ navigation }) {
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
   const { updateUserData } = AuthAction;
-  const { logout,setUserData, setStoreData } = AuthAction;
+  const { logout, setUserData, setStoreData } = AuthAction;
   const dispatch = useDispatch();
-  
+
   const [address, setaddress] = useState();
 
   const [showModal, setshowModal] = useState(false);
   const [profileData, setprofileData] = useState();
 
   const [loader, setloader] = useState(false);
-  
+  const [totalPoints, setTotalPoints] = useState(0);
+
 
   // console.log("vsking1",userData)
 
@@ -54,7 +55,29 @@ export default function Settings({ navigation }) {
   useEffect(() => {
     GetAddress();
     setState(listArr);
+    getEarnedPoints()
   }, [isFocused]);
+
+  function getEarnedPoints() {
+    const url = `/getCustomerPointsNew?customerCode=${userData.customerCode}`;
+
+    fetch(`${BaseSetting.api}${url}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('🚀 ~ file: myearnpoint.js ~ line 28 ~ .then ~ result', result);
+        if (result?.success == 1) {
+          setTotalPoints(result.totalPoints);
+          listArr[5].value = result.totalPoints
+          console.log("listArr", listArr)
+          setState(listArr);
+        }
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: myearnpoint.js ~ line 45 ~ .then ~ err', err);
+      });
+  }
 
   const GetAddress = () => {
     //setloader(true);
@@ -73,15 +96,15 @@ export default function Settings({ navigation }) {
         try {
           setaddress(json?.result?.[0]);
         } catch (error) {
-          
+
         }
         try {
-          userData.customerAddress=json?.result?.[0].address; 
+          userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-          listArr[3].value = json?.result?.[0].address;
+          listArr[5].value = json?.result?.[0].address;
           setState(listArr);
         } catch (error) {
-          
+
         }
 
         //setloader(false);
@@ -91,18 +114,18 @@ export default function Settings({ navigation }) {
         console.error(error);
       });
   };
-  
-  const [ppphoto, setppphoto] = useState({uri:userData?.profilePic ? userData?.profilePic : userData?.clientLogo});
-  
-  let cUserData={
-    photo:ppphoto,
-    name:userData?.customerName,
-    address:address ? address.address : userData?.customerAddress,
-    email:userData?.email,
-    phone:userData?.customerPhone
+
+  const [ppphoto, setppphoto] = useState({ uri: userData?.profilePic ? userData?.profilePic : userData?.clientLogo });
+
+  let cUserData = {
+    photo: ppphoto,
+    name: userData?.customerName,
+    address: address ? address.address : userData?.customerAddress,
+    email: userData?.email,
+    phone: userData?.customerPhone
   }
 
-  
+
 
 
 
@@ -116,7 +139,7 @@ export default function Settings({ navigation }) {
     {
       title: t('profilePhoto'),
       photoData: //{uri: (userData?.profilePic && userData?.profilePic != 33) ? userData?.profilePic : userData?.clientLogo}
-      cUserData.photo
+        cUserData.photo
       // {
       //   uri: pPic ? pPic : profileData?.uri,
       // }
@@ -144,6 +167,13 @@ export default function Settings({ navigation }) {
       value: cUserData.email,
       onPress: () => {
         navigation.navigate('ChangeEmail');
+      },
+    },
+    {
+      title: t('myPoints'),
+      value: totalPoints,
+      onPress: () => {
+        navigation.navigate('MyEarnPoint');
       },
     },
     {
@@ -187,14 +217,14 @@ export default function Settings({ navigation }) {
       onPress: () => {
         Alert.alert(
           'Delete Account?',
-          'Are you sure you want to delete?',  
+          'Are you sure you want to delete?',
           [
-             {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-             {text: 'OK', onPress: () => deleteUser() },
+            { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+            { text: 'OK', onPress: () => deleteUser() },
           ],
           { cancelable: false }
-     )
-        
+        )
+
       },
     },
     {
@@ -206,26 +236,26 @@ export default function Settings({ navigation }) {
     },
   ];
 
-  const deleteUser = () =>{
-    
-    let url=BaseSetting.api + BaseSetting.endpoints.deleteUser;
+  const deleteUser = () => {
+
+    let url = BaseSetting.api + BaseSetting.endpoints.deleteUser;
     const data = {
-      customerCode:userData?.customerCode,
+      customerCode: userData?.customerCode,
     };
     getApiData(BaseSetting.endpoints.deleteUser, 'post', data)
-    .then((result) => {
-      console.log('🚀 ~ file: index.js ~ line 199 ~ .then ~ err', result);
-      if (result?.success == 1) {
-        dispatch(logout());
-      }
-      Toast.show(result?.error);
-      //setloader(false);
-    })
-    .catch((err) => {
-      console.log('🚀 ~ file: index.js ~ line 199 ~ .then ~ err', err);
-      Toast.show('Something went wrong!');
-      //setloader(false);
-    });
+      .then((result) => {
+        console.log('🚀 ~ file: index.js ~ line 199 ~ .then ~ err', result);
+        if (result?.success == 1) {
+          dispatch(logout());
+        }
+        Toast.show(result?.error);
+        //setloader(false);
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: index.js ~ line 199 ~ .then ~ err', err);
+        Toast.show('Something went wrong!');
+        //setloader(false);
+      });
 
 
 
@@ -243,20 +273,25 @@ export default function Settings({ navigation }) {
           activeOpacity={0.7}
           onPress={item?.onPress}>
           <Text style={styles.listTitle}>{item?.title}</Text>
-          {item?.photoData ? (
-            <Image
-              source={item?.photoData ? item?.photoData : {uri:userData?.clientLogo}}
-              style={{ height: 34, width: 34, borderRadius: 80 }}
-            />
-          ) : item?.value ? (
-            <Text style={styles.listValue}>{item?.value}</Text>
-          ) : (
-            <Image
-              source={Icons.right_arrow}
-              style={{ height: 24, width: 16 }}
-              resizeMode="contain"
-            />
-          )}
+          {item.title === t('myPoints') ?
+            <Text style={[styles.listValue, {}]}>{totalPoints}</Text>
+            : (
+              item?.photoData ? (
+                <Image
+                  source={item?.photoData ? item?.photoData : { uri: userData?.clientLogo }}
+                  style={{ height: 34, width: 34, borderRadius: 80 }}
+                />
+              ) : item?.value ? (
+                <Text style={[styles.listValue, {}]}>{item?.value}</Text>
+              ) : (
+                <Image
+                  source={Icons.right_arrow}
+                  style={{ height: 24, width: 16 }}
+                  resizeMode="contain"
+                />
+              )
+            )}
+
         </TouchableOpacity>
       </>
     );
@@ -296,7 +331,7 @@ export default function Settings({ navigation }) {
       changeProfile(tempObj);
       console.log(image);
 
-//resize image
+      //resize image
       // try {
       //   const image = await resizeFile(image);
       //   console.log("🚀 ~Resized",image);
@@ -329,35 +364,35 @@ export default function Settings({ navigation }) {
 
 
   const resizeFile = (file) =>
-     
 
 
-      new Promise((resolve) => {
-        let quality = 100;
-          //4MB image file
-            if (file.size > 4000000) {
-              quality = 90;
-            }
-          //8MB image file
-            if (file.size > 8000000) {
-              quality = 85;
-            }
-          Resizer.imageFileResizer(
-              file,
-              300,
-              300,
-              "JPEG",
-              quality,
-              0,
-              (uri) => {
-                // resolve(uri);
-                console.log('🚀 ~Uri>>',uri);
-              },
-              "file",//"base64",
-              150,
-              150
-        );
-  });
+
+    new Promise((resolve) => {
+      let quality = 100;
+      //4MB image file
+      if (file.size > 4000000) {
+        quality = 90;
+      }
+      //8MB image file
+      if (file.size > 8000000) {
+        quality = 85;
+      }
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "JPEG",
+        quality,
+        0,
+        (uri) => {
+          // resolve(uri);
+          console.log('🚀 ~Uri>>', uri);
+        },
+        "file",//"base64",
+        150,
+        150
+      );
+    });
 
 
 
@@ -366,11 +401,11 @@ export default function Settings({ navigation }) {
 
 
   const changeProfile = (profileData) => {
-    console.log("PPP:>>>",profileData);
-    if(!profileData.uri){
+    console.log("PPP:>>>", profileData);
+    if (!profileData.uri) {
       return
     }
-    
+
 
     // const data = {
     //   profile: profileData,
@@ -396,7 +431,7 @@ export default function Settings({ navigation }) {
     // form.append('customerCode', userData?.customerCode);
     // form.append('notificationFlag', '1');
     let body = new FormData();
-    body.append('profile', {uri: profileData.uri,name: profileData.name,filename :profileData.name,type: profileData.type});
+    body.append('profile', { uri: profileData.uri, name: profileData.name, filename: profileData.name, type: profileData.type });
     body.append('Content-Type', profileData.type);
     // body.append('jsonKey', jsonKeyObj);
     body.append('siteCode', '');
@@ -407,10 +442,10 @@ export default function Settings({ navigation }) {
 
     // Alert.alert("FData:>",JSON.stringify(profileData)+` ,${body} `+JSON.stringify(jsonKeyObj))
     console.log(
-      '🚀 ~ file: index.js ~ line 242 ~ changeProfile ~ BaseSetting.baseUrl + BaseSetting.endpoints.profilePicture',body,
+      '🚀 ~ file: index.js ~ line 242 ~ changeProfile ~ BaseSetting.baseUrl + BaseSetting.endpoints.profilePicture', body,
       BaseSetting.api + BaseSetting.endpoints.profilePic,
     );
-    let url=BaseSetting.api + BaseSetting.endpoints.profilePic//'http://103.253.15.102:88/main_api/api/profilePicture'  //http://103.253.15.102:88/main_api/api/updateProfileF21
+    let url = BaseSetting.api + BaseSetting.endpoints.profilePic//'http://103.253.15.102:88/main_api/api/profilePicture'  //http://103.253.15.102:88/main_api/api/updateProfileF21
     fetch('http://103.253.15.102:88/main_api/api/profilePicture', {
       method: 'POST',
       headers: {
@@ -427,56 +462,56 @@ export default function Settings({ navigation }) {
           '🚀 ~ file: index.js ~ line 219 ~ changeProfile ~ result',
           result,
         );
-          if(result?.success == '1'){
-            // dispatch(remmoveUsrData())
-            // userData.profilePic = result?.result;
-            // dispatch(setUserData(result?.result));
-            //userData=result?.result;
-            let newPic=result?.result?.profilePic+ '?' + new Date();
-            setppphoto({uri:newPic});
-            // listArr[1].photoData = {uri:result?.result};
-            // setState(listArr);
-            //cUserData.photo={uri:result?.result?.profilePic};
+        if (result?.success == '1') {
+          // dispatch(remmoveUsrData())
+          // userData.profilePic = result?.result;
+          // dispatch(setUserData(result?.result));
+          //userData=result?.result;
+          let newPic = result?.result?.profilePic + '?' + new Date();
+          setppphoto({ uri: newPic });
+          // listArr[1].photoData = {uri:result?.result};
+          // setState(listArr);
+          //cUserData.photo={uri:result?.result?.profilePic};
 
-            // let myListArr = [...listArr];
-            // myListArr[1].photoData={uri:newPic};
-            // setState(myListArr);
-
-            
-            userData.profilePic=newPic; 
-            dispatch(updateUserData(userData));
-            setState(pState=>{
-              console.log("🚀 before>>",pState);
-              //pState[0].title="My Pac "
-              pState[1].photoData={uri:newPic+ '?' + new Date()};
-              console.log("🚀 after>>",pState);
-              return [...pState];
-            });
-            
-             
-
-            console.log("VVVL>",userData);
+          // let myListArr = [...listArr];
+          // myListArr[1].photoData={uri:newPic};
+          // setState(myListArr);
 
 
-            Alert.alert('Success!','Profile image uploaded successfully.')
-          }else{
-            Alert.alert('Failed try again!',result?.Message);
-          }
- 
-          if (loader) {
-            setloader(false);
-          }
+          userData.profilePic = newPic;
+          dispatch(updateUserData(userData));
+          setState(pState => {
+            console.log("🚀 before>>", pState);
+            //pState[0].title="My Pac "
+            pState[1].photoData = { uri: newPic + '?' + new Date() };
+            console.log("🚀 after>>", pState);
+            return [...pState];
+          });
 
-         
-      }) 
+
+
+          console.log("VVVL>", userData);
+
+
+          Alert.alert('Success!', 'Profile image uploaded successfully.')
+        } else {
+          Alert.alert('Failed try again!', result?.Message);
+        }
+
+        if (loader) {
+          setloader(false);
+        }
+
+
+      })
       .catch((err) => {
         //setloader(false);
         console.log(
           '🚀 ~ file: index.js ~ line 259 ~ changeProfile ~ err',
           err,
         );
-         Alert.alert("Error!",'Oops! Failed to upload profile image.')
-       
+        Alert.alert("Error!", 'Oops! Failed to upload profile image.')
+
 
       });
   };
