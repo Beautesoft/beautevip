@@ -162,7 +162,6 @@ export default function HomeScreen({ navigation }) {
           //console.log("🚀 ~ line: 176:AllList>>>",allList);
           setfilterArr(allList);
           setproductList(allList);
-
         }
         setrefreshing(false);
         setloader(false);
@@ -278,7 +277,6 @@ export default function HomeScreen({ navigation }) {
             <TextInput
               placeholder={t('searchServices')}
               style={{
-
                 marginStart: 12,
                 marginEnd: 8,
                 color: BaseColor.yellow,
@@ -290,9 +288,7 @@ export default function HomeScreen({ navigation }) {
               onChange={() => {
                 const tempArr = productList.filter((item) => {
                   const name =
-                    item && item?.itemName
-                      ? item?.itemName.toLowerCase()
-                      : '';
+                    item && item?.itemName ? item?.itemName.toLowerCase() : '';
                   return name.includes(searchTxt.toLowerCase());
                 });
 
@@ -307,7 +303,6 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={Icons.notification}
               style={{
-
                 marginHorizontal: 8,
                 marginEnd: 8,
               }}
@@ -320,7 +315,6 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={Icons.exit}
               style={{
-
                 height: 20,
                 width: 20,
                 marginHorizontal: 8,
@@ -343,7 +337,6 @@ export default function HomeScreen({ navigation }) {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }> */}
         <View>
-
           <View>
             <FlatList
               ref={bannerListRef}
@@ -401,7 +394,6 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View>
             <FlatList
-
               numColumns={4}
               data={serviceList}
               renderItem={renderServiceBtn}
@@ -415,7 +407,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
-            <CText value="Shop" size={20} color={BaseColor.amberTxt} />
+            <CText value="Products" size={20} color={BaseColor.amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => navigation.navigate('Shopping')}>
@@ -461,10 +453,11 @@ export default function HomeScreen({ navigation }) {
                     <CText
                       value={item.title}
                       color={
-                        item.id === selectedTab.id ? BaseColor.amberTxt : '#434343'
+                        item.id === selectedTab.id
+                          ? BaseColor.amberTxt
+                          : '#434343'
                       }
                       size={14}
-
                     />
                   </TouchableOpacity>
                 );
@@ -475,17 +468,14 @@ export default function HomeScreen({ navigation }) {
 
           <View>
             <FlatList
-
               keyExtractor={(item, index) => index}
               data={filterArr}
               renderItem={renderProducts}
               scrollEnabled={false}
               numColumns={2}
               contentContainerStyle={{ marginTop: 16 }}
-
             />
           </View>
-
         </View>
         {/* </ScrollView> */}
       </View>

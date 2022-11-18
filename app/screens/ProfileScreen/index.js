@@ -32,10 +32,8 @@ export default function ProfileScreen({ navigation }) {
   const { updateUserData } = AuthAction;
   const dispatch = useDispatch();
 
-  
-  
   let backPressed = 0;
-  let errImg=Images.sampleOne;
+  let errImg = Images.sampleOne;
 
   function handleBackButtonClick() {
     if (backPressed > 0) {
@@ -65,7 +63,6 @@ export default function ProfileScreen({ navigation }) {
   useEffect(() => {
     GetCustomerReferalCode();
     setpropics();
-    
   }, []);
 
   // useEffect(() => {
@@ -87,11 +84,9 @@ export default function ProfileScreen({ navigation }) {
         // });
 
         try {
-          userData.customerAddress=json?.result?.[0].address; 
+          userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-        } catch (error) {
-          
-        }
+        } catch (error) {}
 
         //setloader(false);
       })
@@ -101,18 +96,17 @@ export default function ProfileScreen({ navigation }) {
       });
   };
 
-
-
-  const setpropics = () =>{
-    const proPic = userData?.profilePic ? ""+userData?.profilePic : userData.clientLogo;
-    console.log("111Vk>",proPic)
-    if(proPic == 33){
-      setpropic(""+userData?.clientLogo) 
-    }else{
-      setpropic(proPic)
+  const setpropics = () => {
+    const proPic = userData?.profilePic
+      ? '' + userData?.profilePic
+      : userData.clientLogo;
+    console.log('111Vk>', proPic);
+    if (proPic == 33) {
+      setpropic('' + userData?.clientLogo);
+    } else {
+      setpropic(proPic);
     }
-    
-  }
+  };
 
   const GetCustomerReferalCode = () => {
     const data = {
@@ -131,15 +125,11 @@ export default function ProfileScreen({ navigation }) {
       });
   };
 
-
   const [imageError, setImageError] = useState(true);
 
   const onImageNotFound = () => {
     setImageError(false);
-  }
-
-
-
+  };
 
   return (
     <>
@@ -148,14 +138,10 @@ export default function ProfileScreen({ navigation }) {
         <ScrollView contentContainerStyle={styles.scrollCont}>
           <TouchableOpacity style={styles.proCont}>
             <Image
-              source={
-                imageError ?
-                  { uri: ''+proPic }
-                  : {uri: ''+proPic }}
-              onError={() => onImageNotFound()} 
+              source={imageError ? { uri: '' + proPic } : { uri: '' + proPic }}
+              onError={() => onImageNotFound()}
               style={styles.proPhoto}
               resizeMode="cover"
-              
             />
           </TouchableOpacity>
           <CText
@@ -202,15 +188,15 @@ export default function ProfileScreen({ navigation }) {
             </TouchableOpacity> */}
           </View>
 
-          <CText
+          {/* <CText
             value={t('inviteFriend')}
             color="#b1b1b1"
             size={16}
             fontFamily={FontFamily.Poppins_Medium}
             style={{ marginTop: 24 }}
-          />
+          /> */}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.shareCont}
             activeOpacity={0.7}
             onPress={() => {
@@ -225,15 +211,15 @@ export default function ProfileScreen({ navigation }) {
               resizeMode="contain"
               tintColor={BaseColor.amberTxt}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <CText
+          {/* <CText
             value={`${t('invites')} : 0`}
             color="#E41F2D"
             size={16}
             fontFamily={FontFamily.Poppins_Medium}
             style={{ marginTop: 4 }}
-          />
+          /> */}
           <View
             style={{
               marginTop: 64,

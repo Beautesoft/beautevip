@@ -13,6 +13,7 @@
       android:roundIcon="@mipmap/new_logo"
       android:allowBackup="false"
       android:theme="@style/AppTheme"
+      android:exported="false"
       android:usesCleartextTraffic="true">
       <activity
         android:name=".MainActivity"

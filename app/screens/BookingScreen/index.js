@@ -4,9 +4,7 @@ import {
   BackHandler,
   FlatList,
   Image,
-
   Platform,
-
   ScrollView,
   Text,
   TextInput,
@@ -14,7 +12,7 @@ import {
   View,
 } from 'react-native';
 //import { Modal } from 'react-native';//this is for android
-import Modal from 'react-native-modals';//this is for ios
+import Modal from 'react-native-modals'; //this is for ios
 
 import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
@@ -36,10 +34,8 @@ import CLoader from '../../components/CLoader';
 import Toast from 'react-native-simple-toast';
 import { isEmpty, isArray, split } from 'lodash';
 import { t } from 'i18next';
-import { CreditCardInput } from 'react-native-credit-card-input';
+// import { CreditCardInput } from 'react-native-credit-card-input';
 import MyModal from '../../components/MyModal';
-
-
 
 export default function BookingScreen({ navigation, route }) {
   const orderData = route?.params?.itemData;
@@ -83,9 +79,7 @@ export default function BookingScreen({ navigation, route }) {
 
   const [loader, setloader] = useState(false);
 
-
   const [visible, setVisible] = useState(false);
-
 
   const GetAddress = () => {
     const addressType = 'Shipping';
@@ -96,14 +90,12 @@ export default function BookingScreen({ navigation, route }) {
       .then((response) => response.json())
       .then((json) => {
         setlocation(json?.result);
-        console.log("VAddress:>", JSON.stringify(json));
+        console.log('VAddress:>', JSON.stringify(json));
       })
       .catch((error) => {
-
         console.error(error);
       });
   };
-
 
   const locationArr = [
     {
@@ -285,61 +277,50 @@ export default function BookingScreen({ navigation, route }) {
       appointmentDuration: packageType
         ? Number(orderData?.packageList[0].duration)
         : orderData?.duration,
-      siteCode: selectedLocation.siteCode,//userData?.siteCode,
+      siteCode: selectedLocation?.siteCode, //userData?.siteCode,
       itemName: packageType ? orderData?.packageName : orderData?.itemName,
       treatmentId: packageType ? orderData?.packageID : '',
-      appointmentRemark: "TNC",
+      appointmentRemark: 'TNC',
       staffCode: beauty?.staffCode,
       appointmentItemDetails: [
         {
-          lineNumber: "1",
+          lineNumber: '1',
           itemCode: packageType
             ? orderData?.packageList[0].itemCode
             : orderData?.itemCode,
           itemName: packageType ? orderData?.packageName : orderData?.itemName,
-          unitPrice: packageType ? orderData?.unitPrice : orderData?.price
-        }
-      ]
-    }
+          unitPrice: packageType ? orderData?.unitPrice : orderData?.price,
+        },
+      ],
+    };
     console.log('🚀 ~ line 290~ ', data);
-
 
     getApiData(BaseSetting.endpoints.checkAppointmentSlot, 'post', data)
       .then((result) => {
         //setloader(false);
         console.log('🚀 ~ file: index.js ~ line 188 ~ .then ~ result', result);
         if (result?.success == 1) {
-          Toast.show("Slot availlable, proceed to payment.");
+          Toast.show('Slot availlable, proceed to payment.');
 
           if (packageType) {
             //Toast.show("Book appointment.");
             BookAppointment();
-
           } else {
             //Toast.show("cart all item.");
             // StripeCustomerCreate();
             cartAllItemDelete();
           }
-
-
         } else {
           //Toast.show(result?.error);
-          Alert.alert("Message", result?.error);
+          Alert.alert('Message', result?.error);
         }
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 190 ~ .then ~ err', err);
         Toast.show('Something went wrong!');
         //setloader(false);
       });
-
-
-
-  }
-
-
-
+  };
 
   const BookAppointment = () => {
     //setloader(true);
@@ -354,7 +335,7 @@ export default function BookingScreen({ navigation, route }) {
       appointmentDuration: packageType
         ? Number(orderData?.packageList[0].duration)
         : orderData?.duration,
-      siteCode: selectedLocation.siteCode,//userData?.siteCode,
+      siteCode: selectedLocation.siteCode, //userData?.siteCode,
       itemName: packageType ? orderData?.packageName : orderData?.itemName,
       treatmentId: packageType ? orderData?.packageID : '',
       appointmentRemark: '',
@@ -381,7 +362,6 @@ export default function BookingScreen({ navigation, route }) {
         } else {
           Toast.show(result?.error);
         }
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 190 ~ .then ~ err', err);
@@ -391,7 +371,6 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-
     //setcardInputModal(false);
     // AvailableSlots();
     GetAddress();
@@ -433,7 +412,7 @@ export default function BookingScreen({ navigation, route }) {
       siteCode: userData?.siteCode,
       isActive: '1',
     };
-    console.log("line>>349>>", data);
+    console.log('line>>349>>', data);
 
     getApiData(BaseSetting.endpoints.getStaffMemberList, 'post', data)
       .then((result) => {
@@ -456,7 +435,7 @@ export default function BookingScreen({ navigation, route }) {
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        console.log("🚀 line 371>", json);
+        console.log('🚀 line 371>', json);
         setsaloonList(json?.result);
       })
       .catch((error) => {
@@ -480,7 +459,6 @@ export default function BookingScreen({ navigation, route }) {
           setcustomerStripeID(result?.result?.id);
           StripePaymentIntentCreate(result?.result?.id);
         }
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 64 ~ .then ~ err', err);
@@ -489,7 +467,7 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   const StripePaymentIntentCreate = (customerId) => {
-    console.log("inside StripePaymentIntentCreate");
+    console.log('inside StripePaymentIntentCreate');
     //setloader(true);
 
     const data = {
@@ -540,11 +518,9 @@ export default function BookingScreen({ navigation, route }) {
         console.log('🚀 ~ file: index.js ~ line 143 ~ .then ~ result', result);
         if (result?.success == 1) {
           appTransPostSales();
-
         } else {
           Toast.show(result?.error);
         }
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 64 ~ .then ~ err', err);
@@ -594,7 +570,6 @@ export default function BookingScreen({ navigation, route }) {
         if (result?.success == 1) {
           getCartItems();
         }
-
       })
       .catch((err) => {
         //setloader(false);
@@ -625,7 +600,6 @@ export default function BookingScreen({ navigation, route }) {
           setcardID(result?.result[0]?.cardId);
           StripeCustomerCreate();
         }
-
       })
       .catch((err) => {
         //setloader(false);
@@ -699,7 +673,6 @@ export default function BookingScreen({ navigation, route }) {
         } else {
           Toast.show(result?.error);
         }
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 64 ~ .then ~ err', err);
@@ -764,8 +737,8 @@ export default function BookingScreen({ navigation, route }) {
             )}
           </View>
         </View>
-        <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
-          {/* <CText value={t('addAppDetail')} color={BaseColor.white} size={14} /> */}
+        {/* <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
+          <CText value={t('addAppDetail')} color={BaseColor.white} size={14} />
           <TouchableOpacity
             style={styles.btnCont}
             activeOpacity={0.7}
@@ -777,7 +750,9 @@ export default function BookingScreen({ navigation, route }) {
               //GetAddress();
             }}>
             <Text style={styles.btnTxt}>
-              {selectedLocation ? selectedLocation?.siteName : t('selectLocation')}
+              {selectedLocation
+                ? selectedLocation?.siteName
+                : t('selectLocation')}
             </Text>
             {expandLocation && (
               <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
@@ -806,8 +781,9 @@ export default function BookingScreen({ navigation, route }) {
             }}>
             <Text style={styles.btnTxt}>
               {selectedDateTime?.time
-                ? `${moment(selectedDate).format('YYYY-MM-DD')} ${selectedDateTime?.time
-                }`
+                ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
+                    selectedDateTime?.time
+                  }`
                 : t('setDateTime')}
             </Text>
             {expandTime && (
@@ -840,14 +816,19 @@ export default function BookingScreen({ navigation, route }) {
             </Text>
 
             {expandBeaut && (
-              <View style={{ height: 160, width: '100%', paddingTop: 12, marginBottom: '10%' }}>
+              <View
+                style={{
+                  height: 160,
+                  width: '100%',
+                  paddingTop: 12,
+                  marginBottom: '10%',
+                }}>
                 <FlatList
                   data={staffArr}
                   keyExtractor={(item, index) => index}
                   renderItem={renderBeauty}
                   contentContainerStyle={{
                     width: '100%',
-
                   }}
                   numColumns={4}
                   showsVerticalScrollIndicator={true}
@@ -855,14 +836,13 @@ export default function BookingScreen({ navigation, route }) {
               </View>
             )}
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* </ScrollView> */}
 
-        {beauty && selectedLocation && selectedDateTime ? (
+        {/* {beauty && selectedLocation && selectedDateTime ? (
           <CButton
             title="Book Now"
             onPress={() => {
-
               console.log('🚀 ~sCode>', userData?.siteCode);
               if (userData?.customerCode === 'CUSTAPP001') {
                 navigation.navigate('Login');
@@ -879,37 +859,61 @@ export default function BookingScreen({ navigation, route }) {
               // }
             }}
           />
-        ) : null}
+        ) : null} */}
+      </View>
+      <View style={{ height: 100, backgroundColor: BaseColor.darkGrey }}>
+        <CButton
+          title="Book Now"
+          onPress={() => {
+            console.log('🚀 ~sCode>', userData?.siteCode);
+            if (userData?.customerCode === 'CUSTAPP001') {
+              navigation.navigate('Login');
+            } else {
+              checkIfSlotAvaillable();
+            }
+
+            // if (packageType) {
+            //   BookAppointment();
+
+            // } else {
+            //   // StripeCustomerCreate();
+            //   cartAllItemDelete();
+            // }
+          }}
+        />
       </View>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        minimumDate={(new Date((new Date().getTime() + (24 * 60 * 60 * 1000) * 1)))}
-        maximumDate={(new Date((new Date().getTime() + ((24 * 60 * 60 * 1000) * 365))))}
+        minimumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1)}
+        maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
         onConfirm={(val) => {
           if (val.getDay() === new Date().getDay()) {
             console.log(
               '🚀 ~VskingMatched>>>',
-              val.getDay(), new Date().getDay()
+              val.getDay(),
+              new Date().getDay(),
             );
-            setselectedDate((new Date((new Date().getTime() + (24 * 60 * 60 * 1000) * 1))));
+            setselectedDate(
+              new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
+            );
           } else {
             console.log(
               '🚀 ~VskingNotMatched>>>',
-              val.getDay(), new Date().getDay()
+              val.getDay(),
+              new Date().getDay(),
             );
             setselectedDate(val);
           }
-
 
           AvailableSlots(val);
           setisDatePickerVisible(false);
 
           console.log(
             '🚀 ~ file: index.js ~ line 266 ~ BookingScreen ~ val Vk>>',
-            val + "," + (new Date((new Date().getTime() + 24 * 60 * 60 * 1000))), moment().add(2, 'days')
+            val + ',' + new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            moment().add(2, 'days'),
           );
-
         }}
         onCancel={() => {
           setisDatePickerVisible(false);
@@ -917,26 +921,20 @@ export default function BookingScreen({ navigation, route }) {
       />
       <CLoader loader={loader} />
 
-
-
-
-      {Platform.OS === 'ios' ?
-
+      {Platform.OS === 'ios' ? (
         <View>
           <Modal
             style={{
               flex: 1,
-              backgroundColor: '#ffffff40'
+              backgroundColor: '#ffffff40',
             }}
             transparent
             visible={cardInputModal}
             animationType="slide"
             onRequestClose={() => setcardInputModal(false)}
-          //onBackdropPress={() => setcardInputModal(false)}
-          //onSwipeComplete={() => setcardInputModal(false)}
-
+            //onBackdropPress={() => setcardInputModal(false)}
+            //onSwipeComplete={() => setcardInputModal(false)}
           >
-
             <TouchableOpacity
               activeOpacity={1}
               style={{
@@ -957,7 +955,7 @@ export default function BookingScreen({ navigation, route }) {
                   paddingVertical: 32,
                   paddingBottom: 8,
                 }}>
-                <CreditCardInput
+                {/* <CreditCardInput
                   onChange={(val) => {
                     const expMonth = split(val?.values?.expiry, '/')[0];
                     const expYear = split(val?.values?.expiry, '/')[1];
@@ -981,7 +979,7 @@ export default function BookingScreen({ navigation, route }) {
                   // validColor={BaseColor.whiteColor}
                   labelStyle={{ color: BaseColor.black }}
                   allowScroll={true}
-                />
+                /> */}
                 <CButton
                   title={t('submit')}
                   onPress={() => {
@@ -1002,9 +1000,7 @@ export default function BookingScreen({ navigation, route }) {
             </TouchableOpacity>
           </Modal>
         </View>
-
-        :
-
+      ) : (
         <MyModal
           visible={cardInputModal}
           onPressClose={() => {
@@ -1027,12 +1023,8 @@ export default function BookingScreen({ navigation, route }) {
           }}
           onSubmit={() => {
             StripePaymentIntentConfirm();
-          }}
-        >
-        </MyModal>
-
-
-      }
+          }}></MyModal>
+      )}
       {/* this is for android */}
       {/* <Modal
         style={{ flex: 1 }}
@@ -1135,7 +1127,6 @@ export default function BookingScreen({ navigation, route }) {
       >
       </MyModal> */}
 
-
       {/* this is for ios */}
       {/* <View>
      <Modal
@@ -1216,8 +1207,6 @@ export default function BookingScreen({ navigation, route }) {
         </TouchableOpacity>
       </Modal>
       </View> */}
-
-
     </>
   );
 }

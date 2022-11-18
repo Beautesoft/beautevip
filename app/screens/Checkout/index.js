@@ -1,6 +1,6 @@
 import { isArray, split } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { Modal, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
@@ -11,10 +11,7 @@ import BaseColor from '../../config/colors';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import styles from './styles';
-import {
-  CreditCardInput,
-  LiteCreditCardInput,
-} from 'react-native-credit-card-input';
+// import { CreditCardInput } from 'react-native-credit-card-input';
 import Toast from 'react-native-simple-toast';
 import Loader from '../../components/Loader';
 import moment from 'moment';
@@ -79,7 +76,7 @@ export default function Checkout({ navigation, route }) {
       customerEmail: userData?.email,
       customerPhone: userData?.customerPhone,
     };
-    console.log("StripeCustomerCreate");
+    console.log('StripeCustomerCreate');
 
     getApiData(BaseSetting.endpoints.stripeCustomerCreate, 'post', data)
       .then((result) => {
@@ -98,7 +95,7 @@ export default function Checkout({ navigation, route }) {
 
   const StripePaymentIntentCreate = (customerId) => {
     setloader(true);
-    console.log("inside StripePaymentIntentCreate--->")
+    console.log('inside StripePaymentIntentCreate--->');
     const data = {
       customerId: customerId,
       customerCode: userData?.customerCode,
@@ -111,7 +108,7 @@ export default function Checkout({ navigation, route }) {
       //     : 0,
       currency: 'usd',
     };
-    console.log("StripePaymentIntentCreate data", data);
+    console.log('StripePaymentIntentCreate data', data);
 
     getApiData(BaseSetting.endpoints.stripePaymentIntentCreate, 'post', data)
       .then((result) => {
@@ -419,7 +416,9 @@ export default function Checkout({ navigation, route }) {
                       color={'#b1b1b1'}
                     />
                     <CText
-                      value={`$${item.itemPrice} x ${item?.itemQuantity} = $${item.itemPrice * item?.itemQuantity}`}
+                      value={`$${item.itemPrice} x ${item?.itemQuantity} = $${
+                        item.itemPrice * item?.itemQuantity
+                      }`}
                       size={14}
                       color={BaseColor.amberTxt}
                     />
@@ -440,7 +439,7 @@ export default function Checkout({ navigation, route }) {
           size={22}
           style={{
             paddingTop: 8,
-            paddingBottom: 8
+            paddingBottom: 8,
           }}
           color={BaseColor.amberTxt}
         />
@@ -458,7 +457,7 @@ export default function Checkout({ navigation, route }) {
         />
       </View>
       <Loader loader={loader} />
-      <Modal
+      {/* <Modal
         style={{ flex: 1 }}
         transparent
         visible={cardInputModal}
@@ -523,7 +522,7 @@ export default function Checkout({ navigation, route }) {
             />
           </View>
         </TouchableOpacity>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

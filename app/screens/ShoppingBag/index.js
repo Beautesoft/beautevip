@@ -39,12 +39,8 @@ export default function ShoppingBag({ navigation }) {
 
   const [modifiedItem, setmodifiedItem] = useState({});
 
-
-
-
-
   const AddToCart = (item, iQty) => {
-    console.log("Item>>>Line>>46>>", "" + item);
+    console.log('Item>>>Line>>46>>', '' + item);
 
     setloader(true);
     const data = {
@@ -75,7 +71,6 @@ export default function ShoppingBag({ navigation }) {
       });
   };
 
-
   useEffect(() => {
     GetCartItemList();
     CartSummary();
@@ -102,10 +97,10 @@ export default function ShoppingBag({ navigation }) {
           if (result.result) {
             setitemList(result?.result);
           } else {
-            setitemList([])
+            setitemList([]);
           }
         } else {
-          setitemList([])
+          setitemList([]);
         }
         setloader(false);
       })
@@ -146,7 +141,6 @@ export default function ShoppingBag({ navigation }) {
             setSummaryData({});
             setsubTotal(0);
           }
-
         } else {
           setSummaryData({});
           setsubTotal(0);
@@ -239,17 +233,20 @@ export default function ShoppingBag({ navigation }) {
                   onPress={() => {
                     // Alert.alert(`Item qty> ${item?.itemQuantity}`);
 
-                    setmodifiedItem(item)
+                    setmodifiedItem(item);
                     setshowQuantity(true);
                   }}>
                   <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
                   <Image
-                    style={{ height: 16, width: 16, tintColor: BaseColor.amberTxt }}
+                    style={{
+                      height: 16,
+                      width: 16,
+                      tintColor: BaseColor.amberTxt,
+                    }}
                     resizeMode="center"
                     source={Icons.drop_icon}
                   />
                 </TouchableOpacity>
-
               </View>
               {/* <Image
                 source={Icons.checked}
@@ -266,7 +263,7 @@ export default function ShoppingBag({ navigation }) {
               <View>
                 <CText value="Price" size={10} style={{ textAlign: 'right' }} />
                 <CText
-                  value={`$${(item.itemPrice * item?.itemQuantity)}`}
+                  value={`$${item.itemPrice * item?.itemQuantity}`}
                   size={14}
                   color={BaseColor.amberTxt}
                   style={{ textAlign: 'right' }}
@@ -309,8 +306,7 @@ export default function ShoppingBag({ navigation }) {
           style={{ textAlign: 'center' }}
         />
         <FlatList data={itemList} renderItem={renderItem} />
-        {
-          !!subTotal &&
+        {!!subTotal && (
           <>
             <CText value={t('haveDicoundCode')} size={14} />
             <View
@@ -397,8 +393,7 @@ export default function ShoppingBag({ navigation }) {
               }
             />
           </>
-        }
-
+        )}
       </View>
       <Loader loader={loader} />
 
@@ -451,7 +446,6 @@ export default function ShoppingBag({ navigation }) {
           </View>
         </View>
       </Modal>
-
     </>
   );
 }

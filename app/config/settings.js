@@ -19,9 +19,9 @@ const BaseSetting = {
     signUpOtpVerify: '/signUpOtpVerify',
     signUpCustomer: '/signUpCustomer',
     bookAppointment: '/bookAppointmentTnc',
-    checkAppointmentSlot:'/checkAppointmentSlot',
+    checkAppointmentSlot: '/checkAppointmentSlot',
     appointmentSearch: '/appointmentSearchF21',
-    appTransSearchInvoice: '/appTransSearchInvoiceDetail',//appTransSearchInvoice
+    appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice
     changePasscode: '/changePasscode',
     availableSlots: '/AvailableSlots',
     getStaffMemberList: '/getStaffMemberList',
@@ -34,7 +34,7 @@ const BaseSetting = {
     appointmentCancel: '/appointmentCancel',
     feedbackF21: '/feedbackF21',
     profilePicture: '/updateProfileF21',
-    profilePic:'/profilePicture',
+    profilePic: '/profilePicture',
     createAddress: '/createAddress',
     updateAddress: '/updateAddress',
     stripeCustomerCreate: '/StripeCustomerCreate',
