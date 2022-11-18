@@ -52,6 +52,8 @@ export default function HomeScreen({ navigation }) {
   const [loader, setloader] = useState(false);
 
   const [refreshing, setrefreshing] = useState(false);
+  const [banner, setBanner] = useState([]);
+  const [isBannerUri, setIsBannerUri] = useState(false);
 
   const imageArr = [
     {
@@ -65,6 +67,20 @@ export default function HomeScreen({ navigation }) {
     },
     {
       image: Images.sampleOne,
+    },
+  ];
+  const bannerDefault = [
+    {
+      bannerImg: Images.sampleOne,
+    },
+    {
+      bannerImg: Images.sampleOne,
+    },
+    {
+      bannerImg: Images.sampleOne,
+    },
+    {
+      bannerImg: Images.sampleOne,
     },
   ];
 
@@ -137,10 +153,29 @@ export default function HomeScreen({ navigation }) {
     getApiData(url, 'get', {})
       .then((result) => {
         if (result?.success == 1) {
+          console.log('result home page----->', userData, result);
           sethStoreData(result);
           setserviceList(result?.service);
           // setproductList(result?.product);
           // setfilterArr(result?.product);
+          if (result?.banners.length > 0) {
+            setIsBannerUri(true);
+            setBanner(result?.banners);
+          } else {
+            setIsBannerUri(false);
+            setBanner(bannerDefault);
+          }
+          // let bannerImg = [
+          //   {
+          //     bannerImg:
+          //       'https://plus.unsplash.com/premium_photo-1661764146760-cc945ab351e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80',
+          //   },
+          //   {
+          //     bannerImg:
+          //       'https://plus.unsplash.com/premium_photo-1661764146760-cc945ab351e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80',
+          //   },
+          // ];
+          // setBanner(bannerImg);
           var allList = [];
           for (let i = 0; i < result?.product.length; i++) {
             for (let j = 0; j < result?.product[i].items.length; j++) {
@@ -245,19 +280,21 @@ export default function HomeScreen({ navigation }) {
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      let index = curIndex;
-      bannerListRef.current.scrollToIndex({
-        index: index == imageArr.length - 1 ? 0 : index + 1,
-        // index: ++index,
-        animated: true,
-      });
-    }, 3000);
+    if (banner.length > 0) {
+      const interval = setInterval(() => {
+        let index = curIndex;
+        bannerListRef.current.scrollToIndex({
+          index: index == banner.length - 1 ? 0 : index + 1,
+          // index: ++index,
+          animated: true,
+        });
+      }, 3000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [curIndex]);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [banner, curIndex]);
 
   return (
     <View style={{ backgroundColor: BaseColor.darkGrey, flex: 1 }}>
@@ -350,18 +387,23 @@ export default function HomeScreen({ navigation }) {
                 return (
                   <View style={styles.mainCont}>
                     <View style={styles.scrollImgCont} key={index}>
-                      <Image source={item.image} style={styles.scrollImg} />
+                      <Image
+                        source={
+                          isBannerUri ? { uri: item.bannerImg } : item.bannerImg
+                        }
+                        style={styles.scrollImg}
+                      />
                     </View>
                   </View>
                 );
               }}
-              data={imageArr}
+              data={banner}
               pagingEnabled
             />
           </View>
 
           <View style={styles.dotConSty}>
-            {imageArr.map((item, index) => {
+            {banner.map((item, index) => {
               return (
                 <View
                   key={index}

@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Alert, Image, ScrollView, TouchableOpacity, View, Text } from 'react-native';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
 import styles from './styles';
 import CText from '../../components/CText';
@@ -17,7 +24,8 @@ import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
-import { cloneDeep } from "lodash";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { cloneDeep } from 'lodash';
 
 export default function Login({ navigation }) {
   const { setUserData, setStoreData, logout, updateUserData } = AuthAction;
@@ -52,12 +60,11 @@ export default function Login({ navigation }) {
         if (result?.success == 1) {
           //  dispatch(setUserData(result?.result));
           dispatch({
-            type: "LOGIN_SUCCESS",
-            data: result?.result
-          })
+            type: 'LOGIN_SUCCESS',
+            data: result?.result,
+          });
         }
         Toast.show(result?.error);
-
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
@@ -70,11 +77,13 @@ export default function Login({ navigation }) {
     <>
       <BackgroundImage image={Images.backgroundImageSec} />
 
-      <ScrollView
+      <KeyboardAwareScrollView
+        extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
           source={Images.logo}
+          resizeMode="contain"
           style={{
             height: 180,
             width: 180,
@@ -126,10 +135,9 @@ export default function Login({ navigation }) {
               }}
             />
             <View style={styles.forgotStyle}>
-              <TouchableOpacity activeOpacity={0.7}
-                onPress={() =>
-                  navigation.navigate('ForgotPassword')
-                }>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('ForgotPassword')}>
                 <CText
                   value={t('forgotPassword')}
                   color={BaseColor.yellow}
@@ -150,8 +158,7 @@ export default function Login({ navigation }) {
             </View>
           </View>
         </View>
-      </ScrollView>
-
+      </KeyboardAwareScrollView>
 
       <CLoader loader={loader} />
     </>

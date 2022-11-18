@@ -43,6 +43,7 @@ const BaseSetting = {
     appTransPostSales: '/appTransPostSalesF21',
     mypackages: '/mypackages',
     cartAllItemDelete: '/cartAllItemDelete',
+    homeBanner: '/dashBoardF21',
   },
 };
 
