@@ -34,14 +34,14 @@ import CLoader from '../../components/CLoader';
 import Toast from 'react-native-simple-toast';
 import { isEmpty, isArray, split } from 'lodash';
 import { t } from 'i18next';
-// import { CreditCardInput } from 'react-native-credit-card-input';
+import { CreditCardInput } from 'react-native-credit-card-input-view';
 import MyModal from '../../components/MyModal';
 
 export default function BookingScreen({ navigation, route }) {
   const orderData = route?.params?.itemData;
   console.log(
     '🚀 ~ file: vk index.js ~ line 36 ~ BookingScreen ~ orderData',
-    orderData,
+    route?.params,
   );
 
   const type = route?.params?.type;
@@ -173,6 +173,7 @@ export default function BookingScreen({ navigation, route }) {
   }
 
   useEffect(() => {
+    console.log('bookinggggg screen');
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -335,7 +336,7 @@ export default function BookingScreen({ navigation, route }) {
       appointmentDuration: packageType
         ? Number(orderData?.packageList[0].duration)
         : orderData?.duration,
-      siteCode: selectedLocation.siteCode, //userData?.siteCode,
+      siteCode: selectedLocation?.siteCode, //userData?.siteCode,
       itemName: packageType ? orderData?.packageName : orderData?.itemName,
       treatmentId: packageType ? orderData?.packageID : '',
       appointmentRemark: '',
@@ -719,7 +720,7 @@ export default function BookingScreen({ navigation, route }) {
               size={20}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
-            {orderData?.duration && (
+            {JSON.stringify(orderData?.duration).length > 0 && (
               <CText
                 value={`${orderData?.duration} min`}
                 color={BaseColor.amberTxt}
@@ -870,6 +871,7 @@ export default function BookingScreen({ navigation, route }) {
               navigation.navigate('Login');
             } else {
               checkIfSlotAvaillable();
+              //BookAppointment();
             }
 
             // if (packageType) {
@@ -938,9 +940,12 @@ export default function BookingScreen({ navigation, route }) {
             <TouchableOpacity
               activeOpacity={1}
               style={{
-                flex: 1,
-                justifyContent: 'flex-end',
                 backgroundColor: '#ffffff40',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: 0,
               }}
               onPress={() => {
                 setcardInputModal(false);
@@ -950,12 +955,13 @@ export default function BookingScreen({ navigation, route }) {
                 style={{
                   padding: 8,
                   backgroundColor: BaseColor.white,
-                  borderTopEndRadius: 16,
-                  borderTopStartRadius: 16,
-                  paddingVertical: 32,
-                  paddingBottom: 8,
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '85%',
                 }}>
-                {/* <CreditCardInput
+                <CreditCardInput
                   onChange={(val) => {
                     const expMonth = split(val?.values?.expiry, '/')[0];
                     const expYear = split(val?.values?.expiry, '/')[1];
@@ -979,7 +985,7 @@ export default function BookingScreen({ navigation, route }) {
                   // validColor={BaseColor.whiteColor}
                   labelStyle={{ color: BaseColor.black }}
                   allowScroll={true}
-                /> */}
+                />
                 <CButton
                   title={t('submit')}
                   onPress={() => {
@@ -987,9 +993,11 @@ export default function BookingScreen({ navigation, route }) {
                     StripePaymentIntentConfirm();
                   }}
                   style={{
-                    marginTop: 24,
-                    margin: 16,
-                    marginBottom: '75%',
+                    position: 'absolute',
+                    top: '45%',
+                    width: '90%',
+                    marginBottom: 30,
+                    alignSelf: 'center',
                     backgroundColor: BaseColor.btnBlue,
                   }}
                   titleStyle={{

@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 //import { Modal } from 'react-native';
 import { Modal } from 'react-native';
-// import { CreditCardInput } from 'react-native-credit-card-input';
+import { CreditCardInput } from 'react-native-credit-card-input-view';
 import BaseColor from '../../config/colors';
 import { FontFamily } from '../../config/typography';
 import CButton from '../CButton';
@@ -25,34 +25,40 @@ export default function MyModal(props) {
       <TouchableOpacity
         activeOpacity={1}
         style={{
-          flex: 1,
-          justifyContent: 'flex-end',
           backgroundColor: '#ffffff40',
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          top: 0,
         }}
         onPress={onPressClose}>
         <View
           style={{
             padding: 8,
             backgroundColor: BaseColor.white,
-            borderTopEndRadius: 16,
-            borderTopStartRadius: 16,
-            paddingVertical: 32,
-            paddingBottom: 8,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '85%',
           }}>
-          {/* <CreditCardInput
+          <CreditCardInput
             onChange={(val) => onCreditInput(val)}
             cardFontFamily={FontFamily.arial_bold}
             // validColor={BaseColor.whiteColor}
             labelStyle={{ color: BaseColor.black }}
             allowScroll={true}
-          /> */}
+          />
           <CButton
             title={t('submit')}
             onPress={onSubmit}
             style={{
-              marginTop: 24,
-              margin: 16,
-              marginBottom: '75%',
+              position: 'absolute',
+              top: '45%',
+              width: '90%',
+              marginBottom: 30,
+              alignSelf: 'center',
               backgroundColor: BaseColor.btnBlue,
             }}
             titleStyle={{

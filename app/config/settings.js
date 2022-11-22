@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 const devMode = __DEV__;
 
-const baseUrl = 'http://103.253.15.102:88/main_api';
+//const baseUrl = 'http://103.253.15.102:88/main_api';
+const baseUrl = 'http://103.253.15.102:88/mainapi_cloudtest/';
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
   name: 'TNCCRM',
@@ -18,7 +19,8 @@ const BaseSetting = {
     customerLogin: '/customerLogin',
     signUpOtpVerify: '/signUpOtpVerify',
     signUpCustomer: '/signUpCustomer',
-    bookAppointment: '/bookAppointmentTnc',
+    // bookAppointment: '/bookAppointmentTnc',
+    bookAppointment: '/bookAppointmentTncNew',
     checkAppointmentSlot: '/checkAppointmentSlot',
     appointmentSearch: '/appointmentSearchF21',
     appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice

@@ -2708,13 +2708,12 @@
   dependencies:
     "rsvp" "^4.8.4"
 
-"card-validator@^3.0.0":
-  "integrity" "sha512-xqF4s0TW3AkFqhHxnslFtdMO4XlP2TwqDFPBAvu41+OYo/U3byOmc8YbwV+zum/rt5jD3nTOBjZxDWbtHBgqUA=="
-  "resolved" "https://registry.npmjs.org/card-validator/-/card-validator-3.0.1.tgz"
-  "version" "3.0.1"
+"card-validator@^8.1.0":
+  "integrity" "sha512-cN4FsKwoTfTFnqPwVc7TQLSsH/QMDB3n/gWm0XelcApz4sKipnOQ6k33sa3bWsNnnIpgs7eXOF+mUV2UQAX2Sw=="
+  "resolved" "https://registry.npmjs.org/card-validator/-/card-validator-8.1.1.tgz"
+  "version" "8.1.1"
   dependencies:
-    "credit-card-type" "^5.0.0"
-    "lodash" "3.10.1"
+    "credit-card-type" "^9.1.0"
 
 "chalk@^1.1.3":
   "integrity" "sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=sha512-U3lRVLMSlsCfjqYPbLyVv11M9CPW4I728d6TCKMAOJueEeB9/8o+eSsMnxPJD+Q+K909sdESg7C+tIkoH6on1A== sha512-U3lRVLMSlsCfjqYPbLyVv11M9CPW4I728d6TCKMAOJueEeB9/8o+eSsMnxPJD+Q+K909sdESg7C+tIkoH6on1A=="
@@ -3004,10 +3003,10 @@
     "js-yaml" "^3.13.1"
     "parse-json" "^4.0.0"
 
-"credit-card-type@^5.0.0":
-  "integrity" "sha512-zmsLlbir7DYSmG0eD7NElsyAwOyDNsrY5uABl8tqFPFa7aNdSeJtkkkJyhBQmdSVfAXmXnY9f520EsP4vmRZTA=="
-  "resolved" "https://registry.npmjs.org/credit-card-type/-/credit-card-type-5.0.4.tgz"
-  "version" "5.0.4"
+"credit-card-type@^9.1.0":
+  "integrity" "sha512-CpNFuLxiPFxuZqhSKml3M+t0K/484pMAnfYWH14JoD7OZMnmC0Lmo+P7JX9SobqFpRoo7ifA18kOHdxJywYPEA=="
+  "resolved" "https://registry.npmjs.org/credit-card-type/-/credit-card-type-9.1.0.tgz"
+  "version" "9.1.0"
 
 "cross-fetch@^3.0.4":
   "integrity" "sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ=="
@@ -5351,11 +5350,6 @@
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
 
-"lodash@3.10.1":
-  "integrity" "sha512-9mDDwqVIma6OZX79ZlDACZl8sBm0TEnkf99zV3iMA4GzkIT/9hiqP5mY0HoT1iNLCrKc/R1HByV+yJfRWVJryQ=="
-  "resolved" "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
-  "version" "3.10.1"
-
 "log-symbols@^4.1.0":
   "integrity" "sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg=="
   "resolved" "https://registry.npmjs.org/log-symbols/-/log-symbols-4.1.0.tgz"
@@ -6477,7 +6471,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.5.10", "prop-types@^15.6.0", "prop-types@^15.6.2", "prop-types@^15.7.2":
+"prop-types@^15.6.0", "prop-types@^15.6.2", "prop-types@^15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -6582,25 +6576,26 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
-"react-native-credit-card-input@^0.4.1":
-  "integrity" "sha512-4+AZLLD5Z7ZTBnbH2aQFSXE2O8bypJu7Fi9EnKvZvSASRgwIkViueswh/Lp5LRi+i/TlXqWEERo+qnTTVntCjg=="
-  "resolved" "https://registry.npmjs.org/react-native-credit-card-input/-/react-native-credit-card-input-0.4.1.tgz"
-  "version" "0.4.1"
+"react-native-credit-card-input-view@^0.0.7":
+  "integrity" "sha512-wH2e7QRv7v/EWbmPhDSdgL8wR1wddD6lLrQ9hMHXpU+jy916Ld2ar7CUrug84Mci/CVvVHMaLw7e156lOX/7VQ=="
+  "resolved" "https://registry.npmjs.org/react-native-credit-card-input-view/-/react-native-credit-card-input-view-0.0.7.tgz"
+  "version" "0.0.7"
   dependencies:
-    "card-validator" "^3.0.0"
+    "card-validator" "^8.1.0"
     "lodash.compact" "^3.0.1"
     "lodash.every" "^4.6.0"
     "lodash.pick" "^4.4.0"
     "lodash.values" "^4.3.0"
-    "prop-types" "^15.6.0"
-    "react-native-flip-card" "^3.4.1"
+    "prop-types" "^15.7.2"
+    "react-native-flip-card-plus" "^1.0.4"
 
-"react-native-flip-card@^3.4.1":
-  "integrity" "sha512-lqsjl4vF5DyHD7mjBJpyBoaLKVxalzoKfCosE63QF+TaCF9MKdJrxmGFQj/i64GDiMJqeS/5sNDcICUXtgFsVA=="
-  "resolved" "https://registry.npmjs.org/react-native-flip-card/-/react-native-flip-card-3.5.6.tgz"
-  "version" "3.5.6"
+"react-native-flip-card-plus@^1.0.4":
+  "integrity" "sha512-fu/HWnYGHCE9U1aD1+4cbWO52SPZAVVY6HbR4CPXhMgU3S6XJkCau1f975d21Mv6WVBGuyjyCPfYGJjO8iXdQw=="
+  "resolved" "https://registry.npmjs.org/react-native-flip-card-plus/-/react-native-flip-card-plus-1.0.5.tgz"
+  "version" "1.0.5"
   dependencies:
-    "prop-types" "^15.5.10"
+    "prop-types" "^15.7.2"
+    "react-native-swipe-gestures-plus" "^1.1.2"
 
 "react-native-gesture-handler@^1.10.3", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw=="
@@ -6679,6 +6674,11 @@
 "react-native-simple-toast@^1.1.3":
   "integrity" "sha512-bkZy25axqlU4L6IoTysSl5KOQA7qdxzivbXz/L/yAw9g9fENxjzYvUUtv5wWtgq7mzOe5HiJ7GCQrOl3MhIevQ=="
   "resolved" "https://registry.npmjs.org/react-native-simple-toast/-/react-native-simple-toast-1.1.3.tgz"
+  "version" "1.1.3"
+
+"react-native-swipe-gestures-plus@^1.1.2":
+  "integrity" "sha512-mqq83sR+G3X4s/nbH86RYoMbo1qYyiLp6BPk56rk1HCT8J6AuJ3EdtFEtZtxKP3kBYj17SohEdvMvr9fDseA1Q=="
+  "resolved" "https://registry.npmjs.org/react-native-swipe-gestures-plus/-/react-native-swipe-gestures-plus-1.1.3.tgz"
   "version" "1.1.3"
 
 "react-native-table-component@^1.2.2":

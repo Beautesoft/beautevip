@@ -23,7 +23,15 @@ import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import {
+  Table,
+  TableWrapper,
+  Row,
+  Rows,
+  Col,
+  Cols,
+  Cell,
+} from 'react-native-table-component';
 
 export default function OrderDetails({ navigation, route }) {
   const orderData = route?.params?.orderData;
@@ -31,15 +39,17 @@ export default function OrderDetails({ navigation, route }) {
   const tData = route?.params?.tData;
   const [rateService, setrateService] = useState(false);
 
-  
-
   const state = {
-    HeadTable: ['code', 'name', 'qty', 'unit price', 'promo price','item amount'],
-    DataTable: tData
-  }
-
-
-
+    HeadTable: [
+      'code',
+      'name',
+      'qty',
+      'unit price',
+      'promo price',
+      'item amount',
+    ],
+    DataTable: tData,
+  };
 
   const AppointmentCancel = () => {
     const data = {
@@ -61,6 +71,7 @@ export default function OrderDetails({ navigation, route }) {
   };
 
   useEffect(() => {
+    console.log('props route', route.params);
     const backAction = () => {
       navigation.goBack();
       return true;
@@ -112,7 +123,7 @@ export default function OrderDetails({ navigation, route }) {
                 fontFamily={FontFamily.Poppins_SemiBold}
               />
               <CText
-                value={oid == 6 ? '' :orderData?.duration +' min'}
+                value={oid == 6 ? '' : orderData?.duration + ' min'}
                 color={BaseColor.amberTxt}
                 size={20}
                 fontFamily={FontFamily.Poppins_SemiBold}
@@ -144,13 +155,13 @@ export default function OrderDetails({ navigation, route }) {
                 style={{ marginTop: 8 }}
               />
               <CText
-                value={oid == 6 ? 'Amount' :t('location')}
+                value={oid == 6 ? 'Amount' : t('location')}
                 size={16}
                 color="#b1b1b1"
                 style={{ marginTop: 8 }}
               />
               <CText
-                value={oid == 6 ? 'Staff' :t('beautician')}
+                value={oid == 6 ? 'Staff' : t('beautician')}
                 size={16}
                 color="#b1b1b1"
                 style={{ marginTop: 8 }}
@@ -158,21 +169,27 @@ export default function OrderDetails({ navigation, route }) {
             </View>
             <View style={{ alignItems: 'flex-end', flex: 1, marginStart: 32 }}>
               <CText
-                value={moment(oid == 6 ? orderData?.transactionDate : orderData?.startTime).format(
-                  'DD-MM-YYYY LT',
-                )}
+                value={moment(
+                  oid == 6 ? orderData?.transactionDate : orderData?.startTime,
+                ).format('DD-MM-YYYY LT')}
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8 }}
               />
               <CText
-                value={oid == 6 ? '$'+orderData?.depositAmount : orderData?.location}
+                value={
+                  oid == 6
+                    ? '$' + orderData?.depositAmount
+                    : orderData?.location
+                }
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8, textAlign: 'right' }}
               />
               <CText
-                value={oid == 6 ? orderData?.staffName : orderData?.employeeName}
+                value={
+                  oid == 6 ? orderData?.staffName : orderData?.employeeName
+                }
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8 }}
@@ -180,35 +197,30 @@ export default function OrderDetails({ navigation, route }) {
             </View>
           </View>
 
-          
-          { oid == 6 ? (
-          
-
-              <View style={styles.tcontainer}>
-                <CText
+          {oid == 6 ? (
+            <View style={styles.tcontainer}>
+              <CText
                 value={'Items detail:'}
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 2 }}
               />
-                <Table borderStyle={{borderWidth: 1, borderColor: BaseColor.amberTxt}}>
-                  <Row data={state.HeadTable} style={styles.tHeadStyle} textStyle={styles.tTableText}/>
-                  <Rows data={state.DataTable} textStyle={styles.tTableText}/> 
-                </Table>
+              <Table
+                borderStyle={{
+                  borderWidth: 1,
+                  borderColor: BaseColor.amberTxt,
+                }}>
+                <Row
+                  data={state.HeadTable}
+                  style={styles.tHeadStyle}
+                  textStyle={styles.tTableText}
+                />
+                <Rows data={state.DataTable} textStyle={styles.tTableText} />
+              </Table>
             </View>
-
-              
-              
-              ) : (
-            <CText
-              title={''}
-            />
-)}
-
-
-
-
-
+          ) : (
+            <CText title={''} />
+          )}
 
           <View
             style={[
@@ -244,23 +256,37 @@ export default function OrderDetails({ navigation, route }) {
             </View>
             <View style={{ alignItems: 'flex-end' }}>
               <CText
-                value={oid == 6 ? orderData?.transactionNo : orderData?.appointmentID}
+                value={
+                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
+                }
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8 }}
               />
               <CText
-                value={oid == 6 ? orderData?.invoiceNo : moment(orderData?.appointmentDate).format(
-                  'DD-MM-YYYY LT',
-                )}
+                value={
+                  oid == 6
+                    ? orderData?.invoiceNo
+                    : moment(orderData?.appointmentDate).format('DD-MM-YYYY LT')
+                }
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8 }}
               />
             </View>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Invoice');
+            }}>
+            <CText
+              value={'Invoice'}
+              size={16}
+              color={BaseColor.amberTxt}
+              style={{ marginTop: 8 }}
+            />
+          </TouchableOpacity>
         </ScrollView>
-
 
         {orderData?.status === 'Completed' ? (
           <>
@@ -272,21 +298,21 @@ export default function OrderDetails({ navigation, route }) {
           </>
         ) : (
           <>
-{ (oid == 5 || orderData?.apptStatus == 'Cancelled') ? (<CText
+            {oid == 5 || orderData?.apptStatus == 'Cancelled' ? (
+              <CText
                 value={''}
                 size={16}
                 color={BaseColor.amberTxt}
                 style={{ marginTop: 8 }}
-              />) : (
-            <CButton
-              title={t('cancelOrder')}
-              onPress={() => AppointmentCancel()}
-            />
-)}
+              />
+            ) : (
+              <CButton
+                title={t('cancelOrder')}
+                onPress={() => AppointmentCancel()}
+              />
+            )}
           </>
         )}
-
-
       </View>
       <Modal
         transparent

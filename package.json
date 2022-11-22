@@ -39,7 +39,7 @@
     "react-image-file-resizer": "^0.4.7",
     "react-native": "0.70.4",
     "react-native-asset": "^2.0.1",
-    "react-native-credit-card-input": "^0.4.1",
+    "react-native-credit-card-input-view": "^0.0.7",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-crop-picker": "^0.36.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

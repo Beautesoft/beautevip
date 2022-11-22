@@ -11,7 +11,7 @@ import BaseColor from '../../config/colors';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import styles from './styles';
-// import { CreditCardInput } from 'react-native-credit-card-input';
+import { CreditCardInput } from 'react-native-credit-card-input-view';
 import Toast from 'react-native-simple-toast';
 import Loader from '../../components/Loader';
 import moment from 'moment';
@@ -457,6 +457,7 @@ export default function Checkout({ navigation, route }) {
         />
       </View>
       <Loader loader={loader} />
+
       {/* <Modal
         style={{ flex: 1 }}
         transparent
@@ -466,19 +467,23 @@ export default function Checkout({ navigation, route }) {
         <TouchableOpacity
           activeOpacity={1}
           style={{
-            flex: 1,
-            justifyContent: 'flex-end',
             backgroundColor: '#ffffff40',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
           }}
           onPress={() => setcardInputModal(false)}>
           <View
             style={{
               padding: 8,
               backgroundColor: BaseColor.white,
-              borderTopEndRadius: 16,
-              borderTopStartRadius: 16,
-              paddingVertical: 32,
-              paddingBottom: 8,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '85%',
             }}>
             <CreditCardInput
               onChange={(val) => {
@@ -511,9 +516,11 @@ export default function Checkout({ navigation, route }) {
                 StripePaymentIntentConfirm();
               }}
               style={{
-                marginTop: 24,
-                margin: 16,
-                marginBottom: '75%',
+                position: 'absolute',
+                top: '45%',
+                width: '90%',
+                marginBottom: 30,
+                alignSelf: 'center',
                 backgroundColor: BaseColor.btnBlue,
               }}
               titleStyle={{
@@ -523,6 +530,79 @@ export default function Checkout({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </Modal> */}
+
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={cardInputModal}
+        animationType="slide"
+        onRequestClose={() => setcardInputModal(false)}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{
+            backgroundColor: '#ffffff40',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+          }}
+          onPress={() => setcardInputModal(false)}>
+          <View
+            style={{
+              padding: 8,
+              backgroundColor: BaseColor.white,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '85%',
+            }}>
+            <CreditCardInput
+              onChange={(val) => {
+                const expMonth = split(val?.values?.expiry, '/')[0];
+                const expYear = split(val?.values?.expiry, '/')[1];
+
+                const tempObj = {
+                  number: val?.values?.number,
+                  exp_month: expMonth,
+                  exp_year: 20 + expYear,
+                  cvc: val?.values?.cvc,
+                };
+                console.log(
+                  '🚀 ~ file: index.js ~ line 373 ~ productList.map ~ tempObj',
+                  val?.values?.type,
+                );
+
+                setcardType(val?.values?.type);
+
+                setcardObj(tempObj);
+              }}
+              cardFontFamily={FontFamily.arial_bold}
+              // validColor={BaseColor.whiteColor}
+              labelStyle={{ color: BaseColor.black }}
+              allowScroll={true}
+            />
+            <CButton
+              title={t('submit')}
+              onPress={() => {
+                StripePaymentIntentConfirm();
+              }}
+              style={{
+                position: 'absolute',
+                top: '45%',
+                width: '90%',
+                marginBottom: 30,
+                alignSelf: 'center',
+                backgroundColor: BaseColor.btnBlue,
+              }}
+              titleStyle={{
+                color: BaseColor.whiteColor,
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </>
   );
 }
