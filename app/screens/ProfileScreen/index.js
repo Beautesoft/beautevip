@@ -15,7 +15,7 @@ import { getApiData } from '../../config/apiHelper';
 import BaseColor from '../../config/colors';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
-import BaseSetting from '../../config/settings';
+import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import styles from './styles';
 import Toast from 'react-native-simple-toast';
@@ -72,7 +72,7 @@ export default function ProfileScreen({ navigation }) {
   const GetAddress = () => {
     //setloader(true);
 
-    const url = `http://103.253.15.102:88/main_api/api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
+    const url = `${baseUrl}api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
 
     fetch(url)
       .then((response) => response.json())
@@ -187,6 +187,19 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.btnStyleTxt}>Account</Text>
             </TouchableOpacity> */}
           </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('MyOrder');
+            }}>
+            <CText
+              value={'My Order'}
+              color="#b1b1b1"
+              size={16}
+              fontFamily={FontFamily.Poppins_Medium}
+              style={{ marginTop: 24 }}
+            />
+          </TouchableOpacity>
 
           {/* <CText
             value={t('inviteFriend')}

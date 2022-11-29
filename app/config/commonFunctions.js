@@ -1,4 +1,4 @@
-import {LayoutAnimation, Linking, Platform, UIManager} from 'react-native';
+import { LayoutAnimation, Linking, Platform, UIManager } from 'react-native';
 
 export const enableAnimateInEaseOut = () => {
   if (Platform.OS === 'android') {

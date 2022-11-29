@@ -6,15 +6,15 @@ const initialState = {
   signupData: {},
   storeData: {},
   currentLanguage: 'en',
+  currentTheme: null,
 };
 
 export default function reducer(state = initialState, action) {
-
   switch (action.type) {
-    case "LOGIN_SUCCESS":
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
-        userData: { ...action.data }
+        userData: { ...action.data },
       };
 
     case types.UPDATE_USERDATA:
@@ -55,11 +55,16 @@ export default function reducer(state = initialState, action) {
         userData: {},
       };
 
+    case types.SET_THEME:
+      return {
+        ...state,
+        currentTheme: action.theme,
+      };
+
     default:
       return state;
   }
 }
-
 
 // import types from './actions';
 // const initialState = {
@@ -73,8 +78,6 @@ export default function reducer(state = initialState, action) {
 //         ...state,
 //         userData: action.userData
 //       };
-
-
 
 //     default:
 //       return state;

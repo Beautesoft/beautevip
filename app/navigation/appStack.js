@@ -28,6 +28,7 @@ import HomeScreen from '../screens/HomeScreen';
 import Otp from '../screens/Otp';
 import { BottomTabsNavigator } from './bottomTab';
 import Invoice from '../screens/Invoice';
+import MyOrder from '../screens/MyOrder';
 
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
@@ -74,6 +75,7 @@ export const AppStackNavigator = () => {
       />
       <AppStack.Screen name="MyEarnPoint" component={MyEarnPoint} />
       <AppStack.Screen name="Invoice" component={Invoice} />
+      <AppStack.Screen name="MyOrder" component={MyOrder} />
     </AppStack.Navigator>
   );
 };

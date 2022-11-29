@@ -6,6 +6,7 @@ const actions = {
   SET_LANGUAGE: 'auth/SET_LANGUAGE',
   LOGOUT: 'auth/LOGOUT',
   REMOVE_USR_DATA: 'auth/REMOVE_USR_DATA',
+  SET_THEME: 'SET_THEME',
 
   remmoveUsrData: () => (dispatch) =>
     dispatch({
@@ -23,7 +24,6 @@ const actions = {
       type: actions.UPDATE_USERDATA,
       userData,
     }),
-
 
   setCurrentLanguage: (currentLanguage) => (dispatch) =>
     dispatch({
@@ -54,6 +54,12 @@ const actions = {
     dispatch({
       type: actions.LOGOUT,
     }),
+  setTheme: (theme) => {
+    return {
+      type: actions.SET_THEME,
+      theme,
+    };
+  },
 };
 
 export default actions;

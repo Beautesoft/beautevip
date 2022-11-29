@@ -20,25 +20,23 @@ import { isEmpty } from 'lodash';
 import { t } from 'i18next';
 import CLoader from '../../components/CLoader';
 import { useIsFocused } from '@react-navigation/core';
+import { baseUrl } from '../../config/settings';
 
 export default function ShoppingScreen({ navigation }) {
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
   const [selectedTab, setselectedTab] = useState({
     id: 1,
-    title: t('forYou')
-  }); 
+    title: t('forYou'),
+  });
 
   const [productList, setproductList] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
   const [searchTxt, setsearchTxt] = useState('');
-  const [bCount,setitemCount] = useState(0);
+  const [bCount, setitemCount] = useState(0);
   const [refreshing, setrefreshing] = useState(false);
 
   const [loader, setloader] = useState(false);
-
-
-  
 
   const tabArr = [
     {
@@ -121,11 +119,10 @@ export default function ShoppingScreen({ navigation }) {
   }, []);
 
   const GetCartItemList = () => {
-    
     setloader(true);
     const url =
       // BaseSetting.api +
-      `http://103.253.15.102:88/main_api/api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
+      `${baseUrl}api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
     console.log(
       '🚀 ~ file: index.js ~ line 39 ~ GetCartItemList ~ userData?.customerCode',
       url,
@@ -147,11 +144,7 @@ export default function ShoppingScreen({ navigation }) {
         setloader(false);
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
-
-    
   };
-
-
 
   useEffect(() => {
     StoreDetails(1);
@@ -166,22 +159,21 @@ export default function ShoppingScreen({ navigation }) {
     getApiData(url, 'get', {})
       .then((result) => {
         if (result?.success == 1) {
-          
-          var allList=[];
+          var allList = [];
           for (let i = 0; i < result?.product.length; i++) {
             for (let j = 0; j < result?.product[i].items.length; j++) {
-              if(sid == 2){
-                if(result?.product[i].items[j].isBestSelling){
+              if (sid == 2) {
+                if (result?.product[i].items[j].isBestSelling) {
                   allList.push(result?.product[i].items[j]);
                 }
-              }else if(sid == 3){
-                if(result?.product[i].items[j].isNewArrived){
+              } else if (sid == 3) {
+                if (result?.product[i].items[j].isNewArrived) {
                   allList.push(result?.product[i].items[j]);
                 }
-              }else{
-                  // if(result?.product[i].items[j].isForYou){
-                    allList.push(result?.product[i].items[j]);
-                  // }
+              } else {
+                // if(result?.product[i].items[j].isForYou){
+                allList.push(result?.product[i].items[j]);
+                // }
               }
             }
           }
@@ -190,7 +182,6 @@ export default function ShoppingScreen({ navigation }) {
           setproductList(allList);
           // setproductList(result?.product);
           // setfilterArr(result?.product);
-
         }
         setrefreshing(false);
         setloader(false);
@@ -201,14 +192,13 @@ export default function ShoppingScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
-  const refresh=()=> {
+  const refresh = () => {
     GetCartItemList();
-  }
+  };
 
   const renderProducts = ({ item, index }) => {
     const productData = item;
     return (
-      
       <View
         style={{
           width: '50%',
@@ -226,9 +216,8 @@ export default function ShoppingScreen({ navigation }) {
           onPress={() => {
             navigation.navigate('ProductDetails', {
               productDetails: productData,
-              
-                onGoBack: () => refresh(),
-              
+
+              onGoBack: () => refresh(),
             });
           }}
           style={{ width: '90%', margin: 8 }}
@@ -239,20 +228,18 @@ export default function ShoppingScreen({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
-      
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             flex: 1,
-          
           }}>
-            <Image
-              style={{ height: 40, width: 40, }}
-              source={Images.logoResized}
-              resizeMode="center"
-            />
+          <Image
+            style={{ height: 40, width: 40 }}
+            source={Images.logoResized}
+            resizeMode="center"
+          />
           {/* <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <Image
               source={Icons.menu}
@@ -283,9 +270,7 @@ export default function ShoppingScreen({ navigation }) {
               onChange={() => {
                 const tempArr = productList.filter((item) => {
                   const name =
-                    item && item?.itemName
-                      ? item?.itemName.toLowerCase()
-                      : '';
+                    item && item?.itemName ? item?.itemName.toLowerCase() : '';
                   return name.includes(searchTxt.toLowerCase());
                 });
 
@@ -299,7 +284,7 @@ export default function ShoppingScreen({ navigation }) {
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation?.navigate('ShoppingBag',{
+              navigation?.navigate('ShoppingBag', {
                 onGoBack: () => refresh(),
               });
             }}
@@ -310,12 +295,7 @@ export default function ShoppingScreen({ navigation }) {
               style={{ height: 34, width: 34 }}
               resizeMode="contain"
             />
-              <CText
-                    value={bCount}
-                    style={styles.badge}
-                    size={12}
-                  />
-
+            <CText value={bCount} style={styles.badge} size={12} />
           </TouchableOpacity>
         </View>
       </View>
@@ -344,15 +324,16 @@ export default function ShoppingScreen({ navigation }) {
                   onPress={() => {
                     setselectedTab(item);
                     StoreDetails(item.id);
-                    console.log("SelectedTab::",selectedTab.id,item);
-                    }
-                  }
+                    console.log('SelectedTab::', selectedTab.id, item);
+                  }}
                   activeOpacity={0.7}
                   key={index}>
                   <CText
                     value={item.title}
                     color={
-                      item.id === selectedTab.id ? BaseColor.amberTxt : '#434343'
+                      item.id === selectedTab.id
+                        ? BaseColor.amberTxt
+                        : '#434343'
                     }
                     size={14}
                   />

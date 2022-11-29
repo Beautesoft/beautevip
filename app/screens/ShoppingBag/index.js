@@ -20,7 +20,7 @@ import { getApiData } from '../../config/apiHelper';
 import BaseColor from '../../config/colors';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
-import BaseSetting from '../../config/settings';
+import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import styles from './styles';
 
@@ -80,7 +80,7 @@ export default function ShoppingBag({ navigation }) {
     setloader(true);
     const url =
       // BaseSetting.api +
-      `http://103.253.15.102:88/main_api/api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
+      `${baseUrl}api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
     console.log(
       '🚀 ~ file: index.js ~ line 39 ~ GetCartItemList ~ userData?.customerCode',
       url,
@@ -127,7 +127,7 @@ export default function ShoppingBag({ navigation }) {
   };
 
   const CartSummary = () => {
-    const url = `http://103.253.15.102:88/main_api/api/cartSummary?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
+    const url = `${baseUrl}api/cartSummary?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
 
     fetch(url)
       .then((response) => response.json())

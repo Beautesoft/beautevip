@@ -36,7 +36,7 @@ import { isEmpty, isArray, split } from 'lodash';
 import { t } from 'i18next';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
 import MyModal from '../../components/MyModal';
-
+import { baseUrl } from '../../config/settings';
 export default function BookingScreen({ navigation, route }) {
   const orderData = route?.params?.itemData;
   console.log(
@@ -84,7 +84,7 @@ export default function BookingScreen({ navigation, route }) {
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
-    const url = `http://103.253.15.102:88/main_api/api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
+    const url = `${baseUrl}api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
     console.log('🚀 ~ file: index.js ~ line 45 ~ GetAddress ~ url', url);
     fetch(url)
       .then((response) => response.json())
@@ -432,7 +432,7 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   const GetSaloonList = () => {
-    const url = `http://103.253.15.102:88/main_api/api/getSaloonList?siteCode=&userID=&hq=0`;
+    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -475,7 +475,7 @@ export default function BookingScreen({ navigation, route }) {
       customerId: customerId,
       customerCode: userData?.customerCode,
       amount: orderData?.price,
-      currency: 'usd',
+      currency: 'sgd',
     };
 
     getApiData(BaseSetting.endpoints.stripePaymentIntentCreate, 'post', data)
@@ -582,7 +582,7 @@ export default function BookingScreen({ navigation, route }) {
     //setloader(true);
     const url =
       // BaseSetting.api +
-      `http://103.253.15.102:88/main_api/api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
+      `${baseUrl}api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
     console.log(
       '🚀 ~ file: index.js ~ line 39 ~ GetCartItemList ~ userData?.customerCode',
       url,

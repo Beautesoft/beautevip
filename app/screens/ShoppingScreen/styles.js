@@ -1,5 +1,5 @@
 import { reduce } from 'lodash';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import BaseColor from '../../config/colors';
 
 export default styles = StyleSheet.create({
@@ -7,14 +7,13 @@ export default styles = StyleSheet.create({
     borderRadius: 9,
     minHeight: 18,
     minWidth: 0,
-    position: "absolute",
-    right:-10,
-    top:-10,
-    paddingStart:4,
-    paddingEnd:4,
-    backgroundColor:BaseColor.darkRed
+    position: 'absolute',
+    right: -10,
+    top: -10,
+    paddingStart: 4,
+    paddingEnd: 4,
+    backgroundColor: BaseColor.darkRed,
   },
-
 
   header: {
     height: 140,

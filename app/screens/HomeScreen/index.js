@@ -33,7 +33,6 @@ import Loader from '../../components/Loader';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { LogBox } from 'react-native';
-
 export default function HomeScreen({ navigation }) {
   const statisData = 1;
   const { logout, setStoreData } = AuthAction;

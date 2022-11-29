@@ -20,10 +20,9 @@ import { Icons } from '../../config/icons';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import styles from './styles';
-
+import { baseUrl } from '../../config/settings';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
-
 
 export default function ChangeAddress({ navigation }) {
   const { userData } = useSelector((state) => state.auth);
@@ -32,9 +31,6 @@ export default function ChangeAddress({ navigation }) {
   const [refreshing, setrefreshing] = useState(false);
   const { updateUserData } = AuthAction;
   const dispatch = useDispatch();
-
-
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -50,7 +46,7 @@ export default function ChangeAddress({ navigation }) {
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
-    const url = `http://103.253.15.102:88/main_api/api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
+    const url = `${baseUrl}api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
     console.log('🚀 ~ file: index.js ~ line 45 ~ GetAddress ~ url', url);
     fetch(url)
       .then((response) => response.json())
@@ -67,7 +63,6 @@ export default function ChangeAddress({ navigation }) {
   };
 
   const updateAddress = (item) => {
-
     console.log('🚀 ~ data 60:>', item);
 
     const data = {
@@ -96,11 +91,9 @@ export default function ChangeAddress({ navigation }) {
         if (result?.success == 1) {
           // navigation.goBack();
           try {
-            userData.customerAddress=item?.address; 
+            userData.customerAddress = item?.address;
             dispatch(updateUserData(userData));
-          } catch (error) {
-            
-          }
+          } catch (error) {}
           GetAddress();
         }
       })

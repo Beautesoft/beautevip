@@ -11,7 +11,7 @@ import styles from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import moment from 'moment';
-
+import { baseUrl } from '../../config/settings';
 export default function Notification({ navigation }) {
   const { userData } = useSelector((state) => state.auth);
 
@@ -41,7 +41,11 @@ export default function Notification({ navigation }) {
 
   const GetNotification = () => {
     // const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
-    const url = `http://103.253.15.102:88/main_api/api/customerNotification?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}&phoneNumber=${userData?.customerPhone}&status=${`OPEN`}`;
+    const url = `${baseUrl}api/customerNotification?siteCode=${
+      userData?.siteCode
+    }&customerCode=${userData?.customerCode}&phoneNumber=${
+      userData?.customerPhone
+    }&status=${`OPEN`}`;
     // const url = `/dashBoardF21?siteCode=TN01&customerCode=GC01T1100002`;
     console.log('🚀 ~ file: index.js ~ line 146 ~ StoreDeatils ~ url', url);
 
@@ -56,16 +60,15 @@ export default function Notification({ navigation }) {
     //     Toast.show('Something went wrong!');
     //   });
 
-
-      fetch(url)
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
+        console.log('🚀 ~ file: index.js ~ line 66 ~ response', json);
         setnotifyArr(json?.result);
       })
       .catch((error) => {
         console.error(error);
       });
-
   };
 
   return (
@@ -87,7 +90,6 @@ export default function Notification({ navigation }) {
                 activeOpacity={0.7}
                 onPress={() => {
                   navigation.navigate('NotificationDetail', { nData: item });
-                  
                 }}>
                 <View>
                   <Image
