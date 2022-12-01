@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -19,6 +19,7 @@ import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 
 export default function ForgotPassword({ navigation }) {
+  const styles = styledFunc();
   const { setSignupData, setStoreData } = AuthAction;
   const dispatch = useDispatch();
   const [moNumber, setmoNumber] = useState('');
@@ -29,9 +30,9 @@ export default function ForgotPassword({ navigation }) {
 
   const Validate = () => {
     if (isEmpty(moNumber)) {
-      Alert.alert('Error !','Please Enter Mobile Number!');
+      Alert.alert('Error !', 'Please Enter Mobile Number!');
     } else if (!mobilevalidate(moNumber)) {
-      Alert.alert('Error !','Please Enter Valid Mobile Number!!');
+      Alert.alert('Error !', 'Please Enter Valid Mobile Number!!');
     } else {
       Forgot();
     }
@@ -43,7 +44,7 @@ export default function ForgotPassword({ navigation }) {
     } else {
       return true;
     }
-  }
+  };
 
   const Forgot = () => {
     setloader(true);
@@ -56,14 +57,13 @@ export default function ForgotPassword({ navigation }) {
     getApiData(BaseSetting.endpoints.sendOtp, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-            navigation.navigate('ResetPassword')
-            //Alert.alert("Otp!",`${result?.result}`)
-            dispatch(setSignupData(data));
-            
-        }else{
-            Toast.show(result?.error);
+          navigation.navigate('ResetPassword');
+          //Alert.alert("Otp!",`${result?.result}`)
+          dispatch(setSignupData(data));
+        } else {
+          Toast.show(result?.error);
         }
-        
+
         setloader(false);
       })
       .catch((err) => {
@@ -92,13 +92,13 @@ export default function ForgotPassword({ navigation }) {
         <View style={styles.container}>
           <CText
             value={t('forgotPassword')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           {/* <CText
             value={t('pleaseLogin')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           /> */}
@@ -133,13 +133,12 @@ export default function ForgotPassword({ navigation }) {
               }}
             />
             <View style={styles.forgotStyle}>
-              <TouchableOpacity activeOpacity={0.7}
-              onPress={() => 
-                navigation.goBack()
-              }>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.goBack()}>
                 <CText
                   value={t('login')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />
@@ -149,7 +148,7 @@ export default function ForgotPassword({ navigation }) {
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
                   value={t('newUser')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />

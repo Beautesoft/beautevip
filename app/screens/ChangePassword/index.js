@@ -13,15 +13,16 @@ import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CLoader from '../../components/CLoader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
 import { Icons } from '../../config/icons';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
+import { theme } from '../../redux/reducer/theme';
 
 export default function ChangePassword({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [oldPassowrd, setoldPassowrd] = useState('');
@@ -68,19 +69,19 @@ export default function ChangePassword({ navigation }) {
         <View style={{ flex: 1 }}>
           <TextInput
             placeholder={t('enterCurrentPassword')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             onChangeText={setoldPassowrd}
           />
           <TextInput
             placeholder={t('enterNewPassword')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             onChangeText={setnewPassword}
           />
           <TextInput
             placeholder={t('confirmNewPassword')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             onChangeText={setconPassword}
           />

@@ -1,8 +1,7 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
-import BaseColor from '../config/colors';
-import {FontFamily} from '../config/typography';
-
+import { Text, TouchableOpacity } from 'react-native';
+import { theme } from '../redux/reducer/theme';
+import { FontFamily } from '../config/typography';
 const CText = React.forwardRef((props, ref) => {
   const {
     style = {},
@@ -11,7 +10,7 @@ const CText = React.forwardRef((props, ref) => {
     isBold = false,
     size = 20,
     fontFamily = FontFamily.Poppins_Regular,
-    color = BaseColor.white,
+    color = theme().white,
     activeOpacity = 1,
     onPress = () => {},
     contStyle = {},

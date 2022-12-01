@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
 import CButton from '../CButton';
@@ -49,14 +49,14 @@ export default function OrderItem(props) {
   //                 value={`Staff`}
   //                 size={14}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //                 style={{ marginTop: 8 }}
   //               /> */}
   //               <CText
   //                 value={item?.subject}
   //                 size={14}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //               />
   //             </View>
 
@@ -66,14 +66,14 @@ export default function OrderItem(props) {
   //                 style={{ marginTop: 8 }}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //               />
   //               {/* appointmentDate */}
   //               <CText
   //                 value={moment(item?.appointmentDate).format('DD-MM-YYYY LT')}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //               />
   //             </View>
 
@@ -81,7 +81,7 @@ export default function OrderItem(props) {
   //               value={item?.staffName}
   //               size={10}
   //               fontFamily={FontFamily.Poppins_SemiBold}
-  //               color={BaseColor.amber}
+  //               color={theme().amber}
   //             />
 
   //             <View>
@@ -89,14 +89,14 @@ export default function OrderItem(props) {
   //                 value={`Staff`}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //                 style={{ marginTop: 8 }}
   //               />
   //               <CText
   //                 value={item?.employeeName}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //               />
   //             </View>
 
@@ -111,7 +111,7 @@ export default function OrderItem(props) {
   //               value={item?.duration+' mins'}
   //               size={14}
   //               fontFamily={FontFamily.Poppins_SemiBold}
-  //               color={BaseColor.amber}
+  //               color={theme().amber}
   //             />
   // <View
   //               style={{
@@ -122,13 +122,13 @@ export default function OrderItem(props) {
   //                 size={10}
   //                 style={{ marginTop: 8 }}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //               />
   //               <CText
   //                 value={item?.location}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //                 style={{
   //                   textAlign: 'right',
   //                 }}
@@ -144,13 +144,13 @@ export default function OrderItem(props) {
   //                 size={10}
   //                 style={{ marginTop: 8 }}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //               />
   //               <CText
   //                 value={item?.depositAmount}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //                 style={{
   //                   textAlign: 'right',
   //                 }}
@@ -165,13 +165,13 @@ export default function OrderItem(props) {
   //                 style={{ marginTop: 8 }}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.white}
+  //                 color={theme().white}
   //               />
   //               <CText
   //                 value={item?.apptStatus}
   //                 size={10}
   //                 fontFamily={FontFamily.Poppins_Regular}
-  //                 color={BaseColor.amberTxt}
+  //                 color={theme().amberTxt}
   //               />
   //             </View>
   //           </View>
@@ -181,12 +181,12 @@ export default function OrderItem(props) {
   //             <CButton
   //               title="Rate Service"
   //               style={{ height: 28, flex: 1, marginEnd: 6 }}
-  //               titleStyle={{ color: BaseColor.white, fontSize: 12 }}
+  //               titleStyle={{ color: theme().white, fontSize: 12 }}
   //             />
   //             <CButton
   //               title="Book Again"
   //               style={{ height: 28, flex: 1, marginStart: 6 }}
-  //               titleStyle={{ color: BaseColor.white, fontSize: 12 }}
+  //               titleStyle={{ color: theme().white, fontSize: 12 }}
   //             />
   //           </View>
   //         )} */}
@@ -229,7 +229,7 @@ export default function OrderItem(props) {
               value={item?.subject}
               size={14}
               fontFamily={FontFamily.Poppins_SemiBold}
-              color={BaseColor.amber}
+              color={theme().amber}
             />
             <View>
               <CText
@@ -237,14 +237,14 @@ export default function OrderItem(props) {
                 style={{ marginTop: 8 }}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.white}
+                color={theme().white}
               />
               {/* appointmentDate */}
               <CText
                 value={moment(item?.startTime).format('DD-MM-YYYY LT')}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
               />
             </View>
             <View>
@@ -252,14 +252,14 @@ export default function OrderItem(props) {
                 value={`Beautician`}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.white}
+                color={theme().white}
                 style={{ marginTop: 8 }}
               />
               <CText
                 value={item?.employeeName}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
               />
             </View>
           </View>
@@ -273,7 +273,7 @@ export default function OrderItem(props) {
               value={item?.duration + ' mins'}
               size={14}
               fontFamily={FontFamily.Poppins_SemiBold}
-              color={BaseColor.amber}
+              color={theme().amber}
             />
             <View
               style={{
@@ -284,13 +284,13 @@ export default function OrderItem(props) {
                 size={10}
                 style={{ marginTop: 8 }}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.white}
+                color={theme().white}
               />
               <CText
                 value={item?.location}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{
                   textAlign: 'right',
                 }}
@@ -305,13 +305,13 @@ export default function OrderItem(props) {
                 style={{ marginTop: 8 }}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.white}
+                color={theme().white}
               />
               <CText
                 value={item?.apptStatus}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
               />
             </View>
           </View>
@@ -321,12 +321,12 @@ export default function OrderItem(props) {
             <CButton
               title="Rate Service"
               style={{ height: 28, flex: 1, marginEnd: 6 }}
-              titleStyle={{ color: BaseColor.white, fontSize: 12 }}
+              titleStyle={{ color: theme().white, fontSize: 12 }}
             />
             <CButton
               title="Book Again"
               style={{ height: 28, flex: 1, marginStart: 6 }}
-              titleStyle={{ color: BaseColor.white, fontSize: 12 }}
+              titleStyle={{ color: theme().white, fontSize: 12 }}
             />
           </View>
         )}

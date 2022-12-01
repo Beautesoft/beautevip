@@ -6,13 +6,14 @@ import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import Loader from '../../components/Loader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
 
 export default function ChangeUserName({ navigation }) {
+  const styles = styledFunc();
   const { updateUserData } = AuthAction;
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.auth);
@@ -43,10 +44,9 @@ export default function ChangeUserName({ navigation }) {
             updatedData: updatedData,
           });
 
-          userData.customerName=userName;
-          console.log('🚀  vsk>',userData);
+          userData.customerName = userName;
+          console.log('🚀  vsk>', userData);
           dispatch(updateUserData(userData));
-
         }
         setloader(false);
       })
@@ -83,7 +83,7 @@ export default function ChangeUserName({ navigation }) {
         <View style={{ flex: 1 }}>
           <TextInput
             placeholder={t('enterNewUsername')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             value={userName}
             onChangeText={setuserName}

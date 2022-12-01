@@ -13,13 +13,14 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import AuthAction from '../../redux/reducer/auth/actions';
 
 export default function Language({ navigation }) {
+  const styles = styledFunc();
   const { t, i18n } = useTranslation();
 
   const { setCurrentLanguage } = AuthAction;
@@ -87,7 +88,7 @@ export default function Language({ navigation }) {
                     style={{
                       fontFamily: FontFamily.Poppins_Medium,
                       fontSize: 20,
-                      color: BaseColor.amberTxt,
+                      color: theme().amberTxt,
                       flex: 1,
                     }}>
                     {item.title}

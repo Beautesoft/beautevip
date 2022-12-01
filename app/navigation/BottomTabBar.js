@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
-import BaseColor from '../config/colors';
+import { theme } from '../redux/reducer/theme';
 import { Icons } from '../config/icons';
 import { FontFamily } from '../config/typography';
 
@@ -8,7 +8,7 @@ const ButtonIcons = {
   Booking: Icons.calendar,
   Orders: Icons.time_circle,
   Home: Icons.home,
-  Shopping: Icons.bag_new,//Icons.bag,
+  Shopping: Icons.bag_new, //Icons.bag,
   Me: Icons.profile,
 };
 
@@ -24,7 +24,7 @@ export default function BottomTabBar({ state, descriptors, navigation }) {
   return (
     <View
       style={{
-        backgroundColor: BaseColor.darkGrey,
+        backgroundColor: theme().darkGrey,
         height: 70,
         justifyContent: 'center',
       }}>
@@ -76,14 +76,14 @@ export default function BottomTabBar({ state, descriptors, navigation }) {
                   justifyContent: 'center',
                 }}>
                 <Image
-                  tintColor={isFocused ? BaseColor.amber : BaseColor.greyYellow}
+                  tintColor={isFocused ? theme().amber : theme().greyYellow}
                   source={ButtonIcons[label]}
                   style={{ height: 24, width: 24 }}
                   resizeMode="contain"
                 />
                 <Text
                   style={{
-                    color: isFocused ? BaseColor.amber : BaseColor.greyYellow,
+                    color: isFocused ? theme().amber : theme().greyYellow,
                     fontSize: (Dimensions.get('window').width * 3.1) / 120,
                     alignItems: 'center',
                     marginTop: 6,

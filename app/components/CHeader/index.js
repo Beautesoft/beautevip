@@ -1,7 +1,7 @@
 import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
-import BaseColor from '../../config/colors';
-import {Icons} from '../../config/icons';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { theme } from '../../redux/reducer/theme';
+import { Icons } from '../../config/icons';
 import CText from '../CText';
 
 export default function CHeader(props) {
@@ -18,7 +18,7 @@ export default function CHeader(props) {
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         flexDirection: 'row',
-        backgroundColor: BaseColor.amber,
+        backgroundColor: theme().amber,
         padding: 16,
         paddingBottom: 32,
       }}>
@@ -29,13 +29,13 @@ export default function CHeader(props) {
           alignItems: 'center',
           flex: 1,
         }}>
-        <CText value={title} size={32} color={BaseColor.darkGrey} />
+        <CText value={title} size={32} color={theme().darkGrey} />
         {showLeftIcon && (
           <TouchableOpacity onPress={onLeftIconPress} activeOpacity={0.7}>
             <Image
               source={leftIcon}
-              tintColor={BaseColor.darkGrey}
-              style={{height: 34, width: 34}}
+              tintColor={theme().darkGrey}
+              style={{ height: 34, width: 34 }}
               resizeMode="center"
             />
           </TouchableOpacity>

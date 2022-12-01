@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
 import { FontFamily } from '../../config/typography';
@@ -20,7 +20,7 @@ export default function ProductContainer(props) {
       onPress={onPress}
       style={[
         {
-          backgroundColor: BaseColor.white,
+          backgroundColor: theme().white,
           borderRadius: 10,
           overflow: 'hidden',
         },
@@ -41,9 +41,9 @@ export default function ProductContainer(props) {
         <View style={{ paddingHorizontal: 8, flex: 1 }}>
           <CText
             value={name}
-            style={{width: '100%' }}
+            style={{ width: '100%' }}
             numberOfLines={1}
-            color={BaseColor.black}
+            color={theme().black}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />

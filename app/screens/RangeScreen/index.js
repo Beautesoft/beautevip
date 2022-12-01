@@ -2,11 +2,12 @@ import React from 'react';
 import { FlatList, View } from 'react-native';
 import CHeader from '../../components/CHeader';
 import CircularButton from '../../components/CirculerButton';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
-import styles from './styles';
+import { styledFunc } from './styles';
 
 export default function RangeScreen({ navigation, route }) {
+  const styles = styledFunc();
   const serviceData = route?.params?.serviceData;
 
   const renderServiceBtn = ({ item, index }) => {

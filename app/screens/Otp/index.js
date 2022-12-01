@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -18,6 +18,7 @@ import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 
 export default function Otp({ navigation, route }) {
+  const styles = styledFunc();
   const { signupData } = useSelector((state) => state.auth);
 
   const type = route?.params?.type;
@@ -65,9 +66,11 @@ export default function Otp({ navigation, route }) {
 
         if (result?.success == 1) {
           // Toast.show(result?.result);
-          console.log('🚀 ~ file: index.js ~ line 68 ~ updateProfile  result~ ', result?.result);
+          console.log(
+            '🚀 ~ file: index.js ~ line 68 ~ updateProfile  result~ ',
+            result?.result,
+          );
           navigation.navigate('Settings');
-          
         }
       })
       .catch((err) => {
@@ -95,13 +98,13 @@ export default function Otp({ navigation, route }) {
         <View style={styles.container}>
           <CText
             value={t('otp')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={t('enterCode')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           />
@@ -123,8 +126,8 @@ export default function Otp({ navigation, route }) {
               height: 48,
               borderWidth: 1,
               borderRadius: 6,
-              borderColor: BaseColor.amber,
-              color: BaseColor.amber,
+              borderColor: theme().amber,
+              color: theme().amber,
               fontSize: 14,
               fontFamily: FontFamily.Poppins_Medium,
             }}

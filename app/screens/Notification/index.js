@@ -4,15 +4,16 @@ import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import moment from 'moment';
 import { baseUrl } from '../../config/settings';
 export default function Notification({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [notifyArr, setnotifyArr] = useState([]);
@@ -100,7 +101,7 @@ export default function Notification({ navigation }) {
                   <CText
                     value={moment(item?.notifyTime).format('LT')}
                     size={14}
-                    color={BaseColor.darkAmber}
+                    color={theme().darkAmber}
                     fonttFamily={FontFamily.Poppins_Medium}
                   />
                 </View>
@@ -113,13 +114,13 @@ export default function Notification({ navigation }) {
                   <CText
                     value={item?.salonName}
                     size={16}
-                    color={BaseColor.amberTxt}
+                    color={theme().amberTxt}
                     fontFamily={FontFamily.Poppins_SemiBold}
                   />
                   <CText
                     value={item?.message}
                     size={16}
-                    color={BaseColor.amberTxt}
+                    color={theme().amberTxt}
                     numberOfLines={1}
                   />
                 </View>

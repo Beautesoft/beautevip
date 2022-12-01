@@ -8,9 +8,9 @@ import {
   Text,
 } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -28,6 +28,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { cloneDeep } from 'lodash';
 
 export default function Login({ navigation }) {
+  const styles = styledFunc();
   const { setUserData, setStoreData, logout, updateUserData } = AuthAction;
   const dispatch = useDispatch();
   const [moNumber, setmoNumber] = useState('');
@@ -94,13 +95,13 @@ export default function Login({ navigation }) {
         <View style={styles.container}>
           <CText
             value={t('login')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={t('pleaseLogin')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           />
@@ -140,7 +141,7 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate('ForgotPassword')}>
                 <CText
                   value={t('forgotPassword')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />
@@ -150,7 +151,7 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
                   value={t('newUser')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />

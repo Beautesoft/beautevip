@@ -13,10 +13,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import moment from 'moment';
 import { getApiData } from '../../config/apiHelper';
@@ -34,6 +34,7 @@ import {
 } from 'react-native-table-component';
 
 export default function OrderDetails({ navigation, route }) {
+  const styles = styledFunc();
   const orderData = route?.params?.orderData;
   const oid = route?.params?.oid;
   const tData = route?.params?.tData;
@@ -111,20 +112,20 @@ export default function OrderDetails({ navigation, route }) {
                   source={Icons.mail}
                   style={{ height: '60%', width: '60%' }}
                   resizeMode="contain"
-                  tintColor={BaseColor.black}
+                  tintColor={theme().black}
                 />
               </LinearGradient>
             </View>
             <View style={{ paddingStart: 8, flex: 1 }}>
               <CText
                 value={oid == 6 ? orderData?.customerName : orderData?.subject}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 size={24}
                 fontFamily={FontFamily.Poppins_SemiBold}
               />
               <CText
                 value={oid == 6 ? '' : orderData?.duration + ' min'}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 size={20}
                 fontFamily={FontFamily.Poppins_SemiBold}
               />
@@ -173,7 +174,7 @@ export default function OrderDetails({ navigation, route }) {
                   oid == 6 ? orderData?.transactionDate : orderData?.startTime,
                 ).format('DD-MM-YYYY LT')}
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8 }}
               />
               <CText
@@ -183,7 +184,7 @@ export default function OrderDetails({ navigation, route }) {
                     : orderData?.location
                 }
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8, textAlign: 'right' }}
               />
               <CText
@@ -191,7 +192,7 @@ export default function OrderDetails({ navigation, route }) {
                   oid == 6 ? orderData?.staffName : orderData?.employeeName
                 }
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8 }}
               />
             </View>
@@ -202,13 +203,13 @@ export default function OrderDetails({ navigation, route }) {
               <CText
                 value={'Items detail:'}
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 2 }}
               />
               <Table
                 borderStyle={{
                   borderWidth: 1,
-                  borderColor: BaseColor.amberTxt,
+                  borderColor: theme().amberTxt,
                 }}>
                 <Row
                   data={state.HeadTable}
@@ -260,7 +261,7 @@ export default function OrderDetails({ navigation, route }) {
                   oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
                 }
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8 }}
               />
               <CText
@@ -270,7 +271,7 @@ export default function OrderDetails({ navigation, route }) {
                     : moment(orderData?.appointmentDate).format('DD-MM-YYYY LT')
                 }
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8 }}
               />
             </View>
@@ -282,7 +283,7 @@ export default function OrderDetails({ navigation, route }) {
             <CText
               value={'Invoice'}
               size={16}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               style={{ marginTop: 8 }}
             />
           </TouchableOpacity>
@@ -302,7 +303,7 @@ export default function OrderDetails({ navigation, route }) {
               <CText
                 value={''}
                 size={16}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 style={{ marginTop: 8 }}
               />
             ) : (
@@ -330,7 +331,7 @@ export default function OrderDetails({ navigation, route }) {
           }}>
           <View
             style={{
-              backgroundColor: BaseColor.darkGrey,
+              backgroundColor: theme().darkGrey,
               width: '100%',
               padding: 16,
             }}>
@@ -351,7 +352,7 @@ export default function OrderDetails({ navigation, route }) {
                 marginBottom: 24,
                 justifyContent: 'space-between',
               }}
-              tintColor={BaseColor.darkGrey}
+              tintColor={theme().darkGrey}
               imageSize={42}
               starContainerStyle={{ marginHorizontal: 8 }}
             />
@@ -365,9 +366,9 @@ export default function OrderDetails({ navigation, route }) {
                 height: 160,
                 textAlignVertical: 'top',
                 fontSize: 18,
-                color: BaseColor.darkGrey,
+                color: theme().darkGrey,
               }}
-              placeholderTextColor={BaseColor.darkGrey}
+              placeholderTextColor={theme().darkGrey}
             />
             <CButton
               title={t('rateService')}

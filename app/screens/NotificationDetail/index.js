@@ -3,20 +3,22 @@ import React from 'react';
 import { Image, ScrollView, View } from 'react-native';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Images } from '../../config/images';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import moment from 'moment';
 
 export default function NotificationDetail({ navigation, route }) {
+  const styles = styledFunc();
   const nData = route?.params?.nData;
 
   return (
     <>
-      <CHeader title={t('details')} 
-      showLeftIcon
-      onLeftIconPress={() => navigation.goBack()}
+      <CHeader
+        title={t('details')}
+        showLeftIcon
+        onLeftIconPress={() => navigation.goBack()}
       />
       <View style={styles.container}>
         <ScrollView
@@ -28,15 +30,15 @@ export default function NotificationDetail({ navigation, route }) {
             style={{ height: 200, width: '100%', borderRadius: 18 }}
           />
           <View style={{ padding: 12 }}>
-          <CText
+            <CText
               value={nData?.salonName}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={24}
               fontFamily={FontFamily.Poppins_Medium}
             />
             <CText
               value={nData?.message}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={24}
               fontFamily={FontFamily.Poppins_Medium}
             />
@@ -45,11 +47,7 @@ export default function NotificationDetail({ navigation, route }) {
               color={'#6E7781'}
               size={14}
             />
-            <CText
-              value={nData?.remarks}
-              color={BaseColor.white}
-              size={18}
-            />
+            <CText value={nData?.remarks} color={theme().white} size={18} />
           </View>
         </ScrollView>
       </View>

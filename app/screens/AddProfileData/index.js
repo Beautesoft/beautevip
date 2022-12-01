@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Alert, Image, Modal, ScrollView, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Modal,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -18,8 +24,10 @@ import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { isEmpty } from 'lodash';
 import validator from 'validator';
+import { theme } from '../../redux/reducer/theme';
 
 export default function AddProfileData({ navigation }) {
+  const styles = styledFunc();
   const { signupData } = useSelector((state) => state.auth);
 
   const [name, setname] = useState('');
@@ -62,21 +70,19 @@ export default function AddProfileData({ navigation }) {
   };
 
   const SignUpCustomer = () => {
-
-    if(isEmpty(name)){
-      Alert.alert("Error","Please enter full name.")
-      return
-    }else if(name.length < 3){
-      Alert.alert("Error","Please enter valid name.")
-      return
-    }else if(isEmpty(mail)){
-      Alert.alert("Error","Please enter email.")
-      return
-    }else if (!validator.isEmail(mail)){
-      Alert.alert("Error","Please enter valid email.")
-      return
+    if (isEmpty(name)) {
+      Alert.alert('Error', 'Please enter full name.');
+      return;
+    } else if (name.length < 3) {
+      Alert.alert('Error', 'Please enter valid name.');
+      return;
+    } else if (isEmpty(mail)) {
+      Alert.alert('Error', 'Please enter email.');
+      return;
+    } else if (!validator.isEmail(mail)) {
+      Alert.alert('Error', 'Please enter valid email.');
+      return;
     }
-
 
     setloader(true);
     const data = {
@@ -94,12 +100,11 @@ export default function AddProfileData({ navigation }) {
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 75 ~ .then ~ result', result);
         if (result?.success == 1) {
-          if(profileData){
+          if (profileData) {
             changeProfile(signupData?.moNumber, result?.result);
-          }else{
+          } else {
             navigation.navigate('SuccessScreen');
           }
-           
         } else if (result?.success == 0) {
           Toast.show(result?.error);
         }
@@ -110,14 +115,6 @@ export default function AddProfileData({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 60 ~ .then ~ err', err);
       });
   };
-
-
-
-
-
-  
-
-
 
   const changeProfile = (customerPhone, customerCode) => {
     // const data = {
@@ -143,7 +140,12 @@ export default function AddProfileData({ navigation }) {
     // form.append('customerCode', customerCode);
     // form.append('notificationFlag', '1');
     let body = new FormData();
-    body.append('profile', {uri: profileData.uri,name: profileData.name,filename :profileData.name,type: profileData.type});
+    body.append('profile', {
+      uri: profileData.uri,
+      name: profileData.name,
+      filename: profileData.name,
+      type: profileData.type,
+    });
     body.append('Content-Type', profileData.type);
     // body.append('jsonKey', jsonKeyObj);
     body.append('siteCode', '');
@@ -151,18 +153,17 @@ export default function AddProfileData({ navigation }) {
     body.append('customerCode', customerCode);
     body.append('notificationFlag', '1');
 
-
-
     console.log(
       '🚀 ~ file: index.js ~ line 104 ~ changeProfile ~ profileData',
-      profileData,BaseSetting.api + BaseSetting.endpoints.profilePic
+      profileData,
+      BaseSetting.api + BaseSetting.endpoints.profilePic,
     );
     console.log('🚀 ~ file: index.js ~ line 102 ~ changeProfile ~ form', body);
 
     fetch(BaseSetting.api + BaseSetting.endpoints.profilePic, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        Accept: 'application/json, text/plain, */*', // It can be used to overcome cors errors
         //'Content-Type': 'application/json'
       },
       body: body,
@@ -174,7 +175,7 @@ export default function AddProfileData({ navigation }) {
           json,
         );
         //if (json?.success == 1) {
-          navigation.navigate('SuccessScreen');
+        navigation.navigate('SuccessScreen');
         //}
         setloader(false);
       })
@@ -207,13 +208,13 @@ export default function AddProfileData({ navigation }) {
         <View style={styles.container}>
           <CText
             value={t('addProfileDetail')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={t('finalStep')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           />
@@ -277,13 +278,13 @@ export default function AddProfileData({ navigation }) {
           onPress={() => setshowModal(false)}
           style={{
             flex: 1,
-            backgroundColor: BaseColor.white40,
+            backgroundColor: theme().white40,
             justifyContent: 'flex-end',
             alignItems: 'center',
           }}>
           <View
             style={{
-              backgroundColor: BaseColor.black,
+              backgroundColor: theme().black,
               width: '100%',
               padding: 12,
             }}>

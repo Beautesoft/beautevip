@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Alert, Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -20,11 +20,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 
 export default function ResetPassword({ navigation }) {
+  const styles = styledFunc();
   const { setUserData, setStoreData } = AuthAction;
   const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-//   const [moNumber, setmoNumber] = useState('');
-  const moNumber=signupData.phoneNumber;
+  //   const [moNumber, setmoNumber] = useState('');
+  const moNumber = signupData.phoneNumber;
   const [otp, setotp] = useState('');
   const [password, setpassword] = useState('');
   const [cpassword, setcpassword] = useState('');
@@ -34,51 +35,57 @@ export default function ResetPassword({ navigation }) {
 
   const Validate = () => {
     if (isEmpty(otp)) {
-      Alert.alert('Error !','Please Enter OTP!');
+      Alert.alert('Error !', 'Please Enter OTP!');
     } else if (otp.length != 6) {
-        Alert.alert('Error !','Please Enter six digit otp!');
-      }
-    else if (isEmpty(password)) {
-      Alert.alert('Error !','Please Enter Password!');
+      Alert.alert('Error !', 'Please Enter six digit otp!');
+    } else if (isEmpty(password)) {
+      Alert.alert('Error !', 'Please Enter Password!');
     } else if (!validatePassword(password)) {
-        Alert.alert('Error!','Password must contains uppercase, lowercase,number,special character and maximum length should be 6.');
-      }
-       else if (password !== cpassword) {
-        Alert.alert('Error!','Password and Confirm Password must be same.');
-      }else {
-        //   Alert.alert("Success!",`${moNumber},${otp},${password} `)
+      Alert.alert(
+        'Error!',
+        'Password must contains uppercase, lowercase,number,special character and maximum length should be 6.',
+      );
+    } else if (password !== cpassword) {
+      Alert.alert('Error!', 'Password and Confirm Password must be same.');
+    } else {
+      //   Alert.alert("Success!",`${moNumber},${otp},${password} `)
       Reset();
     }
   };
   const validatePassword = (value) => {
-    if (validator.isStrongPassword(value, {
-      minLength: 4, minLowercase: 1,
-      minUppercase: 1, minNumbers: 1, minSymbols: 1
-    })) {
-      if(value.length <= 6){
-        return true
-      }else{
-        return false
+    if (
+      validator.isStrongPassword(value, {
+        minLength: 4,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      if (value.length <= 6) {
+        return true;
+      } else {
+        return false;
       }
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   const Reset = () => {
     setloader(true);
     const data = {
-        phoneNumber: moNumber,
-        otp: otp,
-        newPassCode: password,
+      phoneNumber: moNumber,
+      otp: otp,
+      newPassCode: password,
     };
     console.log('🚀 ~ file: index.js ~ line 24 ~ login ~ data', data);
     getApiData(BaseSetting.endpoints.forgotPasscodeReset, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-        //   dispatch(setUserData(result?.result));
-        Alert.alert("Success!","Your password has been saved successfully.")
-        navigation.navigate('Login')
+          //   dispatch(setUserData(result?.result));
+          Alert.alert('Success!', 'Your password has been saved successfully.');
+          navigation.navigate('Login');
         }
         Toast.show(result?.error);
         setloader(false);
@@ -109,13 +116,13 @@ export default function ResetPassword({ navigation }) {
         <View style={styles.container}>
           <CText
             value={t('resetPassword')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           {/* <CText
             value={t('pleaseLogin')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           /> */}
@@ -163,13 +170,12 @@ export default function ResetPassword({ navigation }) {
               }}
             />
             <View style={styles.forgotStyle}>
-              <TouchableOpacity activeOpacity={0.7}
-              onPress={() => 
-                navigation.goBack()
-              }>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.goBack()}>
                 <CText
                   value={t('cancel')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />
@@ -179,7 +185,7 @@ export default function ResetPassword({ navigation }) {
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
                   value={t('newUser')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />

@@ -17,14 +17,15 @@ import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import Loader from '../../components/Loader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 
 export default function ShoppingBag({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [itemList, setitemList] = useState([]);
@@ -210,7 +211,7 @@ export default function ShoppingBag({ navigation }) {
             value={item?.itemName}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
           />
           <View
             style={{
@@ -224,7 +225,7 @@ export default function ShoppingBag({ navigation }) {
                 {/* <CText
                   value={item?.itemQuantity}
                   size={14}
-                  color={BaseColor.amberTxt}
+                  color={theme().amberTxt}
                 /> */}
 
                 <TouchableOpacity
@@ -241,7 +242,7 @@ export default function ShoppingBag({ navigation }) {
                     style={{
                       height: 16,
                       width: 16,
-                      tintColor: BaseColor.amberTxt,
+                      tintColor: theme().amberTxt,
                     }}
                     resizeMode="center"
                     source={Icons.drop_icon}
@@ -265,7 +266,7 @@ export default function ShoppingBag({ navigation }) {
                 <CText
                   value={`$${item.itemPrice * item?.itemQuantity}`}
                   size={14}
-                  color={BaseColor.amberTxt}
+                  color={theme().amberTxt}
                   style={{ textAlign: 'right' }}
                 />
               </View>
@@ -314,7 +315,7 @@ export default function ShoppingBag({ navigation }) {
                 flexDirection: 'row',
                 width: '100%',
                 alignItems: 'center',
-                backgroundColor: BaseColor.white,
+                backgroundColor: theme().white,
                 alignSelf: 'center',
                 padding: 4,
                 borderRadius: 40,
@@ -334,7 +335,7 @@ export default function ShoppingBag({ navigation }) {
                   marginHorizontal: 8,
                   fontSize: 14,
                   fontFamily: FontFamily.Poppins_Regular,
-                  color: BaseColor.black,
+                  color: theme().black,
                 }}
               />
               <View
@@ -344,20 +345,20 @@ export default function ShoppingBag({ navigation }) {
                   borderRadius: 30,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: BaseColor.amber,
+                  backgroundColor: theme().amber,
                 }}>
                 <Image
                   source={Icons.right_arrow}
                   style={{ height: '40%', width: '40%' }}
                   resizeMode="contain"
-                  tintColor={BaseColor.darkGrey}
+                  tintColor={theme().darkGrey}
                 />
               </View>
             </View>
             <View
               style={{
                 height: 1,
-                backgroundColor: BaseColor.white50,
+                backgroundColor: theme().white50,
                 marginVertical: 24,
               }}
             />
@@ -371,13 +372,13 @@ export default function ShoppingBag({ navigation }) {
                 value={t('subtotal')}
                 size={20}
                 fontFamily={FontFamily.Poppins_Medium}
-                color={BaseColor.white}
+                color={theme().white}
               />
               <CText
                 value={`$${subTotal}`}
                 size={20}
                 fontFamily={FontFamily.Poppins_Medium}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
               />
             </View>
 
@@ -421,7 +422,7 @@ export default function ShoppingBag({ navigation }) {
                     style={{
                       padding: 8,
                       borderBottomWidth: 1,
-                      borderColor: BaseColor.black,
+                      borderColor: theme().black,
                       borderRadius: 8,
                     }}
                     onPress={() => {
@@ -432,7 +433,7 @@ export default function ShoppingBag({ navigation }) {
                     }}>
                     <CText
                       value={item}
-                      color={BaseColor.black}
+                      color={theme().black}
                       size={20}
                       fontFamily={FontFamily.Poppins_Medium}
                       style={{

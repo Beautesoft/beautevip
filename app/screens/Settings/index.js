@@ -13,10 +13,10 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
-import styles from './styles';
+import { styledFunc } from './styles';
 import ImagePicker from 'react-native-image-crop-picker';
 import CButton from '../../components/CButton';
 import { getApiData } from '../../config/apiHelper';
@@ -31,6 +31,7 @@ import Resizer from 'react-image-file-resizer';
 import { Linking } from 'react-native';
 
 export default function Settings({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
   const { updateUserData } = AuthAction;
@@ -519,13 +520,13 @@ export default function Settings({ navigation }) {
           onPress={() => setshowModal(false)}
           style={{
             flex: 1,
-            backgroundColor: BaseColor.white40,
+            backgroundColor: theme().white40,
             justifyContent: 'flex-end',
             alignItems: 'center',
           }}>
           <View
             style={{
-              backgroundColor: BaseColor.black,
+              backgroundColor: theme().black,
               width: '100%',
               padding: 12,
             }}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Modal, Text, View } from 'react-native';
-import BaseColor from '../config/colors';
+import { theme } from '../redux/reducer/theme';
 
 export default function CLoader(props) {
   const { loader, loadingText = 'Loading...' } = props;
@@ -11,13 +11,12 @@ export default function CLoader(props) {
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View
             style={{
-              backgroundColor: BaseColor.white,
+              backgroundColor: theme().white,
               borderRadius: 12,
               padding: 16,
             }}>
-            <ActivityIndicator size="large" color={BaseColor.black} />
-            <Text
-              style={{ color: BaseColor.black, fontSize: 18, marginTop: 16 }}>
+            <ActivityIndicator size="large" color={theme().black} />
+            <Text style={{ color: theme().black, fontSize: 18, marginTop: 16 }}>
               {loadingText}
             </Text>
           </View>

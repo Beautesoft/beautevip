@@ -6,7 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 // import BottomTabBar from "./BottomTabBar";
-import BaseColor from '../config/colors';
+import { theme } from '../redux/reducer/theme';
 
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Icons } from '../config/icons';
@@ -17,8 +17,8 @@ export const BottomTabsNavigator = () => {
   return (
     <Tab.Navigator
       //tabBar={BottomTabBar}
-      activeColor={BaseColor.amber}
-      inactiveColor={BaseColor.greyYellow}
+      activeColor={theme().amber}
+      inactiveColor={theme().greyYellow}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
@@ -38,14 +38,14 @@ export const BottomTabsNavigator = () => {
           return (
             <Image
               resizeMode="contain"
-              tintColor={focused ? BaseColor.amber : BaseColor.greyYellow}
+              tintColor={focused ? theme().amber : theme().greyYellow}
               style={{ height: 24, width: 24 }}
               source={iconName}
             />
           );
         },
-        tabBarActiveTintColor: BaseColor.amber,
-        tabBarInactiveTintColor: BaseColor.greyYellow,
+        tabBarActiveTintColor: theme().amber,
+        tabBarInactiveTintColor: theme().greyYellow,
         tabBarLabelStyle: {
           fontSize: (Dimensions.get('window').width * 3.1) / 120,
           alignItems: 'center',
@@ -53,7 +53,7 @@ export const BottomTabsNavigator = () => {
           fontFamily: FontFamily.Poppins_Medium,
         },
         tabBarStyle: {
-          backgroundColor: BaseColor.darkGrey,
+          backgroundColor: theme().darkGrey,
           height: 70,
           paddingTop: 10,
           justifyContent: 'center',

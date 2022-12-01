@@ -13,14 +13,15 @@ import CText from '../../components/CText';
 import Loader from '../../components/Loader';
 import OrderItem from '../../components/OrderItem';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { useFocusEffect } from '@react-navigation/native';
 import { t } from 'i18next';
 
 export default function OrdersScreen({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [selectedTab, setselectedTab] = useState({
@@ -70,10 +71,9 @@ export default function OrdersScreen({ navigation }) {
   );
 
   const onRefresh = () => {
-    
-    if(selectedTab.id != 5){
+    if (selectedTab.id != 5) {
       setrefreshing(true);
-    appointmentSearch(selectedTab.id);
+      appointmentSearch(selectedTab.id);
     }
   };
 
@@ -104,89 +104,82 @@ export default function OrdersScreen({ navigation }) {
     };
   }, []);
 
-  const setOrderResults = (status,result) =>{
+  const setOrderResults = (status, result) => {
     if (result?.futureAppointments) {
-      if(status == 2){
-        var allList=[];
+      if (status == 2) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus == "Booking"){
+          if (result?.result[i].apptStatus == 'Booking') {
             allList.push(result?.result[i]);
           }
         }
         for (let i = 0; i < result?.futureAppointments.length; i++) {
-          if(result?.futureAppointments[i].apptStatus == "Booking"){
+          if (result?.futureAppointments[i].apptStatus == 'Booking') {
             allList.push(result?.futureAppointments[i]);
           }
         }
         setorderList(allList);
-      }else if(status == 3){
-        var allList=[];
+      } else if (status == 3) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus.includes("Confirm")){
+          if (result?.result[i].apptStatus.includes('Confirm')) {
             allList.push(result?.result[i]);
           }
         }
         for (let i = 0; i < result?.futureAppointments.length; i++) {
-          if(result?.futureAppointments[i].apptStatus.includes("Confirm")){
+          if (result?.futureAppointments[i].apptStatus.includes('Confirm')) {
             allList.push(result?.futureAppointments[i]);
           }
         }
         setorderList(allList);
-
-      }else if(status == 4){
-        var allList=[];
+      } else if (status == 4) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus == "Cancelled"){
+          if (result?.result[i].apptStatus == 'Cancelled') {
             allList.push(result?.result[i]);
           }
         }
         for (let i = 0; i < result?.futureAppointments.length; i++) {
-          if(result?.futureAppointments[i].apptStatus == "Cancelled"){
+          if (result?.futureAppointments[i].apptStatus == 'Cancelled') {
             allList.push(result?.futureAppointments[i]);
           }
         }
         setorderList(allList);
-
-      }else if( status == 5){
+      } else if (status == 5) {
         setorderList([...result?.result]);
-      }      
-      else{
+      } else {
         setorderList([...result?.result, ...result?.futureAppointments]);
       }
     } else {
-      if(status == 2){
-        var allList=[];
+      if (status == 2) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus == "Booking"){
+          if (result?.result[i].apptStatus == 'Booking') {
             allList.push(result?.result[i]);
           }
         }
         setorderList(allList);
-      }else if(status == 3){
-        var allList=[];
+      } else if (status == 3) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus.includes("Confirm")){
+          if (result?.result[i].apptStatus.includes('Confirm')) {
             allList.push(result?.result[i]);
           }
         }
         setorderList(allList);
-
-      }else if(status == 4){
-        var allList=[];
+      } else if (status == 4) {
+        var allList = [];
         for (let i = 0; i < result?.result.length; i++) {
-          if(result?.result[i].apptStatus == "Cancelled"){
+          if (result?.result[i].apptStatus == 'Cancelled') {
             allList.push(result?.result[i]);
           }
         }
         setorderList(allList);
-
-      }else{
+      } else {
         setorderList([...result?.result]);
       }
     }
-  }
-
-
+  };
 
   const appointmentSearch = (status) => {
     setorderList([]);
@@ -201,11 +194,11 @@ export default function OrdersScreen({ navigation }) {
         if (result?.success == 1) {
           // if (result?.futureAppointments) {
           //   setorderList([...result?.result, ...result?.futureAppointments]);
-            
+
           // } else {
           //   setorderList([...result?.result]);
           // }
-          setOrderResults(status,result);
+          setOrderResults(status, result);
         }
         setloader(false);
         setrefreshing(false);
@@ -217,16 +210,16 @@ export default function OrdersScreen({ navigation }) {
       });
   };
 
-  const transactionInVoice = () =>{
+  const transactionInVoice = () => {
     setorderList([]);
     setloader(true);
     const data = {
-      siteCode:userData?.siteCode,
-      customerName:userData?.customerName,
-      fromDate:"1900-01-01",
-      toDate:"2200-12-31",
-      staffName:"",
-      invoiceNo:""
+      siteCode: userData?.siteCode,
+      customerName: userData?.customerName,
+      fromDate: '1900-01-01',
+      toDate: '2200-12-31',
+      staffName: '',
+      invoiceNo: '',
     };
 
     getApiData(BaseSetting.endpoints.appTransSearchInvoice, 'post', data)
@@ -234,7 +227,7 @@ export default function OrdersScreen({ navigation }) {
         if (result?.success == 1) {
           // if (result?.futureAppointments) {
           //   setorderList([...result?.result, ...result?.futureAppointments]);
-            
+
           // } else {
           //   setorderList([...result?.result]);
           // }
@@ -248,10 +241,7 @@ export default function OrdersScreen({ navigation }) {
         setloader(false);
         setrefreshing(false);
       });
-  }
-
-
-
+  };
 
   const renderOrders = ({ item, index }) => {
     return (
@@ -263,16 +253,19 @@ export default function OrdersScreen({ navigation }) {
           item={item}
           id={selectedTab.id}
           onPress={() => {
-           
-          let itemList=[];
-          // if(selectedTab.id == 5){
-          //   item?.items.forEach(it => {
-          //     let aItem=[it.itemCode,it.itemName,it.itemQty,'$'+it.unitPrice,'$'+it.promoPrice,'$'+it.itemAmount];
-          //     itemList.push(aItem)
-          //   });  
-          // }
-          
-            navigation.navigate('OrderDetails', { orderData: item,oid:selectedTab.id,tData:itemList });
+            let itemList = [];
+            // if(selectedTab.id == 5){
+            //   item?.items.forEach(it => {
+            //     let aItem=[it.itemCode,it.itemName,it.itemQty,'$'+it.unitPrice,'$'+it.promoPrice,'$'+it.itemAmount];
+            //     itemList.push(aItem)
+            //   });
+            // }
+
+            navigation.navigate('OrderDetails', {
+              orderData: item,
+              oid: selectedTab.id,
+              tData: itemList,
+            });
           }}
         />
       </View>
@@ -300,17 +293,17 @@ export default function OrdersScreen({ navigation }) {
                     {
                       borderColor:
                         item.id === selectedTab.id
-                          ? BaseColor.amberTxt
+                          ? theme().amberTxt
                           : '#434343',
                     },
                   ]}
                   onPress={() => {
                     setselectedTab(item);
-                    if(item.id == 5){
+                    if (item.id == 5) {
                       setorderList([]);
                       //transactionInVoice();
                       appointmentSearch(item.id);
-                    }else{
+                    } else {
                       appointmentSearch(item.id);
                     }
                   }}
@@ -319,9 +312,7 @@ export default function OrdersScreen({ navigation }) {
                   <CText
                     value={item.title}
                     color={
-                      item.id === selectedTab.id
-                        ? BaseColor.amberTxt
-                        : '#434343'
+                      item.id === selectedTab.id ? theme().amberTxt : '#434343'
                     }
                     size={14}
                   />

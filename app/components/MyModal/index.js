@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 //import { Modal } from 'react-native';
 import { Modal } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CButton from '../CButton';
 
@@ -36,7 +36,7 @@ export default function MyModal(props) {
         <View
           style={{
             padding: 8,
-            backgroundColor: BaseColor.white,
+            backgroundColor: theme().white,
             position: 'absolute',
             bottom: 0,
             left: 0,
@@ -46,8 +46,8 @@ export default function MyModal(props) {
           <CreditCardInput
             onChange={(val) => onCreditInput(val)}
             cardFontFamily={FontFamily.arial_bold}
-            // validColor={BaseColor.whiteColor}
-            labelStyle={{ color: BaseColor.black }}
+            // validColor={theme().whiteColor}
+            labelStyle={{ color: theme().black }}
             allowScroll={true}
           />
           <CButton
@@ -59,10 +59,10 @@ export default function MyModal(props) {
               width: '90%',
               marginBottom: 30,
               alignSelf: 'center',
-              backgroundColor: BaseColor.btnBlue,
+              backgroundColor: theme().btnBlue,
             }}
             titleStyle={{
-              color: BaseColor.whiteColor,
+              color: theme().whiteColor,
             }}
           />
         </View>

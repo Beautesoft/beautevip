@@ -8,7 +8,7 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { ModalPortal } from 'react-native-modals';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { BaseColor } from './app/config/colors';
+import { theme } from './app/redux/reducer/theme';
 import { ThemeContextProvider } from './app/config/theme';
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
       <StatusBar
         barStyle="light-content"
         translucent
-        backgroundColor={BaseColor.transparent}
+        backgroundColor={theme().transparent}
       />
       <StripeProvider
         publishableKey={'pk_test_GGEOsV78TJcV1OcvWcaH6lnz'}

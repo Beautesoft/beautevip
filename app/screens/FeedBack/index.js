@@ -6,13 +6,14 @@ import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 
 export default function Feedback({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [feedback, setfeedback] = useState('');
@@ -50,7 +51,7 @@ export default function Feedback({ navigation }) {
           <TextInput
             placeholder={`${t('feedPh1')}
 ${t('feedPh2')}`}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             maxLength={500}
             numberOfLines={10}
@@ -58,7 +59,7 @@ ${t('feedPh2')}`}
           />
           {/* <TextInput
             placeholder={`Add Contact Information`}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={[styles.textInput, { marginTop: 16 }]}
             maxLength={500}
           /> */}

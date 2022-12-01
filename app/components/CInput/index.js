@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, TextInput, TouchableOpacity, View } from 'react-native';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
 import CText from '../CText';
@@ -14,7 +14,7 @@ export default function CInput(props) {
     showRightIcon,
     leftIcon = Icons.mobile_alt,
     rightIcon = Icons.eye_close,
-    placeholderTextColor = BaseColor.placeholderTextColor,
+    placeholderTextColor = theme().placeholderTextColor,
     onRightIconPress = () => {},
     photoPicker,
     photoSource,
@@ -26,10 +26,10 @@ export default function CInput(props) {
       <View
         style={[
           {
-            backgroundColor: BaseColor.transparent,
+            backgroundColor: theme().transparent,
             flexDirection: 'row',
             borderBottomWidth: 1,
-            borderBottomColor: BaseColor.amberTxt,
+            borderBottomColor: theme().amberTxt,
             alignItems: 'center',
             paddingHorizontal: 8,
           },
@@ -53,9 +53,7 @@ export default function CInput(props) {
             onPress={onPhotoPicker}>
             <CText
               value={photoSource ? 'Profile Picture' : 'Add Profile Picture'}
-              color={
-                photoSource ? BaseColor.amber : BaseColor.placeholderTextColor
-              }
+              color={photoSource ? theme().amber : theme().placeholderTextColor}
               size={14}
               style={{
                 height: 40,
@@ -72,7 +70,7 @@ export default function CInput(props) {
               {
                 marginLeft: 16,
                 flex: 1,
-                color: BaseColor.amberTxt,
+                color: theme().amberTxt,
                 fontFamily: FontFamily.Poppins_Medium,
                 marginTop: 10,
               },
@@ -101,7 +99,7 @@ export default function CInput(props) {
                 width: photoSource ? 32 : 22,
                 borderRadius: photoSource ? 20 : 0,
                 borderWidth: photoSource ? 1 : 0,
-                borderColor: BaseColor.amber,
+                borderColor: theme().amber,
               }}
               resizeMode={photoSource ? 'cover' : 'contain'}
             />

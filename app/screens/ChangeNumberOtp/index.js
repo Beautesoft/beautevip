@@ -8,11 +8,12 @@ import CHeader from '../../components/CHeader';
 import CLoader from '../../components/CLoader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
+import { theme } from '../../redux/reducer/theme';
 
 export default function ChangeNumberOtp({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [loader, setloader] = useState(false);
@@ -106,7 +107,7 @@ export default function ChangeNumberOtp({ navigation }) {
           />
           <TextInput
             placeholder={t('enterHere')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             value={otp}
             onChangeText={setotp}
@@ -121,7 +122,7 @@ export default function ChangeNumberOtp({ navigation }) {
               value={t('resend')}
               style={{ textAlign: 'center', marginTop: 16 }}
               size={14}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               activeOpacity={0.7}
             />
           </TouchableOpacity>

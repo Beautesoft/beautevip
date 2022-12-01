@@ -5,15 +5,16 @@ import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { useSelector } from 'react-redux';
 
 export default function NewPhone({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const [loader, setloader] = useState('');
   const [newNumber, setnewNumber] = useState('');
@@ -67,7 +68,6 @@ export default function NewPhone({ navigation }) {
       });
   };
 
-
   const updateProfile = () => {
     const data = {
       customerCode: userData?.customerCode,
@@ -85,9 +85,11 @@ export default function NewPhone({ navigation }) {
 
         if (result?.success == 1) {
           // Toast.show(result?.result);
-          console.log('🚀 ~ file: index.js ~ line 68 ~ updateProfile  result~ ', result?.result);
+          console.log(
+            '🚀 ~ file: index.js ~ line 68 ~ updateProfile  result~ ',
+            result?.result,
+          );
           navigation.navigate('Settings');
-          
         }
       })
       .catch((err) => {
@@ -96,15 +98,12 @@ export default function NewPhone({ navigation }) {
       });
   };
 
-
-
-
-
-
   return (
     <>
-      <CHeader title={t('newPhone')} showLeftIcon 
-      onLeftIconPress={() => navigation.goBack()}
+      <CHeader
+        title={t('newPhone')}
+        showLeftIcon
+        onLeftIconPress={() => navigation.goBack()}
       />
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -117,7 +116,7 @@ export default function NewPhone({ navigation }) {
             <TouchableOpacity style={styles.dropCont} activeOpacity={0.7}>
               <Text style={styles.dropValue}>+61</Text>
               <Image
-                tintColor={BaseColor.darkAmber}
+                tintColor={theme().darkAmber}
                 style={{ height: 16, width: 16 }}
                 resizeMode="center"
                 source={Icons.drop_icon}
@@ -125,7 +124,7 @@ export default function NewPhone({ navigation }) {
             </TouchableOpacity>
             <TextInput
               placeholder={t('addNewNumHere')}
-              placeholderTextColor={BaseColor.darkAmber}
+              placeholderTextColor={theme().darkAmber}
               style={styles.textInput}
               value={newNumber}
               onChangeText={setnewNumber}
@@ -143,7 +142,7 @@ export default function NewPhone({ navigation }) {
             ]}>
             <TextInput
               placeholder={t('enterOtpHere')}
-              placeholderTextColor={BaseColor.darkAmber}
+              placeholderTextColor={theme().darkAmber}
               style={[styles.textInput, { borderWidth: 0, textAlign: 'left' }]}
               value={otp}
               onChangeText={setotp}
@@ -162,8 +161,9 @@ export default function NewPhone({ navigation }) {
             />
           </View>
         </View>
-        <CButton title={t('update')} 
-          onPress={()=>{
+        <CButton
+          title={t('update')}
+          onPress={() => {
             updateProfile();
           }}
         />

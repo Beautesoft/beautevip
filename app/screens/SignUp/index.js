@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Alert, Image, ScrollView, TextInput, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-import styles from './styles';
+import { styledFunc } from './styles';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CInput from '../../components/CInput';
 import { Icons } from '../../config/icons';
@@ -20,8 +20,8 @@ import { t } from 'i18next';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import validator from 'validator';
 
-
 export default function SignUp({ navigation }) {
+  const styles = styledFunc();
   const [moNumber, setmoNumber] = useState('');
   const [password, setpassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
@@ -37,17 +37,18 @@ export default function SignUp({ navigation }) {
 
   const Verify = () => {
     if (isEmpty(moNumber)) {
-      Alert.alert('Error!','Please Enter Mobile Number');
-    }else if (!mobilevalidate(moNumber)) {
-      Alert.alert('Error!','Please Enter Valid Mobile Number');
-    }
-     else if (isEmpty(password)) {
-      Alert.alert('Error!','Please Enter Password');
-    }else if (!validatePassword(password)) {
-      Alert.alert('Error!','Password must contains uppercase, lowercase,number,special character and maximum length should be 6.');
-    }
-     else if (password !== confirmPassword) {
-      Alert.alert('Error!','Password and Confirm Password must be same');
+      Alert.alert('Error!', 'Please Enter Mobile Number');
+    } else if (!mobilevalidate(moNumber)) {
+      Alert.alert('Error!', 'Please Enter Valid Mobile Number');
+    } else if (isEmpty(password)) {
+      Alert.alert('Error!', 'Please Enter Password');
+    } else if (!validatePassword(password)) {
+      Alert.alert(
+        'Error!',
+        'Password must contains uppercase, lowercase,number,special character and maximum length should be 6.',
+      );
+    } else if (password !== confirmPassword) {
+      Alert.alert('Error!', 'Password and Confirm Password must be same');
     } else {
       SignUp();
     }
@@ -60,24 +61,27 @@ export default function SignUp({ navigation }) {
     } else {
       return true;
     }
-  }
+  };
 
   const validatePassword = (value) => {
-    if (validator.isStrongPassword(value, {
-      minLength: 4, minLowercase: 1,
-      minUppercase: 1, minNumbers: 1, minSymbols: 1
-    })) {
-      if(value.length <= 6){
-        return true
-      }else{
-        return false
+    if (
+      validator.isStrongPassword(value, {
+        minLength: 4,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      if (value.length <= 6) {
+        return true;
+      } else {
+        return false;
       }
     } else {
-      return false
+      return false;
     }
-  }
-
-
+  };
 
   const SignUp = () => {
     setloader(true);
@@ -100,8 +104,8 @@ export default function SignUp({ navigation }) {
           navigation.navigate('Otp');
           //Alert.alert('Otp',`Your OTP is ${result?.result}`);
           dispatch(setSignupData(signupData));
-        }else{
-          Alert.alert('Error',`${result?.error}`);
+        } else {
+          Alert.alert('Error', `${result?.error}`);
         }
         setloader(false);
       })
@@ -130,13 +134,13 @@ export default function SignUp({ navigation }) {
         <View style={styles.container}>
           <CText
             value={t('welcome')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={24}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={t('addDetails')}
-            color={BaseColor.yellow}
+            color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           />
@@ -194,18 +198,15 @@ export default function SignUp({ navigation }) {
             <View style={styles.forgotStyle}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() =>{
-                   //navigation.navigate('Login')
-                   try {
+                onPress={() => {
+                  //navigation.navigate('Login')
+                  try {
                     navigation.goBack();
-                   } catch (error) {
-                     
-                   }
-                  
+                  } catch (error) {}
                 }}>
                 <CText
                   value={t('alreadyUser')}
-                  color={BaseColor.yellow}
+                  color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
                 />

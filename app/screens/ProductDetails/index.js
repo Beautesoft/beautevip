@@ -15,14 +15,15 @@ import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import Loader from '../../components/Loader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 
 export default function ProductDetails({ navigation, route }) {
+  const styles = styledFunc();
   const productDetails = route?.params?.productDetails;
   const { userData } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
@@ -49,7 +50,7 @@ export default function ProductDetails({ navigation, route }) {
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 33 ~ .then ~ result', result);
         if (result?.success == 1) {
-           navigation.goBack();
+          navigation.goBack();
           // navigation.navigate('ShoppingScreen');
         }
         setloader(false);
@@ -85,18 +86,18 @@ export default function ProductDetails({ navigation, route }) {
           <View style={{ padding: 12 }}>
             <CText
               value={productDetails?.itemName}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={24}
               fontFamily={FontFamily.Poppins_Medium}
             />
             <CText
               value={productDetails?.salonName}
-              color={BaseColor.white}
+              color={theme().white}
               size={14}
             />
             <CText
               value={`Price : $${productDetails?.price}`}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={24}
               fontFamily={FontFamily.Poppins_SemiBold}
               style={{
@@ -105,7 +106,7 @@ export default function ProductDetails({ navigation, route }) {
             />
             <CText
               value={productDetails?.itemDescription}
-              color={BaseColor.white}
+              color={theme().white}
               size={15}
               style={{
                 marginTop: 8,
@@ -134,7 +135,7 @@ export default function ProductDetails({ navigation, route }) {
             }}>
             <CText
               value={t('addToCart')}
-              color={BaseColor.black}
+              color={theme().black}
               size={20}
               fontFamily={FontFamily.Poppins_Medium}
             />
@@ -165,7 +166,7 @@ export default function ProductDetails({ navigation, route }) {
                       style={{
                         padding: 8,
                         borderBottomWidth: 1,
-                        borderColor: BaseColor.black,
+                        borderColor: theme().black,
                         borderRadius: 8,
                       }}
                       onPress={() => {
@@ -174,7 +175,7 @@ export default function ProductDetails({ navigation, route }) {
                       }}>
                       <CText
                         value={item}
-                        color={BaseColor.black}
+                        color={theme().black}
                         size={20}
                         fontFamily={FontFamily.Poppins_Medium}
                         style={{

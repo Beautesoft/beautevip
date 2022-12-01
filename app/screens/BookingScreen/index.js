@@ -18,10 +18,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Images } from '../../config/images';
 import { enableAnimateInEaseOut } from '../../config/commonFunctions';
@@ -37,7 +36,9 @@ import { t } from 'i18next';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
 import MyModal from '../../components/MyModal';
 import { baseUrl } from '../../config/settings';
+import { theme } from '../../redux/reducer/theme';
 export default function BookingScreen({ navigation, route }) {
+  const styles = styledFunc();
   const orderData = route?.params?.itemData;
   console.log(
     '🚀 ~ file: vk index.js ~ line 36 ~ BookingScreen ~ orderData',
@@ -196,7 +197,7 @@ export default function BookingScreen({ navigation, route }) {
             item,
           );
         }}>
-        <Text style={{ color: BaseColor.white90 }}>{item?.time}</Text>
+        <Text style={{ color: theme().white90 }}>{item?.time}</Text>
       </TouchableOpacity>
     );
   };
@@ -221,7 +222,7 @@ export default function BookingScreen({ navigation, route }) {
           <CText
             value={item?.siteName}
             size={14}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             fontFamily={FontFamily.Poppins_Medium}
           />
           <CText
@@ -709,21 +710,21 @@ export default function BookingScreen({ navigation, route }) {
                 source={Icons.mail}
                 style={{ height: 60, width: 60 }}
                 resizeMode="contain"
-                tintColor={BaseColor.black}
+                tintColor={theme().black}
               />
             </LinearGradient>
           </View>
           <View style={{ paddingStart: 8, flex: 1 }}>
             <CText
               value={packageType ? orderData?.packageName : orderData?.itemName}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={20}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
             {JSON.stringify(orderData?.duration).length > 0 && (
               <CText
                 value={`${orderData?.duration} min`}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
@@ -731,7 +732,7 @@ export default function BookingScreen({ navigation, route }) {
             {orderData?.price && (
               <CText
                 value={`S$ ${orderData?.price}`}
-                color={BaseColor.amberTxt}
+                color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
@@ -739,7 +740,7 @@ export default function BookingScreen({ navigation, route }) {
           </View>
         </View>
         {/* <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
-          <CText value={t('addAppDetail')} color={BaseColor.white} size={14} />
+          <CText value={t('addAppDetail')} color={theme().white} size={14} />
           <TouchableOpacity
             style={styles.btnCont}
             activeOpacity={0.7}
@@ -862,7 +863,7 @@ export default function BookingScreen({ navigation, route }) {
           />
         ) : null} */}
       </View>
-      <View style={{ height: 100, backgroundColor: BaseColor.darkGrey }}>
+      <View style={{ height: 100, backgroundColor: theme().darkGrey }}>
         <CButton
           title="Book Now"
           onPress={() => {
@@ -954,7 +955,7 @@ export default function BookingScreen({ navigation, route }) {
               <View
                 style={{
                   padding: 8,
-                  backgroundColor: BaseColor.white,
+                  backgroundColor: theme().white,
                   position: 'absolute',
                   bottom: 0,
                   left: 0,
@@ -982,8 +983,8 @@ export default function BookingScreen({ navigation, route }) {
                     setcardObj(tempObj);
                   }}
                   cardFontFamily={FontFamily.arial_bold}
-                  // validColor={BaseColor.whiteColor}
-                  labelStyle={{ color: BaseColor.black }}
+                  // validColor={theme().whiteColor}
+                  labelStyle={{ color: theme().black }}
                   allowScroll={true}
                 />
                 <CButton
@@ -998,10 +999,10 @@ export default function BookingScreen({ navigation, route }) {
                     width: '90%',
                     marginBottom: 30,
                     alignSelf: 'center',
-                    backgroundColor: BaseColor.btnBlue,
+                    backgroundColor: theme().btnBlue,
                   }}
                   titleStyle={{
-                    color: BaseColor.whiteColor,
+                    color: theme().whiteColor,
                   }}
                 />
               </View>
@@ -1061,7 +1062,7 @@ export default function BookingScreen({ navigation, route }) {
           <View
             style={{
               padding: 8,
-              backgroundColor: BaseColor.white,
+              backgroundColor: theme().white,
               borderTopEndRadius: 16,
               borderTopStartRadius: 16,
               paddingVertical: 32,
@@ -1084,8 +1085,8 @@ export default function BookingScreen({ navigation, route }) {
                 setcardObj(tempObj);
               }}
               cardFontFamily={FontFamily.arial_bold}
-              // validColor={BaseColor.whiteColor}
-              labelStyle={{ color: BaseColor.black }}
+              // validColor={theme().whiteColor}
+              labelStyle={{ color: theme().black }}
               allowScroll={true}
               
             />
@@ -1099,10 +1100,10 @@ export default function BookingScreen({ navigation, route }) {
                 marginTop: 24,
                 margin: 16,
                 marginBottom: '75%',
-                backgroundColor: BaseColor.btnBlue,
+                backgroundColor: theme().btnBlue,
               }}
               titleStyle={{
-                color: BaseColor.whiteColor,
+                color: theme().whiteColor,
               }}
             />
           </View>
@@ -1164,7 +1165,7 @@ export default function BookingScreen({ navigation, route }) {
           <View
             style={{
               padding: 8,
-              backgroundColor: BaseColor.white,
+              backgroundColor: theme().white,
               borderTopEndRadius: 16,
               borderTopStartRadius: 16,
               paddingVertical: 32,
@@ -1191,8 +1192,8 @@ export default function BookingScreen({ navigation, route }) {
                 setcardObj(tempObj);
               }}
               cardFontFamily={FontFamily.arial_bold}
-              // validColor={BaseColor.whiteColor}
-              labelStyle={{ color: BaseColor.black }}
+              // validColor={theme().whiteColor}
+              labelStyle={{ color: theme().black }}
               allowScroll={true}
             />
             <CButton
@@ -1205,10 +1206,10 @@ export default function BookingScreen({ navigation, route }) {
                 marginTop: 24,
                 margin: 16,
                 marginBottom: '75%',
-                backgroundColor: BaseColor.btnBlue,
+                backgroundColor: theme().btnBlue,
               }}
               titleStyle={{
-                color: BaseColor.whiteColor,
+                color: theme().whiteColor,
               }}
             />
           </View>

@@ -6,7 +6,6 @@ const initialState = {
   signupData: {},
   storeData: {},
   currentLanguage: 'en',
-  currentTheme: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -54,13 +53,6 @@ export default function reducer(state = initialState, action) {
         ...state,
         userData: {},
       };
-
-    case types.SET_THEME:
-      return {
-        ...state,
-        currentTheme: action.theme,
-      };
-
     default:
       return state;
   }

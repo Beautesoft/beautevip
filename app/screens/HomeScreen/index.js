@@ -6,19 +6,14 @@ import React, {
   useState,
 } from 'react';
 import {
-  Dimensions,
   FlatList,
   Image,
-  ScrollView,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
-  RefreshControl,
   BackHandler,
 } from 'react-native';
-import styles from './styles';
-import BaseColor from '../../config/colors';
+import { styledFunc } from './styles';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
 import CText from '../../components/CText';
@@ -26,15 +21,14 @@ import CircularButton from '../../components/CirculerButton';
 import ProductContainer from '../../components/ProductContainer';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import BaseSetting from '../../config/settings';
 import { getApiData } from '../../config/apiHelper';
-import { useFocusEffect } from '@react-navigation/core';
 import Loader from '../../components/Loader';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { LogBox } from 'react-native';
+import { theme } from '../../redux/reducer/theme';
 export default function HomeScreen({ navigation }) {
-  const statisData = 1;
+  const styles = styledFunc();
   const { logout, setStoreData } = AuthAction;
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.auth);
@@ -54,20 +48,6 @@ export default function HomeScreen({ navigation }) {
   const [banner, setBanner] = useState([]);
   const [isBannerUri, setIsBannerUri] = useState(false);
 
-  const imageArr = [
-    {
-      image: Images.sampleOne,
-    },
-    {
-      image: Images.sampleOne,
-    },
-    {
-      image: Images.sampleOne,
-    },
-    {
-      image: Images.sampleOne,
-    },
-  ];
   const bannerDefault = [
     {
       bannerImg: Images.sampleOne,
@@ -296,7 +276,7 @@ export default function HomeScreen({ navigation }) {
   }, [banner, curIndex]);
 
   return (
-    <View style={{ backgroundColor: BaseColor.darkGrey, flex: 1 }}>
+    <View style={{ backgroundColor: theme().darkGrey, flex: 1 }}>
       <View style={styles.headerCont}>
         <Image
           style={{ height: 48, width: 40 }}
@@ -315,11 +295,11 @@ export default function HomeScreen({ navigation }) {
               style={{
                 marginStart: 12,
                 marginEnd: 8,
-                color: BaseColor.yellow,
+                color: theme().yellow,
                 fontSize: 14,
               }}
               value={searchTxt}
-              placeholderTextColor={BaseColor.amber}
+              placeholderTextColor={theme().amber}
               onChangeText={setsearchTxt}
               onChange={() => {
                 const tempArr = productList.filter((item) => {
@@ -410,9 +390,7 @@ export default function HomeScreen({ navigation }) {
                     styles.dotSty,
                     {
                       backgroundColor:
-                        curIndex === index
-                          ? BaseColor.amber
-                          : BaseColor.darkAmber,
+                        curIndex === index ? theme().amber : theme().darkAmber,
                     },
                   ]}
                 />
@@ -422,15 +400,11 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
-            <CText value={t('services')} size={20} color={BaseColor.amberTxt} />
+            <CText value={t('services')} size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => navigation.navigate('Booking')}>
-              <CText
-                value={t('viewAll')}
-                size={14}
-                color={BaseColor.darkAmber}
-              />
+              <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
           <View>
@@ -448,15 +422,11 @@ export default function HomeScreen({ navigation }) {
 
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
-            <CText value="Products" size={20} color={BaseColor.amberTxt} />
+            <CText value="Products" size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => navigation.navigate('Shopping')}>
-              <CText
-                value={t('viewAll')}
-                size={14}
-                color={BaseColor.darkAmber}
-              />
+              <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
           <View>
@@ -476,8 +446,8 @@ export default function HomeScreen({ navigation }) {
                       {
                         borderColor:
                           item.id === selectedTab.id
-                            ? BaseColor.amberTxt
-                            : '#434343',
+                            ? theme().amberTxt
+                            : theme().color_434343,
                       },
                     ]}
                     onPress={() => {
@@ -495,8 +465,8 @@ export default function HomeScreen({ navigation }) {
                       value={item.title}
                       color={
                         item.id === selectedTab.id
-                          ? BaseColor.amberTxt
-                          : '#434343'
+                          ? theme().amberTxt
+                          : theme().color_434343
                       }
                       size={14}
                     />

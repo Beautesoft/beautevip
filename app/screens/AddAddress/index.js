@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
 import { Icons } from '../../config/icons';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
-
+import { theme } from '../../redux/reducer/theme';
 export default function AddAddress({ navigation, route }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   console.log(
     '🚀 ~ file: index.js ~ line 16 ~ AddAddress ~ userData',
@@ -30,7 +30,6 @@ export default function AddAddress({ navigation, route }) {
   const [name, setname] = useState(
     addressData?.customerName ? addressData?.customerName : '',
   );
-  const [number, setnumber] = useState('');
 
   const createAddress = () => {
     const data = {
@@ -39,7 +38,9 @@ export default function AddAddress({ navigation, route }) {
       customerCode: userData?.customerCode,
       customerName: name,
       // customerName: userData?.customerName,
-      customerAddressNumber: addressData?.addressNumber ? addressData?.addressNumber : '',
+      customerAddressNumber: addressData?.addressNumber
+        ? addressData?.addressNumber
+        : '',
       addressType: 'Shipping',
       markDefault: defaultAdd,
       address: address,
@@ -79,20 +80,20 @@ export default function AddAddress({ navigation, route }) {
         <View style={{ flex: 1 }}>
           <TextInput
             placeholder={t('enterYourName')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             onChangeText={setname}
             value={name}
           />
           {/* <TextInput
             placeholder="Enter Mobile Number"
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             onChangeText={setnumber}
           /> */}
           <TextInput
             placeholder={t('enterAddress')}
-            placeholderTextColor={BaseColor.darkAmber}
+            placeholderTextColor={theme().darkAmber}
             style={styles.textInput}
             value={address}
             onChangeText={setaddress}
@@ -108,7 +109,7 @@ export default function AddAddress({ navigation, route }) {
             />
             <Text
               style={{
-                color: BaseColor.amberTxt,
+                color: theme().amberTxt,
                 fontSize: 14,
                 fontFamily: FontFamily.Poppins_Regular,
               }}>

@@ -15,16 +15,17 @@ import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import { baseUrl } from '../../config/settings';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
 
 export default function ChangeAddress({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const [selectedAdd, setselectedAdd] = useState({});
   const [addressArr, setaddressArr] = useState([]);
@@ -161,7 +162,7 @@ export default function ChangeAddress({ navigation }) {
                       style={{
                         fontFamily: FontFamily.Poppins_Medium,
                         fontSize: 14,
-                        color: BaseColor.amberTxt,
+                        color: theme().amberTxt,
                       }}>
                       {item?.customerName}
                     </Text>
@@ -185,7 +186,7 @@ export default function ChangeAddress({ navigation }) {
                       fontFamily: FontFamily.Poppins_Medium,
                       fontSize: 14,
                       marginTop: 4,
-                      color: BaseColor.amberTxt,
+                      color: theme().amberTxt,
                     }}>
                     {`${item?.address}`}
                   </Text>

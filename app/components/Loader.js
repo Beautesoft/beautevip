@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Modal, Text, View } from 'react-native';
-import BaseColor from '../config/colors';
+import { theme } from '../redux/reducer/theme';
 import { FontFamily } from '../config/typography';
 import CText from './CText';
 
@@ -27,7 +27,7 @@ export default function Loader(props) {
           <ActivityIndicator size="large" color={'#000'} />
           <CText
             value={text}
-            color={BaseColor.black}
+            color={theme().black}
             size={20}
             fontFamily={FontFamily.Poppins_Medium}
             style={{

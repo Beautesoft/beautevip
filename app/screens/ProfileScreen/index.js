@@ -12,12 +12,12 @@ import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 
@@ -25,6 +25,7 @@ import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
 
 export default function ProfileScreen({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const [profileData, setprofileData] = useState();
   const [referalCaode, setreferalCaode] = useState();
@@ -146,7 +147,7 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
           <CText
             value={userData?.customerName}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={20}
             fontFamily={FontFamily.Poppins_Medium}
             style={{ marginTop: 8 }}
@@ -171,7 +172,7 @@ export default function ProfileScreen({ navigation }) {
                 source={Icons.settings}
                 style={{ height: 20, width: 20 }}
                 resizeMode="contain"
-                tintColor={BaseColor.darkGrey}
+                tintColor={theme().darkGrey}
               />
               <Text style={styles.btnStyleTxt}>{t('settings')}</Text>
             </TouchableOpacity>
@@ -182,7 +183,7 @@ export default function ProfileScreen({ navigation }) {
                 source={Icons.grid}
                 style={{ height: 20, width: 20 }}
                 resizeMode="contain"
-                tintColor={BaseColor.darkGrey}
+                tintColor={theme().darkGrey}
               />
               <Text style={styles.btnStyleTxt}>Account</Text>
             </TouchableOpacity> */}
@@ -222,7 +223,7 @@ export default function ProfileScreen({ navigation }) {
               source={Icons.share}
               style={{ height: 20, width: 20, position: 'absolute', right: 16 }}
               resizeMode="contain"
-              tintColor={BaseColor.amberTxt}
+              tintColor={theme().amberTxt}
             />
           </TouchableOpacity> */}
 
@@ -239,10 +240,10 @@ export default function ProfileScreen({ navigation }) {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <CText value={t('needHelp')} color={BaseColor.amberTxt} size={14} />
+            <CText value={t('needHelp')} color={theme().amberTxt} size={14} />
             <CText
               value={t('contactCust')}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={14}
               fontFamily={FontFamily.Poppins_Medium}
             />

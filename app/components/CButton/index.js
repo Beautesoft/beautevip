@@ -1,8 +1,8 @@
 import React from 'react';
-import {ActivityIndicator, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import BaseColor from '../../config/colors';
-import {FontFamily} from '../../config/typography';
+import { theme } from '../../redux/reducer/theme';
+import { FontFamily } from '../../config/typography';
 import CText from '../CText';
 
 export default function CButton(props) {
@@ -31,9 +31,9 @@ export default function CButton(props) {
       onPress={onPress}
       {...rest}>
       <LinearGradient
-        colors={[BaseColor.yellow, BaseColor.amber]}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
+        colors={[theme().yellow, theme().amber]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
         style={{
           flex: 1,
           width: '100%',
@@ -41,11 +41,11 @@ export default function CButton(props) {
           alignItems: 'center',
         }}>
         {loader ? (
-          <ActivityIndicator size={'small'} color={BaseColor.black} />
+          <ActivityIndicator size={'small'} color={theme().black} />
         ) : (
           <CText
             value={title}
-            style={[{color: BaseColor.black}, titleStyle]}
+            style={[{ color: theme().black }, titleStyle]}
             fontFamily={FontFamily.Poppins_Regular}
             size={16}
           />

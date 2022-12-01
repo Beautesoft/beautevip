@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 
 export default function OrderConfirm({ navigation }) {
@@ -19,7 +19,7 @@ export default function OrderConfirm({ navigation }) {
       <CHeader title={t('shoppingBag')} showLeftIcon />
       <View
         style={{
-          backgroundColor: BaseColor.darkGrey,
+          backgroundColor: theme().darkGrey,
           flex: 1,
           marginTop: -16,
           borderTopStartRadius: 16,
@@ -31,13 +31,13 @@ export default function OrderConfirm({ navigation }) {
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <CText
             value={t('orderPlaced')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={22}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={t('yourItemShortly')}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
             style={{ marginTop: 24 }}

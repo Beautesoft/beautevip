@@ -11,14 +11,15 @@ import CHeader from '../../components/CHeader';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import Toast from 'react-native-simple-toast';
-import styles from './styles';
+import { styledFunc } from './styles';
 import moment from 'moment';
 import CButton from '../../components/CButton';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 
 export default function MyPackages({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
 
   const [packageList, setpackageList] = useState([]);
@@ -40,10 +41,11 @@ export default function MyPackages({ navigation }) {
 
     getApiData(BaseSetting.endpoints.mypackages, 'post', data)
       .then((result) => {
-        
-
         if (result?.success == 1) {
-          console.log('🚀 ~ file: index.js ~ line 23 ~ .then ~ result', result?.result[0]);
+          console.log(
+            '🚀 ~ file: index.js ~ line 23 ~ .then ~ result',
+            result?.result[0],
+          );
           setpackageList(result?.result[0]);
           setavailPackageList(result?.result[0]?.Available);
         }
@@ -84,7 +86,7 @@ export default function MyPackages({ navigation }) {
                   type: 'package',
                 });
               }}>
-              <Text style={[styles.viewSession, { color: BaseColor.amberTxt }]}>
+              <Text style={[styles.viewSession, { color: theme().amberTxt }]}>
                 {t('bookNow')}
               </Text>
             </TouchableOpacity>

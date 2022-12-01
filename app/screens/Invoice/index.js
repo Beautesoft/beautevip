@@ -3,15 +3,16 @@ import { ScrollView, View, Text, Image, FlatList } from 'react-native';
 
 import { vw, vh } from '../../config/dimension';
 import CHeader from '../../components/CHeader';
-import { styles } from './styles';
+import { styledFunc } from './styles';
 import { t } from 'i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icons } from '../../config/icons';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CText from '../../components/CText';
 import { Table, Row, Rows } from 'react-native-table-component';
 const Invoice = (props) => {
+  const styles = styledFunc();
   const [tableHead, setTableHead] = useState([
     'No.',
     'Description',
@@ -49,26 +50,26 @@ const Invoice = (props) => {
                 source={Icons.mail}
                 style={{ height: '60%', width: '60%' }}
                 resizeMode="contain"
-                tintColor={BaseColor.black}
+                tintColor={theme().black}
               />
             </LinearGradient>
           </View>
           <View style={{ paddingStart: 8, flex: 1 }}>
             <CText
               value={'Sample data'}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={24}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
             <CText
               value={'Sample sub data'}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
               size={18}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
             <CText
               value={'Sample sub data data'}
-              color={BaseColor.white}
+              color={theme().white}
               size={14}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
@@ -78,13 +79,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Trans :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'INVH983743829748'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -92,13 +93,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Issued :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'Test Admin'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -106,13 +107,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Date :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'18-Nov-2022'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -120,13 +121,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Time :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'04:24:00 PM'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -139,7 +140,7 @@ const Invoice = (props) => {
         <Table
           borderStyle={{
             borderWidth: 1,
-            borderColor: BaseColor.white,
+            borderColor: theme().white,
           }}>
           <Row
             flexArr={[1, 3, 1, 2]}
@@ -157,13 +158,13 @@ const Invoice = (props) => {
         <View style={[styles.dateTimeContainer, { marginTop: vh(20) }]}>
           <CText
             value={'Type :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'Cash'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -171,13 +172,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Sub Total :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'98.00'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -185,20 +186,20 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'GST :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <View style={{ alignItems: 'flex-end' }}>
             <CText
               value={'6.41'}
-              color={BaseColor.white}
+              color={theme().white}
               size={14}
               fontFamily={FontFamily.Poppins_Medium}
             />
             <CText
               value={'(7% GST included)'}
-              color={BaseColor.white}
+              color={theme().white}
               size={14}
               fontFamily={FontFamily.Poppins_Medium}
             />
@@ -207,13 +208,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Rounding :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'0.00'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
@@ -221,13 +222,13 @@ const Invoice = (props) => {
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Grand Total :'}
-            color={BaseColor.white}
+            color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
             value={'98.00'}
-            color={BaseColor.white}
+            color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />

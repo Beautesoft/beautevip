@@ -29,6 +29,7 @@ export const BaseColor = {
   color_2E2100: '#2E2100',
   color_534105: '#534105',
   color_b1b1b1: '#b1b1b1',
+  color_434343: '#434343',
 };
 
 export const LightTheme = {
@@ -59,6 +60,7 @@ export const LightTheme = {
   color_2E2100: '#2E2100',
   color_534105: '#534105',
   color_b1b1b1: '#b1b1b1',
+  color_434343: '#434343',
 };
 
 export default BaseColor;

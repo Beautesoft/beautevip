@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { FontFamily } from '../../config/typography';
 import CText from '../CText';
@@ -35,7 +35,7 @@ export default function CircularButton(props) {
             source={iconSrouce}
             style={{ height: '50%', width: '50%' }}
             resizeMode="center"
-            tintColor={BaseColor.black}
+            tintColor={theme().black}
           />
         </LinearGradient>
       </View>
@@ -43,7 +43,7 @@ export default function CircularButton(props) {
         value={title}
         size={14}
         fontFamily={FontFamily.Poppins_Medium}
-        color={BaseColor.amberTxt}
+        color={theme().amberTxt}
         style={styles?.titleSty}
       />
     </TouchableOpacity>

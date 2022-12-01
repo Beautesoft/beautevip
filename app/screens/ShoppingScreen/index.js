@@ -11,10 +11,10 @@ import { useSelector } from 'react-redux';
 import CText from '../../components/CText';
 import ProductContainer from '../../components/ProductContainer';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { Images } from '../../config/images';
-import styles from './styles';
+import { styledFunc } from './styles';
 import Toast from 'react-native-simple-toast';
 import { isEmpty } from 'lodash';
 import { t } from 'i18next';
@@ -23,6 +23,7 @@ import { useIsFocused } from '@react-navigation/core';
 import { baseUrl } from '../../config/settings';
 
 export default function ShoppingScreen({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
   const [selectedTab, setselectedTab] = useState({
@@ -243,7 +244,7 @@ export default function ShoppingScreen({ navigation }) {
           {/* <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <Image
               source={Icons.menu}
-              tintColor={BaseColor.darkGrey}
+              tintColor={theme().darkGrey}
               style={{ height: 34, width: 34 }}
               resizeMode="center"
             />
@@ -261,11 +262,11 @@ export default function ShoppingScreen({ navigation }) {
                 flex: 1,
                 marginStart: 12,
                 marginEnd: 8,
-                color: BaseColor.yellow,
+                color: theme().yellow,
                 fontSize: 14,
               }}
               value={searchTxt}
-              placeholderTextColor={BaseColor.amber}
+              placeholderTextColor={theme().amber}
               onChangeText={setsearchTxt}
               onChange={() => {
                 const tempArr = productList.filter((item) => {
@@ -291,7 +292,7 @@ export default function ShoppingScreen({ navigation }) {
             activeOpacity={0.7}>
             <Image
               source={Icons.cart}
-              tintColor={BaseColor.darkGrey}
+              tintColor={theme().darkGrey}
               style={{ height: 34, width: 34 }}
               resizeMode="contain"
             />
@@ -317,7 +318,7 @@ export default function ShoppingScreen({ navigation }) {
                     {
                       borderColor:
                         item.id === selectedTab.id
-                          ? BaseColor.amberTxt
+                          ? theme().amberTxt
                           : '#434343',
                     },
                   ]}
@@ -331,9 +332,7 @@ export default function ShoppingScreen({ navigation }) {
                   <CText
                     value={item.title}
                     color={
-                      item.id === selectedTab.id
-                        ? BaseColor.amberTxt
-                        : '#434343'
+                      item.id === selectedTab.id ? theme().amberTxt : '#434343'
                     }
                     size={14}
                   />

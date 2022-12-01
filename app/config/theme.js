@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { BaseColor, LightTheme } from './colors';
+import { theme(), LightTheme } from './colors';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../redux/reducer/auth/actions';
 const themes = {
-  DarkTheme: BaseColor,
+  DarkTheme: theme(),
   LightTheme: LightTheme,
 };
 
@@ -15,11 +15,11 @@ export const ThemeContextProvider = ({ children }) => {
   useEffect(() => {
     console.log('currentTheme------->', currentTheme);
     if (currentTheme) {
-      // setTheme(themes[currentTheme]);
-      // setActiveTheme(currentTheme);
+      // settheme()themes[currentTheme]);
+      // setActivetheme()currentTheme);
     } else {
-      setTheme(themes['DarkTheme']);
-      setActiveTheme('DarkTheme');
+      settheme()themes['DarkTheme']);
+      setActivetheme()'DarkTheme');
     }
   }, []);
   const [theme, setTheme] = useState(themes.DarkTheme);
@@ -31,8 +31,8 @@ export const ThemeContextProvider = ({ children }) => {
       type: actions.SET_THEME,
       theme: nextTheme,
     });
-    setTheme(themes[nextTheme]);
-    setActiveTheme(nextTheme);
+    settheme()themes[nextTheme]);
+    setActivetheme()nextTheme);
   };
   return (
     <ThemeContext.Provider value={[theme, toggleTheme]}>

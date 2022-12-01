@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import CText from '../../components/CText';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 
 export default function SuccessScreen({ navigation }) {
@@ -16,26 +16,26 @@ export default function SuccessScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        backgroundColor: BaseColor.black,
+        backgroundColor: theme().black,
         justifyContent: 'flex-end',
         alignItems: 'center',
       }}>
       <CText
         value={t('accountSucess')}
-        color={BaseColor.amberTxt}
+        color={theme().amberTxt}
         size={22}
         fontFamily={FontFamily.Poppins_SemiBold}
       />
       <CText
         value={t('created')}
-        color={BaseColor.amberTxt}
+        color={theme().amberTxt}
         size={22}
         fontFamily={FontFamily.Poppins_SemiBold}
         style={{ marginTop: -8 }}
       />
       <CText
         value={t('welcomeOnBoard')}
-        color={BaseColor.amberTxt}
+        color={theme().amberTxt}
         size={14}
         fontFamily={FontFamily.Poppins_Regular}
         style={{ marginTop: 24 }}

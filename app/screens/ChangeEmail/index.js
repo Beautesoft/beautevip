@@ -1,23 +1,22 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Alert,BackHandler, TextInput, View } from 'react-native';
+import { Alert, BackHandler, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import Loader from '../../components/Loader';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
 import BaseSetting from '../../config/settings';
-import styles from './styles';
+import { styledFunc } from './styles';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
+import { theme } from '../../redux/reducer/theme';
 
 export default function ChangeEmail({ navigation }) {
-
+  const styles = styledFunc();
   const { updateUserData } = AuthAction;
   const dispatch = useDispatch();
-  
-  
+
   const { userData } = useSelector((state) => state.auth);
 
   const [email, setemail] = useState(userData?.email);
@@ -40,14 +39,13 @@ export default function ChangeEmail({ navigation }) {
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 23 ~ .then ~ result', result);
         if (result?.success == 1) {
-          
           Alert.alert(`Your OTP is ${result?.result}`);
 
           navigation.navigate('Otp', {
             type: 'update',
             updatedData: updatedData,
           });
-          userData.email=email;
+          userData.email = email;
           dispatch(updateUserData(userData));
         }
         setloader(false);
@@ -84,7 +82,7 @@ export default function ChangeEmail({ navigation }) {
       <View style={styles.container}>
         <TextInput
           placeholder={t('enterNewEmail')}
-          placeholderTextColor={BaseColor.darkAmber}
+          placeholderTextColor={theme().darkAmber}
           style={styles.textInput}
           value={email}
           onChangeText={setemail}

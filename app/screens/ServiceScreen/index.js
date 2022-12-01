@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CircularButton from '../../components/CirculerButton';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
-import styles from './styles';
+import { styledFunc } from './styles';
 
 export default function ServiceScreen({ navigation }) {
+  const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const [serviceList, setserviceList] = useState([]);
 

@@ -7,10 +7,10 @@ import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
-import BaseColor from '../../config/colors';
+import { theme } from '../../redux/reducer/theme';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
-import styles from './styles';
+import { styledFunc } from './styles';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
 import Toast from 'react-native-simple-toast';
 import Loader from '../../components/Loader';
@@ -18,6 +18,7 @@ import moment from 'moment';
 import { t } from 'i18next';
 
 export default function Checkout({ navigation, route }) {
+  const styles = styledFunc();
   const productList = route?.params?.data;
   console.log(
     '🚀 ~ file: index.js ~ line 24 ~ Checkout ~ productList',
@@ -247,18 +248,18 @@ export default function Checkout({ navigation, route }) {
             <CText
               value={shoppingAddress?.customerName || userData?.customerName}
               size={14}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
             />
             <CText
               value={shoppingAddress?.phoneNumber || userData?.customerPhone}
               size={14}
-              color={BaseColor.amberTxt}
+              color={theme().amberTxt}
             />
           </View>
           <CText
             value={shoppingAddress?.address || userData?.customerAddress}
             size={14}
-            color={BaseColor.amberTxt}
+            color={theme().amberTxt}
           />
 
           <CText
@@ -276,9 +277,7 @@ export default function Checkout({ navigation, route }) {
                 overflow: 'hidden',
                 borderWidth: 2,
                 borderColor:
-                  selectedDeliveryType == 1
-                    ? BaseColor.yellow
-                    : BaseColor.black,
+                  selectedDeliveryType == 1 ? theme().yellow : theme().black,
               }}
               activeOpacity={0.7}
               onPress={() => setselectedDeliveryType(1)}>
@@ -318,7 +317,7 @@ export default function Checkout({ navigation, route }) {
                   <CText
                     value={item?.itemName}
                     size={14}
-                    color={BaseColor.amberTxt}
+                    color={theme().amberTxt}
                     style={{ marginTop: 16 }}
                   />
                   <View style={[styles.rowSty, { marginTop: 8 }]}>
@@ -332,13 +331,13 @@ export default function Checkout({ navigation, route }) {
                         item.itemPrice * item?.itemQuantity
                       }`}
                       size={14}
-                      color={BaseColor.amberTxt}
+                      color={theme().amberTxt}
                     />
                   </View>
                   <View
                     style={{
                       height: 1,
-                      backgroundColor: BaseColor.white60,
+                      backgroundColor: theme().white60,
                       marginTop: 10,
                     }}
                   />
@@ -353,7 +352,7 @@ export default function Checkout({ navigation, route }) {
             paddingTop: 8,
             paddingBottom: 8,
           }}
-          color={BaseColor.amberTxt}
+          color={theme().amberTxt}
         />
         <CButton
           title={t('placeOrderNow')}
@@ -392,7 +391,7 @@ export default function Checkout({ navigation, route }) {
           <View
             style={{
               padding: 8,
-              backgroundColor: BaseColor.white,
+              backgroundColor: theme().white,
               position: 'absolute',
               bottom: 0,
               left: 0,
@@ -420,8 +419,8 @@ export default function Checkout({ navigation, route }) {
                 setcardObj(tempObj);
               }}
               cardFontFamily={FontFamily.arial_bold}
-              // validColor={BaseColor.whiteColor}
-              labelStyle={{ color: BaseColor.black }}
+              // validColor={theme().whiteColor}
+              labelStyle={{ color: theme().black }}
               allowScroll={true}
             />
             <CButton
@@ -436,10 +435,10 @@ export default function Checkout({ navigation, route }) {
                 width: '90%',
                 marginBottom: 30,
                 alignSelf: 'center',
-                backgroundColor: BaseColor.btnBlue,
+                backgroundColor: theme().btnBlue,
               }}
               titleStyle={{
-                color: BaseColor.whiteColor,
+                color: theme().whiteColor,
               }}
             />
           </View>
