@@ -33,33 +33,42 @@ export default function OrdersScreen({ navigation }) {
   const [loader, setloader] = useState(false);
   const [refreshing, setrefreshing] = useState(false);
 
+  // const tabArr = [
+  //   {
+  //     id: 1,
+  //     title: t('all'),
+  //   },
+  //   {
+  //     id: 2,
+  //     title: t('booking'),
+  //   },
+  //   {
+  //     id: 3,
+  //     title: t('confirm'),
+  //   },
+  //   // {
+  //   //   id: 4,
+  //   //   title: t('waiting'),
+  //   // },
+  //   {
+  //     id: 4,
+  //     title: t('cancel'),
+  //   },
+  //   {
+  //     id: 5,
+  //     title: t('history'),
+  //   },
+  // ];
   const tabArr = [
     {
       id: 1,
-      title: t('all'),
-    },
-    {
-      id: 2,
-      title: t('booking'),
-    },
-    {
-      id: 3,
-      title: t('confirm'),
-    },
-    // {
-    //   id: 4,
-    //   title: t('waiting'),
-    // },
-    {
-      id: 4,
-      title: t('cancel'),
+      title: 'Upcoming',
     },
     {
       id: 5,
       title: t('history'),
     },
   ];
-
   useFocusEffect(
     React.useCallback(() => {
       appointmentSearch(1);
@@ -282,7 +291,7 @@ export default function OrdersScreen({ navigation }) {
             keyExtractor={(item, index) => index}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
-              justifyContent: 'space-between',
+              justifyContent: 'flex-start',
               flexGrow: 1,
             }}
             renderItem={({ item, index }) => {

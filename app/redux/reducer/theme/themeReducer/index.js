@@ -1,11 +1,10 @@
 import type from '../themeAction/types';
 import { themeOptions } from '../index';
 const colorOptions = Object.keys(themeOptions);
-let Dark = colorOptions.Dark;
 console.log('colorOptions', colorOptions);
 
 const initialState = {
-  theme: Dark,
+  theme: colorOptions[0],
 };
 export const themeReducer = (state = initialState, action) => {
   switch (action.type) {

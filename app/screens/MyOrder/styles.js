@@ -23,8 +23,12 @@ export const styledFunc = () => {
     itemContainer: {
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginVertical: 2,
+      alignItems: 'flex-start',
+      padding: 20,
+      borderWidth: 1,
+      borderColor: '#fff',
+      borderRadius: 10,
+      marginTop: 10,
     },
     text: {
       fontWeight: 'bold',
@@ -33,6 +37,17 @@ export const styledFunc = () => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    orderImage: {
+      width: 90,
+      height: 90,
+    },
+    dataContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      width: '67%',
+      marginStart: 10,
     },
   });
 };

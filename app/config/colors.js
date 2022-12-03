@@ -35,9 +35,9 @@ export const BaseColor = {
 export const LightTheme = {
   darkRed: '#8B0000',
   yellow: '#F2C962',
-  amber: '#B48101',
+  amber: 'red',
   darkAmber: '#594000',
-  amberTxt: '#B78D05',
+  amberTxt: 'red',
   white: '#ffffff',
   black: '#000000',
   white10: '#ffffff10',

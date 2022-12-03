@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
-import { Images } from '../../config/images';
+import CText from '../../components/CText';
 import { styledFunc } from './styles';
 import ImagePicker from 'react-native-image-crop-picker';
 import CButton from '../../components/CButton';
@@ -26,11 +26,15 @@ import { t } from 'i18next';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/core';
+import { changeTheme } from '../../redux/reducer/theme/themeAction';
+import { FontFamily } from '../../config/typography';
 
 import Resizer from 'react-image-file-resizer';
 import { Linking } from 'react-native';
 
 export default function Settings({ navigation }) {
+  const currentTheme = useSelector((state) => state.theme.theme);
+  console.log('currentTheme', currentTheme);
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
@@ -499,7 +503,20 @@ export default function Settings({ navigation }) {
           navigation.navigate('Me');
         }}
       />
+
       <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(changeTheme(currentTheme === 'Dark' ? 'Light' : 'Dark'));
+          }}>
+          <CText
+            value={'Change Theme'}
+            color="#b1b1b1"
+            size={16}
+            fontFamily={FontFamily.Poppins_Medium}
+            style={{ marginTop: 24 }}
+          />
+        </TouchableOpacity>
         <FlatList
           data={state}
           keyExtractor={(item, index) => index}

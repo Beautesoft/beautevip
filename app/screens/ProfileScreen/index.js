@@ -3,18 +3,15 @@ import {
   BackHandler,
   Image,
   ScrollView,
-  Share,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import { getApiData } from '../../config/apiHelper';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
-import { Images } from '../../config/images';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
@@ -22,19 +19,16 @@ import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 
 import AuthAction from '../../redux/reducer/auth/actions';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 export default function ProfileScreen({ navigation }) {
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
-  const [profileData, setprofileData] = useState();
-  const [referalCaode, setreferalCaode] = useState();
+  const [, setreferalCaode] = useState();
   const [proPic, setpropic] = useState();
   const { updateUserData } = AuthAction;
   const dispatch = useDispatch();
 
   let backPressed = 0;
-  let errImg = Images.sampleOne;
 
   function handleBackButtonClick() {
     if (backPressed > 0) {
@@ -66,33 +60,18 @@ export default function ProfileScreen({ navigation }) {
     setpropics();
   }, []);
 
-  // useEffect(() => {
-  //   GetAddress();
-  // });
-
   const GetAddress = () => {
-    //setloader(true);
-
     const url = `${baseUrl}api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
 
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        // json?.result?.map((item) => {
-        //   if (item?.isDefaultAddress == true) {
-        //     setaddress(item);
-        //   }
-        // });
-
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
         } catch (error) {}
-
-        //setloader(false);
       })
       .catch((error) => {
-        //setloader(false);
         console.error(error);
       });
   };
@@ -152,12 +131,7 @@ export default function ProfileScreen({ navigation }) {
             fontFamily={FontFamily.Poppins_Medium}
             style={{ marginTop: 8 }}
           />
-          {/* <TouchableOpacity
-            style={styles.editCont}
-            activeOpacity={0.7}
-            onPress={() => {}}>
-            <Text style={styles.editTxt}>Edit</Text>
-          </TouchableOpacity> */}
+
           <View
             style={{
               flexDirection: 'row',
@@ -176,17 +150,6 @@ export default function ProfileScreen({ navigation }) {
               />
               <Text style={styles.btnStyleTxt}>{t('settings')}</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={[styles.btnStyle, { marginStart: 12 }]}
-              activeOpacity={0.7}>
-              <Image
-                source={Icons.grid}
-                style={{ height: 20, width: 20 }}
-                resizeMode="contain"
-                tintColor={theme().darkGrey}
-              />
-              <Text style={styles.btnStyleTxt}>Account</Text>
-            </TouchableOpacity> */}
           </View>
 
           <TouchableOpacity
@@ -195,6 +158,18 @@ export default function ProfileScreen({ navigation }) {
             }}>
             <CText
               value={'My Order'}
+              color="#b1b1b1"
+              size={16}
+              fontFamily={FontFamily.Poppins_Medium}
+              style={{ marginTop: 24 }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('MyPackagesNew');
+            }}>
+            <CText
+              value={'My Packages'}
               color="#b1b1b1"
               size={16}
               fontFamily={FontFamily.Poppins_Medium}
