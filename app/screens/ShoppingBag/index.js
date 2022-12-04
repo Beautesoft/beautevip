@@ -202,7 +202,11 @@ export default function ShoppingBag({ navigation }) {
     return (
       <View style={styles.itemCont}>
         <Image
-          source={item?.imageUrl ? { uri: item?.imageUrl } : Images?.logo}
+          source={
+            item?.imageUrl.includes('http')
+              ? { uri: item?.imageUrl }
+              : Images?.logo
+          }
           style={{ height: 90, width: 90, borderRadius: 8 }}
           resizeMode="cover"
         />

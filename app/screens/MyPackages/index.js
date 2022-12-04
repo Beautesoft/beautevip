@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
@@ -17,6 +18,8 @@ import CButton from '../../components/CButton';
 import { theme } from '../../redux/reducer/theme';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
+import CText from '../../components/CText';
+import { Images } from '../../config/images';
 
 export default function MyPackages({ navigation }) {
   const styles = styledFunc();
@@ -67,14 +70,23 @@ export default function MyPackages({ navigation }) {
             styles.viewCont,
             index > 0 ? { borderTopWidth: 1, borderColor: '#534105' } : null,
           ]}>
-          <View style={{ flex: 6 }}>
-            <Text style={styles.viewTitle}>{item?.packageName}</Text>
-            <Text style={styles.viewSession}>
-              Sessions: {item?.balanceSessions}
-            </Text>
-            <Text style={styles.viewSession}>
-              {moment(item?.packagePurchaseDate).format('DD MMM YY')}
-            </Text>
+          <View style={{ flex: 6, flexDirection: 'row', alignItems: 'center' }}>
+            <View>
+              <Image
+                resizeMode="cover"
+                source={Images?.logo}
+                style={styles.packageImage}
+              />
+            </View>
+            <View style={{ marginStart: 20 }}>
+              <Text style={styles.viewTitle}>{item?.packageName}</Text>
+              <Text style={styles.viewSession}>
+                Sessions: {item?.balanceSessions}
+              </Text>
+              <Text style={styles.viewSession}>
+                {moment(item?.packagePurchaseDate).format('DD MMM YY')}
+              </Text>
+            </View>
           </View>
           <View style={styles.secondView}>
             <TouchableOpacity
@@ -122,16 +134,19 @@ export default function MyPackages({ navigation }) {
       />
       <View style={styles.container}>
         <View style={styles.topPart}>
-          <Text style={styles.headTxt}>
-            {`${t('sessions')}: `}
-            <Text style={styles.secTxt}>{`${packageList?.totalSessions}`}</Text>
-            {/* {`  |  Amounts: `} */}
-            {/* ${t('balance')} */}
-            {
-              // <Text
-              //   style={styles.secTxt}>{`${packageList?.totalBalance}`}</Text>
-            }
-          </Text>
+          {packageList?.totalSessions && (
+            <Text style={styles.headTxt}>
+              {`${t('sessions')}: `}
+              <Text
+                style={styles.secTxt}>{`${packageList?.totalSessions}`}</Text>
+              {/* {`  |  Amounts: `} */}
+              {/* ${t('balance')} */}
+              {
+                // <Text
+                //   style={styles.secTxt}>{`${packageList?.totalBalance}`}</Text>
+              }
+            </Text>
+          )}
         </View>
         <FlatList
           data={availPackageList}

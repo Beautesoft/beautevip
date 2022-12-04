@@ -46,6 +46,7 @@ const BaseSetting = {
     mypackages: '/mypackages',
     cartAllItemDelete: '/cartAllItemDelete',
     homeBanner: '/dashBoardF21',
+    setFcmToken: '/fcmTokenForCustomerApp',
   },
 };
 

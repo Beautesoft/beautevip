@@ -67,5 +67,20 @@ export const styledFunc = () => {
       justifyContent: 'flex-end',
       flex: 4,
     },
+    packageItemContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      borderWidth: 1,
+      borderColor: theme().white,
+      borderRadius: 10,
+      marginTop: 10,
+      padding: 20,
+    },
+    packageImage: {
+      width: 60,
+      height: 60,
+      borderRadius: 10,
+    },
   });
 };

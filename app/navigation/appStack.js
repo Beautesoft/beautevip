@@ -24,12 +24,12 @@ import RangeScreen from '../screens/RangeScreen';
 import MyPackages from '../screens/MyPackages';
 import MyPackagesNew from '../screens/MyPackagesNew';
 import MyEarnPoint from '../screens/MyEarnPoints';
-import Login from '../screens/Login';
 import HomeScreen from '../screens/HomeScreen';
 import Otp from '../screens/Otp';
 import { BottomTabsNavigator } from './bottomTab';
 import Invoice from '../screens/Invoice';
 import MyOrder from '../screens/MyOrder';
+import ConfirmBooking from '../screens/ConfirmBooking';
 
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
@@ -71,6 +71,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="OrderConfirm" component={OrderConfirm} />
       <AppStack.Screen name="MyPackages" component={MyPackages} />
       <AppStack.Screen name="MyPackagesNew" component={MyPackagesNew} />
+      <AppStack.Screen name="ConfirmBooking" component={ConfirmBooking} />
       <AppStack.Screen
         name="NotificationDetail"
         component={NotificationDetail}

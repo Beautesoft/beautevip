@@ -37,7 +37,7 @@ import { CreditCardInput } from 'react-native-credit-card-input-view';
 import MyModal from '../../components/MyModal';
 import { baseUrl } from '../../config/settings';
 import { theme } from '../../redux/reducer/theme';
-export default function BookingScreen({ navigation, route }) {
+export default function ConfirmBooking({ navigation, route }) {
   const styles = styledFunc();
   const orderData = route?.params?.itemData;
   console.log(
@@ -572,8 +572,6 @@ export default function BookingScreen({ navigation, route }) {
         // if (result?.success == 1) {
         //   getCartItems();
         // }
-        navigation.navigate('ShoppingBag');
-        Toast.show('Added to cart.');
       })
       .catch((err) => {
         //setloader(false);
@@ -686,6 +684,34 @@ export default function BookingScreen({ navigation, route }) {
 
   enableAnimateInEaseOut();
 
+  // const AddToCart = () => {
+  //   setloader(true);
+  //   const data = {
+  //     phoneNumber: userData?.customerPhone,
+  //     customerCode: userData?.customerCode,
+  //     itemCode: productDetails?.itemCode,
+  //     itemDescription: productDetails?.itemDescription,
+  //     itemQuantity: selectedQuantity,
+  //     itemPrice: productDetails?.price,
+  //     siteCode: productDetails?.siteCode,
+  //     redeemPoint: '0',
+  //     itemType: 1,
+  //   };
+  //   getApiData(BaseSetting?.endpoints?.cartItemInput, 'post', data)
+  //     .then((result) => {
+  //       console.log('🚀 ~ file: index.js ~ line 33 ~ .then ~ result', result);
+  //       if (result?.success == 1) {
+  //         navigation.goBack();
+  //         // navigation.navigate('ShoppingScreen');
+  //       }
+  //       setloader(false);
+  //     })
+  //     .catch((err) => {
+  //       setloader(false);
+  //       console.log('🚀 ~ file: index.js ~ line 35 ~ .then ~ err', err);
+  //     });
+  // };
+
   return (
     <>
       <CHeader
@@ -723,15 +749,14 @@ export default function BookingScreen({ navigation, route }) {
               size={20}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
-            {orderData?.duration &&
-              JSON.stringify(orderData?.duration).length > 0 && (
-                <CText
-                  value={`${orderData?.duration} min`}
-                  color={theme().amberTxt}
-                  size={18}
-                  fontFamily={FontFamily.Poppins_Regular}
-                />
-              )}
+            {JSON.stringify(orderData?.duration).length > 0 && (
+              <CText
+                value={`${orderData?.duration} min`}
+                color={theme().amberTxt}
+                size={18}
+                fontFamily={FontFamily.Poppins_Regular}
+              />
+            )}
             {orderData?.price && (
               <CText
                 value={`S$ ${orderData?.price}`}
@@ -742,111 +767,109 @@ export default function BookingScreen({ navigation, route }) {
             )}
           </View>
         </View>
-        {packageType && (
-          <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
-            <CText value={t('addAppDetail')} color={theme().white} size={14} />
-            <TouchableOpacity
-              style={styles.btnCont}
-              activeOpacity={0.7}
-              onPress={() => {
-                setexpandBeaut(false);
-                setexpandTime(false);
-                setisDatePickerVisible(false);
-                setexpandLocation(!expandLocation);
-                //GetAddress();
-              }}>
-              <Text style={styles.btnTxt}>
-                {selectedLocation
-                  ? selectedLocation?.siteName
-                  : t('selectLocation')}
-              </Text>
-              {expandLocation && (
-                <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
-                  <FlatList
-                    data={saloonList}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderLocation}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    showsVerticalScrollIndicator={false}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnCont}
-              activeOpacity={0.7}
-              onPress={() => {
-                setexpandBeaut(false);
-                setexpandLocation(false);
-
-                setisDatePickerVisible(true);
-
-                // setexpandTime(!expandTime);
-              }}>
-              <Text style={styles.btnTxt}>
-                {selectedDateTime?.time
-                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
-                      selectedDateTime?.time
-                    }`
-                  : t('setDateTime')}
-              </Text>
-              {expandTime && (
-                <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
-                  <FlatList
-                    data={availableSlots}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderTimeSlots}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    showsVerticalScrollIndicator={false}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnCont}
-              activeOpacity={0.7}
-              onPress={() => {
-                setexpandTime(false);
-                setexpandLocation(false);
-                setisDatePickerVisible(false);
-                setexpandBeaut(!expandBeaut);
-              }}>
-              <Text style={styles.btnTxt}>
-                {beauty
-                  ? `${beauty?.firstName} ${beauty?.lastName}`
-                  : t('selectAvail')}
-              </Text>
-
-              {expandBeaut && (
-                <View
-                  style={{
-                    height: 160,
+        {/* <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
+          <CText value={t('addAppDetail')} color={theme().white} size={14} />
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              setexpandBeaut(false);
+              setexpandTime(false);
+              setisDatePickerVisible(false);
+              setexpandLocation(!expandLocation);
+              //GetAddress();
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedLocation
+                ? selectedLocation?.siteName
+                : t('selectLocation')}
+            </Text>
+            {expandLocation && (
+              <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
+                <FlatList
+                  data={saloonList}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderLocation}
+                  contentContainerStyle={{
                     width: '100%',
-                    paddingTop: 12,
-                    marginBottom: '10%',
-                  }}>
-                  <FlatList
-                    data={staffArr}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderBeauty}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    numColumns={4}
-                    showsVerticalScrollIndicator={true}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-          </View>
-        )}
+                  }}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              setexpandBeaut(false);
+              setexpandLocation(false);
+
+              setisDatePickerVisible(true);
+
+              // setexpandTime(!expandTime);
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedDateTime?.time
+                ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
+                    selectedDateTime?.time
+                  }`
+                : t('setDateTime')}
+            </Text>
+            {expandTime && (
+              <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
+                <FlatList
+                  data={availableSlots}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderTimeSlots}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              setexpandTime(false);
+              setexpandLocation(false);
+              setisDatePickerVisible(false);
+              setexpandBeaut(!expandBeaut);
+            }}>
+            <Text style={styles.btnTxt}>
+              {beauty
+                ? `${beauty?.firstName} ${beauty?.lastName}`
+                : t('selectAvail')}
+            </Text>
+
+            {expandBeaut && (
+              <View
+                style={{
+                  height: 160,
+                  width: '100%',
+                  paddingTop: 12,
+                  marginBottom: '10%',
+                }}>
+                <FlatList
+                  data={staffArr}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderBeauty}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  numColumns={4}
+                  showsVerticalScrollIndicator={true}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+        </View> */}
         {/* </ScrollView> */}
 
-        {/* {
+        {/* {beauty && selectedLocation && selectedDateTime ? (
           <CButton
             title="Book Now"
             onPress={() => {
@@ -866,21 +889,17 @@ export default function BookingScreen({ navigation, route }) {
               // }
             }}
           />
-        } */}
+        ) : null} */}
       </View>
       <View style={{ height: 100, backgroundColor: theme().darkGrey }}>
         <CButton
-          title={packageType ? 'Book Now' : 'Add to cart'}
+          title="Add to cart"
           onPress={() => {
             console.log('🚀 ~sCode>', userData?.siteCode);
             if (userData?.customerCode === 'CUSTAPP001') {
               navigation.navigate('Login');
             } else {
-              if (packageType) {
-                BookAppointment();
-              } else {
-                AddToCart();
-              }
+              AddToCart();
               //BookAppointment();
             }
 

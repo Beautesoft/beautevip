@@ -89,10 +89,10 @@ export default function MyPackagesNew({ navigation }) {
                 style={styles.bookBtn}
                 activeOpacity={0.7}
                 onPress={() => {
-                  // navigation.navigate('BookingScreen', {
-                  //   itemData: item,
-                  //   type: 'package',
-                  // });
+                  navigation.navigate('BookingScreen', {
+                    itemData: item,
+                    type: 'package',
+                  });
                 }}>
                 <Text style={[styles.viewSession, { color: theme().amberTxt }]}>
                   {t('bookNow')}
