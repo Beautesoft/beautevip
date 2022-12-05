@@ -47,6 +47,7 @@
     "react-native-modal-datetime-picker": "^13.0.0",
     "react-native-modals": "^0.22.3",
     "react-native-ratings": "^8.1.0",
+    "react-native-restart": "^0.0.24",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.18.2",
     "react-native-simple-toast": "^1.1.3",

@@ -1,6 +1,12 @@
 import { isArray, split } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
+import {
+  Modal,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
@@ -160,12 +166,11 @@ export default function Checkout({ navigation, route }) {
     setloader(false);
 
     let tempArr = [];
-
     productList.map((item, index) => {
       tempArr.push({
         lineNumber: index + 1,
         lineStatus: 'SA',
-        lineType: 'PRODUCT',
+        lineType: item?.itemType === 1 ? 'PRODUCT' : 'SERVICE',
         itemCode: item?.itemCode,
         itemName: item?.itemName,
         itemQty: item?.itemQuantity,
@@ -180,7 +185,8 @@ export default function Checkout({ navigation, route }) {
         staffcode: productList[0]?.cardId,
         isFOC: false,
         isFirstTreatmentDone: false,
-        isHoldItem: false,
+        isHoldItem: true,
+        holdItemQty: item?.itemQuantity,
       });
     });
 
@@ -431,9 +437,9 @@ export default function Checkout({ navigation, route }) {
               }}
               style={{
                 position: 'absolute',
-                top: '45%',
+                top: Platform.OS === 'ios' ? '45%' : '75%',
                 width: '90%',
-                marginBottom: 30,
+                marginBottom: 0,
                 alignSelf: 'center',
                 backgroundColor: theme().btnBlue,
               }}

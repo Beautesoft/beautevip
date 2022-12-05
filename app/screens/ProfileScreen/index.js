@@ -152,31 +152,6 @@ export default function ProfileScreen({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('MyOrder');
-            }}>
-            <CText
-              value={'My Order'}
-              color="#b1b1b1"
-              size={16}
-              fontFamily={FontFamily.Poppins_Medium}
-              style={{ marginTop: 24 }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('MyPackagesNew');
-            }}>
-            <CText
-              value={'My Packages'}
-              color="#b1b1b1"
-              size={16}
-              fontFamily={FontFamily.Poppins_Medium}
-              style={{ marginTop: 24 }}
-            />
-          </TouchableOpacity>
-
           {/* <CText
             value={t('inviteFriend')}
             color="#b1b1b1"

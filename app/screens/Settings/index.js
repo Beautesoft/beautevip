@@ -27,7 +27,7 @@ import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/core';
 import { changeTheme } from '../../redux/reducer/theme/themeAction';
-import { FontFamily } from '../../config/typography';
+import RNRestart from 'react-native-restart';
 
 import Resizer from 'react-image-file-resizer';
 import { Linking } from 'react-native';
@@ -134,6 +134,12 @@ export default function Settings({ navigation }) {
       },
     },
     {
+      title: 'My Order',
+      onPress: () => {
+        navigation.navigate('MyOrder');
+      },
+    },
+    {
       title: t('profilePhoto'),
       //{uri: (userData?.profilePic && userData?.profilePic != 33) ? userData?.profilePic : userData?.clientLogo}
       photoData: cUserData.photo,
@@ -202,6 +208,13 @@ export default function Settings({ navigation }) {
         Linking.openURL('https://pages.flycricket.io/beautesoft-vip/');
       },
     },
+    {
+      title: 'Change theme',
+      onPress: () => {
+        handleChangeTheme();
+      },
+      value: currentTheme !== 'Dark' ? 'Light' : 'Dark',
+    },
     // {
     //   title: t('languageSetting'),
     //   onPress: () => {
@@ -234,7 +247,12 @@ export default function Settings({ navigation }) {
       },
     },
   ];
-
+  const handleChangeTheme = () => {
+    dispatch(changeTheme(currentTheme === 'Dark' ? 'Light' : 'Dark'));
+    setTimeout(() => {
+      RNRestart.Restart();
+    }, 100);
+  };
   const deleteUser = () => {
     let url = BaseSetting.api + BaseSetting.endpoints.deleteUser;
     const data = {
@@ -505,18 +523,6 @@ export default function Settings({ navigation }) {
       />
 
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(changeTheme(currentTheme === 'Dark' ? 'Light' : 'Dark'));
-          }}>
-          <CText
-            value={'Change Theme'}
-            color="#b1b1b1"
-            size={16}
-            fontFamily={FontFamily.Poppins_Medium}
-            style={{ marginTop: 24 }}
-          />
-        </TouchableOpacity>
         <FlatList
           data={state}
           keyExtractor={(item, index) => index}

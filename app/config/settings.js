@@ -47,6 +47,7 @@ const BaseSetting = {
     cartAllItemDelete: '/cartAllItemDelete',
     homeBanner: '/dashBoardF21',
     setFcmToken: '/fcmTokenForCustomerApp',
+    availableSlotsTnc: '/AvailableSlotsTnc',
   },
 };
 

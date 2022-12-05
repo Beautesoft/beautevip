@@ -78,7 +78,7 @@ export default function MyPackages({ navigation }) {
                 style={styles.packageImage}
               />
             </View>
-            <View style={{ marginStart: 20 }}>
+            <View style={{ marginStart: 20, width: '80%' }}>
               <Text style={styles.viewTitle}>{item?.packageName}</Text>
               <Text style={styles.viewSession}>
                 Sessions: {item?.balanceSessions}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
 import { styledFunc } from './styles';
 import CHeader from '../../components/CHeader';
@@ -6,10 +6,52 @@ import CText from '../../components/CText';
 import Loader from '../../components/Loader';
 import OrderItem from '../../components/OrderItem';
 import { theme } from '../../redux/reducer/theme';
+import { useSelector } from 'react-redux';
+import { getApiData } from '../../config/apiHelper';
+import BaseSetting from '../../config/settings';
+import moment from 'moment';
 const MyOrder = ({ navigation }) => {
   const styles = styledFunc();
   const [loader, setloader] = useState(false);
+  const [orderList, setorderList] = useState([]);
+  const [refreshing, setrefreshing] = useState(false);
+  const { userData } = useSelector((state) => state.auth);
+  useEffect(() => {
+    transactionInVoice();
+  }, []);
+  const transactionInVoice = () => {
+    setorderList([]);
+    setloader(true);
+    const data = {
+      siteCode: userData?.siteCode,
+      customerName: userData?.customerName,
+      fromDate: '1900-01-01',
+      toDate: '2200-12-31',
+      staffName: '',
+      invoiceNo: '',
+    };
 
+    getApiData(BaseSetting.endpoints.appTransSearchInvoice, 'post', data)
+      .then((result) => {
+        if (result?.success == 1) {
+          // if (result?.futureAppointments) {
+          //   setorderList([...result?.result, ...result?.futureAppointments]);
+
+          // } else {
+          //   setorderList([...result?.result]);
+          // }
+          console.log('result my order', result);
+          setorderList([...result?.result]);
+        }
+        setloader(false);
+        setrefreshing(false);
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: index.js ~ line 67 ~ .then ~ err', err);
+        setloader(false);
+        setrefreshing(false);
+      });
+  };
   const renderOrders = ({ item, index }) => {
     return (
       // <TouchableOpacity
@@ -95,35 +137,63 @@ const MyOrder = ({ navigation }) => {
       //     />
       //   </View>
       // </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.8} style={styles.itemContainer}>
-        <View style={{ width: '30%' }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('OrderDetails');
+        }}
+        activeOpacity={0.8}
+        style={styles.itemContainer}>
+        {/* <View style={{ width: '30%' }}>
           <Image
             source={require('../../assets/images/goals.png')}
             style={styles.orderImage}
           />
-        </View>
+        </View> */}
         <View style={styles.dataContainer}>
-          <View>
+          <View style={{ width: '72%' }}>
             <CText
-              value={'Essential Oils'}
-              color={theme().white}
+              value={`${item.invoiceNo}`}
+              // color={theme().white}
+              // style={{ marginBottom: 10 }}
+              color={theme().amberTxt}
+              size={14}
               isBold
-              size={14}
             />
             <CText
-              value={'Massage Therapy'}
-              color={theme().white}
-              style={{ marginVertical: 3 }}
+              value={moment(item.transactionDate).format('DD/MM/YYYY')}
+              // color={theme().white}
               size={14}
+              color={theme().amberTxt}
+              // style={{ marginBottom: 5 }}
+              isBold
             />
-            <CText value={`Qty: 1`} color={theme().white} size={14} />
           </View>
-          <CText value={`Paid $100.00`} color={theme().white} size={14} />
+          <CText
+            value={`$ ${item.depositAmount.toFixed(2)}`}
+            color={theme().amberTxt}
+            size={14}
+            isBold
+          />
+        </View>
+        <View style={{ marginTop: 5 }}>
+          <FlatList data={item.items} renderItem={renderOrderItems} />
         </View>
       </TouchableOpacity>
     );
   };
-
+  const renderOrderItems = ({ item, index }) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}>
+        <View style={styles.dot} />
+        <CText value={item.itemName} color={theme().white} size={14} />
+      </View>
+    );
+  };
   return (
     <>
       <CHeader
@@ -134,7 +204,7 @@ const MyOrder = ({ navigation }) => {
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
           <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7, 8]}
+            data={orderList}
             keyExtractor={(item, index) => index}
             renderItem={renderOrders}
             contentContainerStyle={{ flexGrow: 1 }}
@@ -142,6 +212,15 @@ const MyOrder = ({ navigation }) => {
               <View style={styles.noOrder}>
                 <Text>No Orders</Text>
               </View>
+            )}
+            ItemSeparatorComponent={() => (
+              <View
+                style={{
+                  width: '100%',
+                  height: 0.5,
+                  backgroundColor: theme().white,
+                }}
+              />
             )}
           />
         </View>

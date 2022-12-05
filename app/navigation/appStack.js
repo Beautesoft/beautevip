@@ -22,7 +22,6 @@ import NotificationDetail from '../screens/NotificationDetail';
 import OrderConfirm from '../screens/OrderConfirm';
 import RangeScreen from '../screens/RangeScreen';
 import MyPackages from '../screens/MyPackages';
-import MyPackagesNew from '../screens/MyPackagesNew';
 import MyEarnPoint from '../screens/MyEarnPoints';
 import HomeScreen from '../screens/HomeScreen';
 import Otp from '../screens/Otp';
@@ -70,7 +69,6 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="Notification" component={Notification} />
       <AppStack.Screen name="OrderConfirm" component={OrderConfirm} />
       <AppStack.Screen name="MyPackages" component={MyPackages} />
-      <AppStack.Screen name="MyPackagesNew" component={MyPackagesNew} />
       <AppStack.Screen name="ConfirmBooking" component={ConfirmBooking} />
       <AppStack.Screen
         name="NotificationDetail"
