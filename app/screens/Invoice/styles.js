@@ -9,8 +9,6 @@ export const styledFunc = () => {
       backgroundColor: theme().darkGrey,
       flex: 1,
       marginTop: -16,
-      borderTopStartRadius: 16,
-      borderTopEndRadius: 16,
       paddingTop: 24,
       padding: 24,
     },

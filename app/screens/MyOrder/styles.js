@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { theme } from '../../redux/reducer/theme';
-import { FontFamily } from '../../config/typography';
 
 export const styledFunc = () => {
   return StyleSheet.create({
@@ -50,7 +49,8 @@ export const styledFunc = () => {
       height: 5,
       borderRadius: 5,
       backgroundColor: theme().white,
-      marginEnd: 4,
+      marginEnd: 5,
+      marginTop: 6,
     },
   });
 };

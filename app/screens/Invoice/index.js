@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, FlatList } from 'react-native';
 
 import { vw, vh } from '../../config/dimension';
@@ -11,6 +11,7 @@ import { theme } from '../../redux/reducer/theme';
 import { FontFamily } from '../../config/typography';
 import CText from '../../components/CText';
 import { Table, Row, Rows } from 'react-native-table-component';
+import moment from 'moment';
 const Invoice = (props) => {
   const styles = styledFunc();
   const [tableHead, setTableHead] = useState([
@@ -19,11 +20,29 @@ const Invoice = (props) => {
     'Qty',
     'U/P',
   ]);
-  const [tableData, setTableData] = useState([
-    [1, 'SERVICE-Accupunture Composite Expiry\nDate : 18/12/2022', 1, '98.00'],
-    [2, 'SERVICE-Accupunture Composite Expiry\nDate : 18/12/2022', 1, '98.00'],
-    ['', '', 1, '98.00'],
-  ]);
+  const [tableData, setTableData] = useState();
+  const orderData = props.route.params?.data;
+  useEffect(() => {
+    let orderItem = props.route.params?.data.items;
+    let tempData = [];
+    orderItem.map((item, index) => {
+      tempData.push([
+        index + 1,
+        `${item.itemName}`,
+        item.itemQty,
+        item.unitPrice.toFixed(2),
+      ]);
+      if (index === orderItem.length - 1) {
+        tempData.push([
+          '',
+          '',
+          orderItem.length,
+          orderData.depositAmount.toFixed(2),
+        ]);
+      }
+    });
+    setTableData([...tempData]);
+  }, []);
 
   return (
     <>
@@ -33,7 +52,7 @@ const Invoice = (props) => {
         onLeftIconPress={() => props.navigation.goBack()}
       />
       <ScrollView style={styles.container}>
-        <View style={styles.topPart}>
+        {/* <View style={styles.topPart}>
           <View
             style={{
               borderRadius: 4,
@@ -75,7 +94,7 @@ const Invoice = (props) => {
             />
           </View>
         </View>
-        <View style={styles.divider} />
+        <View style={styles.divider} /> */}
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Trans :'}
@@ -84,7 +103,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'INVH983743829748'}
+            value={orderData.invoiceNo}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -98,7 +117,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'Test Admin'}
+            value={orderData.customerName}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -112,7 +131,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'18-Nov-2022'}
+            value={moment(orderData.transactionDate).format('DD-MMM-YYYY')}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -126,7 +145,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'04:24:00 PM'}
+            value={moment(orderData.transactionDate).format('hh:mm:ss A')}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -177,7 +196,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'98.00'}
+            value={`$ ${orderData.depositAmount.toFixed(2)}`}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -192,7 +211,7 @@ const Invoice = (props) => {
           />
           <View style={{ alignItems: 'flex-end' }}>
             <CText
-              value={'6.41'}
+              value={`$ ${(orderData.depositAmount * 0.07).toFixed(2)}`}
               color={theme().white}
               size={14}
               fontFamily={FontFamily.Poppins_Medium}
@@ -213,7 +232,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'0.00'}
+            value={'$ 0.00'}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
@@ -227,7 +246,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'98.00'}
+            value={`$ ${orderData.depositAmount.toFixed(2)}`}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}

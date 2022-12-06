@@ -7,7 +7,7 @@ import {
   Platform,
   ScrollView,
   Text,
-  TextInput,
+  TouchableWithoutFeedback,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -25,6 +25,7 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Images } from '../../config/images';
 import { enableAnimateInEaseOut } from '../../config/commonFunctions';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getApiData } from '../../config/apiHelper';
@@ -208,6 +209,7 @@ export default function BookingScreen({ navigation, route }) {
         style={styles.locCont}
         activeOpacity={0.7}
         onPress={() => {
+          console.log('item---->', item);
           setSelectedLoation(item);
           setexpandLocation(false);
         }}>
@@ -380,20 +382,22 @@ export default function BookingScreen({ navigation, route }) {
     GetSaloonList();
   }, []);
 
-  const AvailableSlots = (date) => {
+  const getAvailableSlots = (date) => {
     setloader(true);
     const data = {
-      slotDate: date,
+      siteCode: selectedLocation?.siteCode,
+      slotDate: moment(date).format('YYYY-MM-DD'),
     };
-
+    console.log('data time slot', data);
     getApiData(BaseSetting.endpoints.availableSlots, 'post', data)
       .then((result) => {
+        console.log('result time slot', result);
         setavailableSlots(result?.result);
 
         setTimeout(() => {
-          setexpandTime(true);
           setloader(false);
-        }, 1000);
+          setexpandTime(true);
+        }, 400);
       })
       .catch((err) => {
         setloader(false);
@@ -685,7 +689,6 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   enableAnimateInEaseOut();
-
   return (
     <>
       <CHeader
@@ -693,8 +696,16 @@ export default function BookingScreen({ navigation, route }) {
         showLeftIcon
         onLeftIconPress={() => navigation.goBack()}
       />
+      {/* <TouchableWithoutFeedback
+        style={{ flex: 1, backgroundColor: 'red' }}
+        onPress={() => {
+          console.log('clicked outside');
+          setexpandTime(false);
+          setexpandLocation(false);
+          setisDatePickerVisible(false);
+          setexpandBeaut(false);
+        }}> */}
       <View style={styles.container}>
-        {/* <ScrollView contentContainerStyle={{flexGrow: 1}} nestedScrollEnabled> */}
         <View style={styles.topPart}>
           <View
             style={{
@@ -775,13 +786,12 @@ export default function BookingScreen({ navigation, route }) {
               )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btnCont}
+              style={[styles.btnCont]}
               activeOpacity={0.7}
               onPress={() => {
                 setexpandBeaut(false);
                 setexpandLocation(false);
-
-                setisDatePickerVisible(true);
+                setisDatePickerVisible(!isDatePickerVisible);
 
                 // setexpandTime(!expandTime);
               }}>
@@ -844,31 +854,13 @@ export default function BookingScreen({ navigation, route }) {
             </TouchableOpacity>
           </View>
         )}
-        {/* </ScrollView> */}
-
-        {/* {
-          <CButton
-            title="Book Now"
-            onPress={() => {
-              console.log('🚀 ~sCode>', userData?.siteCode);
-              if (userData?.customerCode === 'CUSTAPP001') {
-                navigation.navigate('Login');
-              } else {
-                checkIfSlotAvaillable();
-              }
-
-              // if (packageType) {
-              //   BookAppointment();
-
-              // } else {
-              //   // StripeCustomerCreate();
-              //   cartAllItemDelete();
-              // }
-            }}
-          />
-        } */}
       </View>
-      <View style={{ height: 100, backgroundColor: theme().darkGrey }}>
+      <View
+        style={{
+          height: 100,
+          backgroundColor: theme().darkGrey,
+          paddingHorizontal: 20,
+        }}>
         <CButton
           title={packageType ? 'Book Now' : 'Add to cart'}
           onPress={() => {
@@ -881,7 +873,6 @@ export default function BookingScreen({ navigation, route }) {
               } else {
                 AddToCart();
               }
-              //BookAppointment();
             }
 
             // if (packageType) {
@@ -898,8 +889,9 @@ export default function BookingScreen({ navigation, route }) {
         isVisible={isDatePickerVisible}
         mode="date"
         minimumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1)}
-        maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
+        // maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
         onConfirm={(val) => {
+          console.log('date picker on confirm trigger');
           if (val.getDay() === new Date().getDay()) {
             console.log(
               '🚀 ~VskingMatched>>>',
@@ -918,7 +910,7 @@ export default function BookingScreen({ navigation, route }) {
             setselectedDate(val);
           }
 
-          AvailableSlots(val);
+          getAvailableSlots(val);
           setisDatePickerVisible(false);
 
           console.log(
@@ -928,10 +920,11 @@ export default function BookingScreen({ navigation, route }) {
           );
         }}
         onCancel={() => {
+          console.log('date picker on cancel trigger');
           setisDatePickerVisible(false);
         }}
       />
-      <CLoader loader={loader} />
+      {/* <CLoader loader={loader} /> */}
 
       {Platform.OS === 'ios' ? (
         <View>
@@ -1043,188 +1036,6 @@ export default function BookingScreen({ navigation, route }) {
             StripePaymentIntentConfirm();
           }}></MyModal>
       )}
-      {/* this is for android */}
-      {/* <Modal
-        style={{ flex: 1 }}
-        transparent
-        visible={cardInputModal}
-        animationType="slide"
-        onRequestClose={() => {
-          setcardInputModal(false);
-          console.log("Request modal closed...");
-        }}
-        >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            backgroundColor: '#ffffff40',
-          }}
-          onPress={() => {
-            setcardInputModal(false);
-            setTimeout(() => {
-              
-            }, 500);
-            console.log("Pressed modal  closed...");
-          }}>
-          <View
-            style={{
-              padding: 8,
-              backgroundColor: theme().white,
-              borderTopEndRadius: 16,
-              borderTopStartRadius: 16,
-              paddingVertical: 32,
-              paddingBottom: 8,
-            }}>
-            <CreditCardInput
-              onChange={(val) => {
-                const expMonth = split(val?.values?.expiry, '/')[0];
-                const expYear = split(val?.values?.expiry, '/')[1];
-
-                const tempObj = {
-                  number: val?.values?.number,
-                  exp_month: expMonth,
-                  exp_year: 20 + expYear,
-                  cvc: val?.values?.cvc,
-                };
-
-                setcardType(val?.values?.type);
-
-                setcardObj(tempObj);
-              }}
-              cardFontFamily={FontFamily.arial_bold}
-              // validColor={theme().whiteColor}
-              labelStyle={{ color: theme().black }}
-              allowScroll={true}
-              
-            />
-            <CButton
-              title={t('submit')}
-              onPress={() => {
-                //setcardInputModal(false);
-                StripePaymentIntentConfirm();
-              }}
-              style={{
-                marginTop: 24,
-                margin: 16,
-                marginBottom: '75%',
-                backgroundColor: theme().btnBlue,
-              }}
-              titleStyle={{
-                color: theme().whiteColor,
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal> */}
-
-      {/* <MyModal 
-      visible={cardInputModal}
-      onPressClose={() => {
-        setcardInputModal(false);
-      }}
-      onCreditInput={(val) => {
-        const expMonth = split(val?.values?.expiry, '/')[0];
-                const expYear = split(val?.values?.expiry, '/')[1];
-
-                const tempObj = {
-                  number: val?.values?.number,
-                  exp_month: expMonth,
-                  exp_year: 20 + expYear,
-                  cvc: val?.values?.cvc,
-                };
-
-                setcardType(val?.values?.type);
-
-                setcardObj(tempObj);
-      }}
-      onSubmit={()=>{
-        StripePaymentIntentConfirm();
-      }}
-      >
-      </MyModal> */}
-
-      {/* this is for ios */}
-      {/* <View>
-     <Modal
-        style={{ flex: 1,
-          backgroundColor: '#ffffff40'
-        }}
-        transparent
-        visible={cardInputModal}
-        animationType="slide"
-        onRequestClose={() => setcardInputModal(false)}
-        //onBackdropPress={() => setcardInputModal(false)}
-        //onSwipeComplete={() => setcardInputModal(false)}
-        
-        >
-          
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            backgroundColor: '#ffffff40',
-          }}
-          onPress={() => {
-            setcardInputModal(false);
-            //setTimeout(() => setcardInputModal(false), Platform.OS === "ios" ? 200 : 0);
-            }}>
-          <View
-            style={{
-              padding: 8,
-              backgroundColor: theme().white,
-              borderTopEndRadius: 16,
-              borderTopStartRadius: 16,
-              paddingVertical: 32,
-              paddingBottom: 8,
-            }}>
-            <CreditCardInput
-              onChange={(val) => {
-                const expMonth = split(val?.values?.expiry, '/')[0];
-                const expYear = split(val?.values?.expiry, '/')[1];
-
-                const tempObj = {
-                  number: val?.values?.number,
-                  exp_month: expMonth,
-                  exp_year: 20 + expYear,
-                  cvc: val?.values?.cvc,
-                };
-                console.log(
-                  '🚀 ~ file: index.js ~ line 373 ~ productList.map ~ tempObj',
-                  val?.values?.type,
-                );
-
-                setcardType(val?.values?.type);
-
-                setcardObj(tempObj);
-              }}
-              cardFontFamily={FontFamily.arial_bold}
-              // validColor={theme().whiteColor}
-              labelStyle={{ color: theme().black }}
-              allowScroll={true}
-            />
-            <CButton
-              title={t('submit')}
-              onPress={() => {
-                setcardInputModal(false);
-                StripePaymentIntentConfirm();
-              }}
-              style={{
-                marginTop: 24,
-                margin: 16,
-                marginBottom: '75%',
-                backgroundColor: theme().btnBlue,
-              }}
-              titleStyle={{
-                color: theme().whiteColor,
-              }}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
-      </View> */}
     </>
   );
 }
