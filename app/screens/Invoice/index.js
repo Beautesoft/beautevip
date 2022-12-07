@@ -182,7 +182,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_SemiBold}
           />
           <CText
-            value={'Cash'}
+            value={orderData?.paymentMode}
             color={theme().white}
             size={14}
             fontFamily={FontFamily.Poppins_Medium}

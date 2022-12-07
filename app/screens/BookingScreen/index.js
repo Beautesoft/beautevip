@@ -393,11 +393,10 @@ export default function BookingScreen({ navigation, route }) {
       .then((result) => {
         console.log('result time slot', result);
         setavailableSlots(result?.result);
-
         setTimeout(() => {
           setloader(false);
           setexpandTime(true);
-        }, 400);
+        }, 100);
       })
       .catch((err) => {
         setloader(false);
@@ -885,7 +884,7 @@ export default function BookingScreen({ navigation, route }) {
           }}
         />
       </View>
-      <DateTimePickerModal
+      {/* <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
         minimumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1)}
@@ -923,10 +922,50 @@ export default function BookingScreen({ navigation, route }) {
           console.log('date picker on cancel trigger');
           setisDatePickerVisible(false);
         }}
+      /> */}
+      <DatePicker
+        modal
+        mode="date"
+        open={isDatePickerVisible}
+        date={new Date()}
+        minimumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1)}
+        maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
+        onConfirm={(val) => {
+          console.log('date picker on confirm trigger');
+          if (val.getDay() === new Date().getDay()) {
+            console.log(
+              '🚀 ~VskingMatched>>>',
+              val.getDay(),
+              new Date().getDay(),
+            );
+            setselectedDate(
+              new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
+            );
+          } else {
+            console.log(
+              '🚀 ~VskingNotMatched>>>',
+              val.getDay(),
+              new Date().getDay(),
+            );
+            setselectedDate(val);
+          }
+
+          getAvailableSlots(val);
+          setisDatePickerVisible(false);
+
+          console.log(
+            '🚀 ~ file: index.js ~ line 266 ~ BookingScreen ~ val Vk>>',
+            val + ',' + new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            moment().add(2, 'days'),
+          );
+        }}
+        onCancel={() => {
+          setisDatePickerVisible(false);
+        }}
       />
       {/* <CLoader loader={loader} /> */}
 
-      {Platform.OS === 'ios' ? (
+      {/* {Platform.OS === 'ios' ? (
         <View>
           <Modal
             style={{
@@ -1035,7 +1074,7 @@ export default function BookingScreen({ navigation, route }) {
           onSubmit={() => {
             StripePaymentIntentConfirm();
           }}></MyModal>
-      )}
+      )} */}
     </>
   );
 }

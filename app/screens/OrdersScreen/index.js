@@ -26,10 +26,10 @@ export default function OrdersScreen({ navigation }) {
 
   const [selectedTab, setselectedTab] = useState({
     id: 1,
-    title: 'All',
+    title: 'Upcoming',
   });
   const [orderList, setorderList] = useState([]);
-
+  const [allOrder, setAllOrder] = useState();
   const [loader, setloader] = useState(false);
   const [refreshing, setrefreshing] = useState(false);
 
@@ -74,16 +74,16 @@ export default function OrdersScreen({ navigation }) {
       appointmentSearch(1);
       setselectedTab({
         id: 1,
-        title: 'All',
+        title: 'Upcoming',
       });
     }, []),
   );
 
   const onRefresh = () => {
-    if (selectedTab.id != 5) {
-      setrefreshing(true);
-      appointmentSearch(selectedTab.id);
-    }
+    // if (selectedTab.id != 5) {
+    setrefreshing(true);
+    appointmentSearch(selectedTab.id);
+    // }
   };
 
   let backPressed = 0;
@@ -201,13 +201,16 @@ export default function OrdersScreen({ navigation }) {
     getApiData(BaseSetting.endpoints.appointmentSearch, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
+          console.log('result order screen', result);
           // if (result?.futureAppointments) {
           //   setorderList([...result?.result, ...result?.futureAppointments]);
 
           // } else {
           //   setorderList([...result?.result]);
           // }
-          setOrderResults(status, result);
+          setAllOrder(result);
+          //  setOrderResults(status, result);
+          setorderList(result.futureAppointments);
         }
         setloader(false);
         setrefreshing(false);
@@ -308,13 +311,18 @@ export default function OrdersScreen({ navigation }) {
                   ]}
                   onPress={() => {
                     setselectedTab(item);
-                    if (item.id == 5) {
-                      setorderList([]);
-                      //transactionInVoice();
-                      appointmentSearch(item.id);
+                    if (item.id === 5) {
+                      setorderList(allOrder.result);
                     } else {
-                      appointmentSearch(item.id);
+                      setorderList(allOrder.futureAppointments);
                     }
+                    // if (item.id == 5) {
+                    //   setorderList([]);
+                    //   //transactionInVoice();
+                    //   appointmentSearch(item.id);
+                    // } else {
+                    //   appointmentSearch(item.id);
+                    // }
                   }}
                   activeOpacity={0.7}
                   key={index}>
