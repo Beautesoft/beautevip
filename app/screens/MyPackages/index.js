@@ -45,10 +45,7 @@ export default function MyPackages({ navigation }) {
     getApiData(BaseSetting.endpoints.mypackages, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-          console.log(
-            '🚀 ~ file: index.js ~ line 23 ~ .then ~ result',
-            result?.result[0],
-          );
+          console.log('🚀 ~ file: index.js ~ line 23 ~ .then ~ result', result);
           setpackageList(result?.result[0]);
           setavailPackageList(result?.result[0]?.Available);
         }
@@ -102,9 +99,6 @@ export default function MyPackages({ navigation }) {
                 {t('bookNow')}
               </Text>
             </TouchableOpacity>
-            {/* <Text style={[styles.viewSession, { marginTop: 8 }]}>
-              Amount: {item?.balanceAmount}
-            </Text> */}
           </View>
         </View>
       </>
@@ -134,19 +128,19 @@ export default function MyPackages({ navigation }) {
       />
       <View style={styles.container}>
         <View style={styles.topPart}>
-          {packageList?.totalSessions && (
+          {/* {!!packageList?.totalSessions && (
             <Text style={styles.headTxt}>
               {`${t('sessions')}: `}
               <Text
                 style={styles.secTxt}>{`${packageList?.totalSessions}`}</Text>
-              {/* {`  |  Amounts: `} */}
-              {/* ${t('balance')} */}
-              {
-                // <Text
-                //   style={styles.secTxt}>{`${packageList?.totalBalance}`}</Text>
-              }
             </Text>
-          )}
+          )} */}
+          <Text style={styles.headTxt}>
+            {`${t('sessions')}: `}
+            <Text style={styles.secTxt}>{`${
+              packageList?.totalSessions || 0
+            }`}</Text>
+          </Text>
         </View>
         <FlatList
           data={availPackageList}
