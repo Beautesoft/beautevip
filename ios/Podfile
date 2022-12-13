@@ -13,7 +13,8 @@ target 'TncCrm' do
   )
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
-
+  pod 'FirebaseCore', :modular_headers => true
+    pod 'GoogleUtilities', :modular_headers => true
   target 'TncCrmTests' do
     inherit! :complete
     # Pods for testing

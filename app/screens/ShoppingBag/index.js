@@ -302,6 +302,13 @@ export default function ShoppingBag({ navigation }) {
       <CHeader
         title={t('shoppingBag')}
         showLeftIcon
+        showLeftFirstIcon
+        onLeftFirstIconPress={() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'BottomTabsNavigator' }],
+          });
+        }}
         onLeftIconPress={() => navigation.goBack()}
       />
       <View style={styles.container}>

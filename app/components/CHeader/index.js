@@ -10,6 +10,9 @@ export default function CHeader(props) {
     leftIcon = Icons.back_arrow,
     showLeftIcon,
     onLeftIconPress = () => {},
+    leftFisrtIcon = Icons.home,
+    showLeftFirstIcon,
+    onLeftFirstIconPress = () => {},
   } = props;
   return (
     <View
@@ -30,6 +33,16 @@ export default function CHeader(props) {
           flex: 1,
         }}>
         <CText value={title} size={32} color={theme().darkGrey} />
+        {showLeftFirstIcon && (
+          <TouchableOpacity onPress={onLeftFirstIconPress} activeOpacity={0.7}>
+            <Image
+              source={leftFisrtIcon}
+              tintColor={theme().darkGrey}
+              style={{ height: 34, width: 34 }}
+              resizeMode="center"
+            />
+          </TouchableOpacity>
+        )}
         {showLeftIcon && (
           <TouchableOpacity onPress={onLeftIconPress} activeOpacity={0.7}>
             <Image

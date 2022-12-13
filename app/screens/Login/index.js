@@ -25,7 +25,7 @@ import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { cloneDeep } from 'lodash';
+import { getFcmToken } from '../../firebase/fcmtoken';
 
 export default function Login({ navigation }) {
   const styles = styledFunc();
@@ -65,6 +65,7 @@ export default function Login({ navigation }) {
             data: result?.result,
           });
         }
+        setFcmToken(result?.result);
         Toast.show(result?.error);
       })
       .catch((err) => {
@@ -72,6 +73,24 @@ export default function Login({ navigation }) {
         Toast.show('Something went wrong!');
         setloader(false);
       });
+  };
+
+  const setFcmToken = async (user) => {
+    const fcmToken = await getFcmToken();
+    if (fcmToken) {
+      const data = {
+        customerCode: user.customerCode,
+        phoneNumber: user.customerPhone,
+        fcmToken: fcmToken,
+      };
+      getApiData(BaseSetting.endpoints.setFcmToken, 'post', data)
+        .then((result) => {
+          console.log('result fcm token', result);
+        })
+        .catch((err) => {
+          console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
+        });
+    }
   };
 
   return (
