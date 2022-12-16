@@ -72,10 +72,10 @@ export default function OrdersScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       appointmentSearch(1);
-      setselectedTab({
-        id: 1,
-        title: 'Upcoming',
-      });
+      // setselectedTab({
+      //   id: 1,
+      //   title: 'Upcoming',
+      // });
     }, []),
   );
 
@@ -210,7 +210,11 @@ export default function OrdersScreen({ navigation }) {
           // }
           setAllOrder(result);
           //  setOrderResults(status, result);
-          setorderList(result.futureAppointments);
+          if (selectedTab.id === 5) {
+            setorderList(result.result);
+          } else {
+            setorderList(result.futureAppointments);
+          }
         }
         setloader(false);
         setrefreshing(false);

@@ -302,13 +302,23 @@ export default function HomeScreen({ navigation }) {
               placeholderTextColor={theme().amber}
               onChangeText={setsearchTxt}
               onChange={() => {
-                const tempArr = productList.filter((item) => {
-                  const name =
-                    item && item?.itemName ? item?.itemName.toLowerCase() : '';
-                  return name.includes(searchTxt.toLowerCase());
-                });
+                const tempArr = productList.filter((item) =>
+                  item?.itemName
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
+                );
+                // const tempArr = productList.filter((item) => {
 
-                setfilterArr(tempArr);
+                //   const name =
+                //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
+                //   return name.includes(searchTxt.toLowerCase());
+                // });
+                if (!!searchTxt) {
+                  setfilterArr(tempArr);
+                } else {
+                  setfilterArr(productList);
+                }
               }}
               resizeMode="center"
             />

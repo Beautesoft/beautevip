@@ -90,7 +90,11 @@ export default function Notification({ navigation }) {
                 style={styles.notCont}
                 activeOpacity={0.7}
                 onPress={() => {
-                  navigation.navigate('NotificationDetail', { nData: item });
+                  if (item.notificationType === 'Reward') {
+                    navigation.navigate('MyEarnPoint');
+                  } else {
+                    navigation.navigate('NotificationDetail', { nData: item });
+                  }
                 }}>
                 <View>
                   <Image

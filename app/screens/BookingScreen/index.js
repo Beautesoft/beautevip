@@ -927,28 +927,28 @@ export default function BookingScreen({ navigation, route }) {
         modal
         mode="date"
         open={isDatePickerVisible}
-        date={new Date()}
-        minimumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1)}
+        date={new Date(new Date().getTime())}
+        minimumDate={new Date(new Date().getTime())}
         maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
         onConfirm={(val) => {
           console.log('date picker on confirm trigger');
-          if (val.getDay() === new Date().getDay()) {
-            console.log(
-              '🚀 ~VskingMatched>>>',
-              val.getDay(),
-              new Date().getDay(),
-            );
-            setselectedDate(
-              new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
-            );
-          } else {
-            console.log(
-              '🚀 ~VskingNotMatched>>>',
-              val.getDay(),
-              new Date().getDay(),
-            );
-            setselectedDate(val);
-          }
+          // if (val.getDay() === new Date().getDay()) {
+          //   console.log(
+          //     '🚀 ~VskingMatched>>>',
+          //     val.getDay(),
+          //     new Date().getDay(),
+          //   );
+          //   setselectedDate(
+          //     new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
+          //   );
+          // } else {
+          console.log(
+            '🚀 ~VskingNotMatched>>>',
+            val.getDay(),
+            new Date().getDay(),
+          );
+          setselectedDate(val);
+          //}
 
           getAvailableSlots(val);
           setisDatePickerVisible(false);

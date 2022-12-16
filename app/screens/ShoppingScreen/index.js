@@ -269,12 +269,17 @@ export default function ShoppingScreen({ navigation }) {
               placeholderTextColor={theme().amber}
               onChangeText={setsearchTxt}
               onChange={() => {
-                const tempArr = productList.filter((item) => {
-                  const name =
-                    item && item?.itemName ? item?.itemName.toLowerCase() : '';
-                  return name.includes(searchTxt.toLowerCase());
-                });
-
+                // const tempArr = productList.filter((item) => {
+                //   const name =
+                //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
+                //   return name.includes(searchTxt.toLowerCase());
+                // });
+                const tempArr = productList.filter((item) =>
+                  item?.itemName
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
+                );
                 if (isEmpty(searchTxt)) {
                   setfilterArr(productList);
                 } else {

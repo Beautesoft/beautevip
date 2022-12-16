@@ -221,24 +221,24 @@ export default function Settings({ navigation }) {
     //     navigation.navigate('Language');
     //   },
     // },
-    {
-      title: t('deleteAccount'),
-      onPress: () => {
-        Alert.alert(
-          'Delete Account?',
-          'Are you sure you want to delete?',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
-            { text: 'OK', onPress: () => deleteUser() },
-          ],
-          { cancelable: false },
-        );
-      },
-    },
+    // {
+    //   title: t('deleteAccount'),
+    //   onPress: () => {
+    //     Alert.alert(
+    //       'Delete Account?',
+    //       'Are you sure you want to delete?',
+    //       [
+    //         {
+    //           text: 'Cancel',
+    //           onPress: () => console.log('Cancel Pressed'),
+    //           style: 'cancel',
+    //         },
+    //         { text: 'OK', onPress: () => deleteUser() },
+    //       ],
+    //       { cancelable: false },
+    //     );
+    //   },
+    // },
     {
       title: 'Version',
       value: '0.0.3',
