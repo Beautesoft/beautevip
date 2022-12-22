@@ -64,6 +64,7 @@ export function getApiData(endpoint, method, data, headers) {
     fetch(BaseSetting.api + endpoint + qs, params)
       .then((response) => response.json())
       .then((resposeJson) => {
+        console.log('resposeJson', resposeJson);
         if (resposeJson.status !== 200 && resposeJson.status !== 401) {
           // const datas = {
           //   message: 'Could not find this method',

@@ -7,6 +7,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import { getApiData } from '../../config/apiHelper';
@@ -30,9 +31,11 @@ export default function MyPackages({ navigation }) {
 
   const [loader, setloader] = useState(false);
 
-  useEffect(() => {
-    getPackage();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getPackage();
+    }, []),
+  );
 
   const getPackage = () => {
     setloader(true);
@@ -60,49 +63,52 @@ export default function MyPackages({ navigation }) {
   };
 
   const renderPackages = ({ item, index }) => {
-    return (
-      <>
-        <View
-          style={[
-            styles.viewCont,
-            index > 0 ? { borderTopWidth: 1, borderColor: '#534105' } : null,
-          ]}>
-          <View style={{ flex: 6, flexDirection: 'row', alignItems: 'center' }}>
-            <View>
-              <Image
-                resizeMode="cover"
-                source={Images?.logo}
-                style={styles.packageImage}
-              />
+    if (item?.balanceSessions > 0) {
+      return (
+        <>
+          <View
+            style={[
+              styles.viewCont,
+              index > 0 ? { borderTopWidth: 1, borderColor: '#534105' } : null,
+            ]}>
+            <View
+              style={{ flex: 6, flexDirection: 'row', alignItems: 'center' }}>
+              <View>
+                <Image
+                  resizeMode="cover"
+                  source={Images?.logo}
+                  style={styles.packageImage}
+                />
+              </View>
+              <View style={{ marginStart: 20, width: '80%' }}>
+                <Text style={styles.viewTitle}>{item?.packageName}</Text>
+                <Text style={styles.viewSession}>
+                  Sessions: {item?.balanceSessions}
+                </Text>
+                <Text style={styles.viewSession}>
+                  {moment(item?.packagePurchaseDate).format('DD MMM YY')}
+                </Text>
+              </View>
             </View>
-            <View style={{ marginStart: 20, width: '80%' }}>
-              <Text style={styles.viewTitle}>{item?.packageName}</Text>
-              <Text style={styles.viewSession}>
-                Sessions: {item?.balanceSessions}
-              </Text>
-              <Text style={styles.viewSession}>
-                {moment(item?.packagePurchaseDate).format('DD MMM YY')}
-              </Text>
+            <View style={styles.secondView}>
+              <TouchableOpacity
+                style={styles.bookBtn}
+                activeOpacity={0.7}
+                onPress={() => {
+                  navigation.navigate('BookingScreen', {
+                    itemData: item,
+                    type: 'package',
+                  });
+                }}>
+                <Text style={[styles.viewSession, { color: theme().amberTxt }]}>
+                  {t('bookNow')}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.secondView}>
-            <TouchableOpacity
-              style={styles.bookBtn}
-              activeOpacity={0.7}
-              onPress={() => {
-                navigation.navigate('BookingScreen', {
-                  itemData: item,
-                  type: 'package',
-                });
-              }}>
-              <Text style={[styles.viewSession, { color: theme().amberTxt }]}>
-                {t('bookNow')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </>
-    );
+        </>
+      );
+    }
   };
 
   useEffect(() => {

@@ -209,7 +209,7 @@ export default function Settings({ navigation }) {
       },
     },
     {
-      title: 'Change theme',
+      title: 'Change Theme',
       onPress: () => {
         handleChangeTheme();
       },

@@ -12,10 +12,12 @@ import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import moment from 'moment';
 import { baseUrl } from '../../config/settings';
+import { useFocusEffect } from '@react-navigation/native';
+// import BaseSetting from '../config/settings';
 export default function Notification({ navigation }) {
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
-
+  console.log('userData', userData);
   const [notifyArr, setnotifyArr] = useState([]);
 
   // const notifyArr = [
@@ -36,15 +38,17 @@ export default function Notification({ navigation }) {
   //   },
   // ];
 
-  useEffect(() => {
-    GetNotification();
-  }, []);
-
+  // useEffect(() => {
+  //   GetNotification();
+  // }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      GetNotification();
+    }, []),
+  );
   const GetNotification = () => {
     // const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
-    const url = `${baseUrl}api/customerNotification?siteCode=${
-      userData?.siteCode
-    }&customerCode=${userData?.customerCode}&phoneNumber=${
+    const url = `${baseUrl}api/customerNotification?siteCode=&customerCode=&phoneNumber=${
       userData?.customerPhone
     }&status=${`OPEN`}`;
     // const url = `/dashBoardF21?siteCode=TN01&customerCode=GC01T1100002`;
@@ -71,7 +75,23 @@ export default function Notification({ navigation }) {
         console.error(error);
       });
   };
-
+  const udpatedNotificationStatus = (notificationID) => {
+    const data = {
+      notificationID: notificationID,
+      status: 'Closed',
+    };
+    const updatePushNotificationStatus = '/updatePushNotificationStatus';
+    getApiData(`${updatePushNotificationStatus}`, 'post', data)
+      .then((result) => {
+        console.log(
+          '🚀 ~ file: notification.js ~ line 9 ~ .then ~ result',
+          result,
+        );
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: notification.js ~ line 13 ~ .catch ~ err', err);
+      });
+  };
   return (
     <>
       <CHeader
@@ -90,6 +110,7 @@ export default function Notification({ navigation }) {
                 style={styles.notCont}
                 activeOpacity={0.7}
                 onPress={() => {
+                  udpatedNotificationStatus(item.notificationID);
                   if (item.notificationType === 'Reward') {
                     navigation.navigate('MyEarnPoint');
                   } else {

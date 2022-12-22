@@ -50,7 +50,7 @@ const MyEarnPoint = (props) => {
               item.invDate = tempDate;
             }
           });
-          setRewardList(tempRewadPointsList);
+          setRewardList(tempRewadPointsList.reverse());
           setRedeemList(result.redeem);
           setTotalPoints(result.totalPoints);
         }

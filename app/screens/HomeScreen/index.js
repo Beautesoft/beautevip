@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   BackHandler,
+  ScrollView,
 } from 'react-native';
 import { styledFunc } from './styles';
 import { Icons } from '../../config/icons';
@@ -351,17 +352,18 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <View>
-        {/* <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            padding: 8,
-          }}
-          nestedScrollEnabled
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }> */}
+      {/* <View> */}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          // padding: 8,
+        }}
+        nestedScrollEnabled
+        showsVerticalScrollIndicator={false}
+        // refreshControl={
+        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        // }
+      >
         <View>
           <View>
             <FlatList
@@ -498,8 +500,8 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
-        {/* </ScrollView> */}
-      </View>
+      </ScrollView>
+      {/* </View> */}
       <Loader loader={loader} />
     </View>
   );

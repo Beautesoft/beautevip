@@ -194,8 +194,12 @@ export default function OrdersScreen({ navigation }) {
     setorderList([]);
     setloader(true);
     const data = {
+      customerName: '',
       customerCode: userData?.customerCode,
       status: '',
+      employeeCode: '',
+      employeeName: '',
+      appointmentDate: '',
     };
 
     getApiData(BaseSetting.endpoints.appointmentSearch, 'post', data)

@@ -9,19 +9,18 @@ import { ModalPortal } from 'react-native-modals';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
-import { handleNotification } from './app/firebase/notification';
 export default function App() {
   useEffect(() => {
     handleUseffect();
   }, []);
   const handleUseffect = () => {
     messaging().onNotificationOpenedApp((remoteMessage) => {
-      handleNotification(JSON.parse(remoteMessage));
+      console.log('remoteMessage onNotificationOpenedApp', remoteMessage);
     });
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
-        handleNotification(JSON.parse(remoteMessage));
+        console.log('remoteMessage getInitialNotification', remoteMessage);
       });
   };
 

@@ -19,6 +19,7 @@ import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import validator from 'validator';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function SignUp({ navigation }) {
   const styles = styledFunc();
@@ -119,9 +120,13 @@ export default function SignUp({ navigation }) {
   return (
     <>
       <BackgroundImage image={Images.backgroundImageSec} />
-      <ScrollView
+      <KeyboardAwareScrollView
+        extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
+        {/* <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}> */}
         <Image
           source={Images.logo}
           style={{
@@ -214,7 +219,7 @@ export default function SignUp({ navigation }) {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );
