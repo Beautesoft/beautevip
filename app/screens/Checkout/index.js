@@ -397,7 +397,7 @@ export default function Checkout({ navigation, route }) {
           <View
             style={{
               padding: 8,
-              backgroundColor: theme().white,
+              backgroundColor: theme().always_white,
               position: 'absolute',
               bottom: 0,
               left: 0,

@@ -123,7 +123,7 @@ export default function ProductDetails({ navigation, route }) {
             }}>
             <Text style={styles.dropValue}>{selectedQuantity}</Text>
             <Image
-              style={{ height: 16, width: 16 }}
+              style={{ height: 16, width: 16, tintColor: theme().black }}
               resizeMode="center"
               source={Icons.drop_icon}
             />
@@ -153,7 +153,7 @@ export default function ProductDetails({ navigation, route }) {
             <View
               style={{
                 height: 350,
-                backgroundColor: '#fff',
+                backgroundColor: theme().white,
                 width: '90%',
                 borderRadius: 8,
               }}>

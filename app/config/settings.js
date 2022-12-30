@@ -48,6 +48,7 @@ const BaseSetting = {
     homeBanner: '/dashBoardF21',
     setFcmToken: '/fcmTokenForCustomerApp',
     availableSlotsTnc: '/AvailableSlotsTnc',
+    AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
   },
 };

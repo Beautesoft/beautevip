@@ -188,7 +188,7 @@ const Invoice = (props) => {
             fontFamily={FontFamily.Poppins_Medium}
           />
         </View>
-        <View style={styles.dateTimeContainer}>
+        {/* <View style={styles.dateTimeContainer}>
           <CText
             value={'Sub Total :'}
             color={theme().white}
@@ -237,7 +237,7 @@ const Invoice = (props) => {
             size={14}
             fontFamily={FontFamily.Poppins_Medium}
           />
-        </View>
+        </View> */}
         <View style={styles.dateTimeContainer}>
           <CText
             value={'Grand Total :'}
