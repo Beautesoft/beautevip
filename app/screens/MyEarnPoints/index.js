@@ -6,7 +6,7 @@ import { getApiData } from '../../config/apiHelper';
 import { useSelector } from 'react-redux';
 import { t } from 'i18next';
 import moment from 'moment';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import { FontFamily } from '../../config/typography';
 import BaseSetting from '../../config/settings';
 import { theme } from '../../redux/reducer/theme';
@@ -182,7 +182,7 @@ const MyEarnPoint = (props) => {
           />
         </View>
       </View>
-      <Loader loader={loader} />
+      <CLoader loader={loader} />
     </>
   );
 };

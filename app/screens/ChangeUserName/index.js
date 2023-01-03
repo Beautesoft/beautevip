@@ -4,7 +4,7 @@ import { Alert, BackHandler, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import { getApiData } from '../../config/apiHelper';
 import { theme } from '../../redux/reducer/theme';
 import BaseSetting from '../../config/settings';
@@ -90,7 +90,7 @@ export default function ChangeUserName({ navigation }) {
           />
         </View>
         <CButton title={t('update')} onPress={sendOtp} />
-        <Loader loader={loader} />
+        <CLoader loader={loader} />
       </View>
     </>
   );

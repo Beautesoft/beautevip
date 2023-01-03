@@ -3,8 +3,7 @@ import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
 import { styledFunc } from './styles';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import Loader from '../../components/Loader';
-import OrderItem from '../../components/OrderItem';
+import CLoader from '../../components/CLoader';
 import { theme } from '../../redux/reducer/theme';
 import { useSelector } from 'react-redux';
 import { getApiData } from '../../config/apiHelper';
@@ -161,7 +160,7 @@ const MyOrder = ({ navigation }) => {
             )}
           />
         </View>
-        <Loader loader={loader} />
+        <CLoader loader={loader} />
       </View>
     </>
   );

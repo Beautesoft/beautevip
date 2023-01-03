@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import { getApiData } from '../../config/apiHelper';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
@@ -407,7 +407,7 @@ export default function ShoppingBag({ navigation }) {
           </>
         )}
       </View>
-      <Loader loader={loader} />
+      <CLoader loader={loader} />
 
       <Modal style={{ flex: 1 }} transparent visible={showQuantity}>
         <View

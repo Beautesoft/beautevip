@@ -10,7 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import OrderItem from '../../components/OrderItem';
 import { getApiData } from '../../config/apiHelper';
 import { theme } from '../../redux/reducer/theme';
@@ -369,7 +369,7 @@ export default function OrdersScreen({ navigation }) {
           )}
         />
       </View>
-      <Loader loader={loader} />
+      <CLoader loader={loader} />
     </>
   );
 }

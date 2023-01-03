@@ -19,7 +19,7 @@ import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
 import Toast from 'react-native-simple-toast';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import moment from 'moment';
 import { t } from 'i18next';
 
@@ -367,7 +367,7 @@ export default function Checkout({ navigation, route }) {
           }}
         />
       </View>
-      <Loader loader={loader} />
+      <CLoader loader={loader} />
 
       <Modal
         style={{ flex: 1 }}

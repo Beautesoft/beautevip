@@ -23,7 +23,7 @@ import ProductContainer from '../../components/ProductContainer';
 import AuthAction from '../../redux/reducer/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApiData } from '../../config/apiHelper';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { LogBox } from 'react-native';
@@ -502,7 +502,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       </ScrollView>
       {/* </View> */}
-      <Loader loader={loader} />
+      <CLoader loader={loader} />
     </View>
   );
 }

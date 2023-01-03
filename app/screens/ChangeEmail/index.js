@@ -4,7 +4,7 @@ import { Alert, BackHandler, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import CButton from '../../components/CButton';
 import CHeader from '../../components/CHeader';
-import Loader from '../../components/Loader';
+import CLoader from '../../components/CLoader';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import { styledFunc } from './styles';
@@ -88,7 +88,7 @@ export default function ChangeEmail({ navigation }) {
           onChangeText={setemail}
         />
         <CButton title={t('update')} onPress={sendOtp} />
-        <Loader loader={loader} />
+        <CLoader loader={loader} />
       </View>
     </>
   );
