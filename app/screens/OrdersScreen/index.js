@@ -28,6 +28,7 @@ export default function OrdersScreen({ navigation }) {
     id: 1,
     title: 'Upcoming',
   });
+  const [currentTab, setCurrentTab] = useState(1);
   const [orderList, setorderList] = useState([]);
   const [allOrder, setAllOrder] = useState();
   const [loader, setloader] = useState(false);
@@ -69,21 +70,16 @@ export default function OrdersScreen({ navigation }) {
       title: t('history'),
     },
   ];
+
   useFocusEffect(
     React.useCallback(() => {
-      appointmentSearch(1);
-      // setselectedTab({
-      //   id: 1,
-      //   title: 'Upcoming',
-      // });
+      appointmentSearch();
     }, []),
   );
 
   const onRefresh = () => {
-    // if (selectedTab.id != 5) {
     setrefreshing(true);
-    appointmentSearch(selectedTab.id);
-    // }
+    appointmentSearch();
   };
 
   let backPressed = 0;
@@ -189,8 +185,8 @@ export default function OrdersScreen({ navigation }) {
       }
     }
   };
-
-  const appointmentSearch = (status) => {
+  console.log('selectedTab.id', currentTab);
+  const appointmentSearch = () => {
     setorderList([]);
     setloader(true);
     const data = {
@@ -205,7 +201,7 @@ export default function OrdersScreen({ navigation }) {
     getApiData(BaseSetting.endpoints.appointmentSearch, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-          console.log('result order screen', result);
+          console.log('result order screen with selectedTab.id', currentTab);
           // if (result?.futureAppointments) {
           //   setorderList([...result?.result, ...result?.futureAppointments]);
 
@@ -214,7 +210,7 @@ export default function OrdersScreen({ navigation }) {
           // }
           setAllOrder(result);
           //  setOrderResults(status, result);
-          if (selectedTab.id === 5) {
+          if (currentTab === 5) {
             setorderList(result.result);
           } else {
             setorderList(result.futureAppointments);
@@ -319,6 +315,7 @@ export default function OrdersScreen({ navigation }) {
                   ]}
                   onPress={() => {
                     setselectedTab(item);
+                    setCurrentTab(item.id);
                     if (item.id === 5) {
                       setorderList(allOrder.result);
                     } else {
@@ -349,7 +346,9 @@ export default function OrdersScreen({ navigation }) {
         </View>
 
         <FlatList
-          data={orderList}
+          data={
+            currentTab === 5 ? allOrder?.result : allOrder?.futureAppointments
+          }
           keyExtractor={(item, index) => index}
           renderItem={renderOrders}
           contentContainerStyle={{ flexGrow: 1 }}

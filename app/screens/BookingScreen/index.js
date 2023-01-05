@@ -503,14 +503,14 @@ export default function BookingScreen({ navigation, route }) {
               size={20}
               fontFamily={FontFamily.Poppins_SemiBold}
             />
-            {/* {JSON.stringify(orderData?.duration).length > 0 && ( */}
-            <CText
-              value={`${!!orderData?.duration ? orderData?.duration : 0} min`}
-              color={theme().amberTxt}
-              size={18}
-              fontFamily={FontFamily.Poppins_Regular}
-            />
-            {/* )} */}
+            {!!orderData?.duration && (
+              <CText
+                value={`${!!orderData?.duration ? orderData?.duration : 0} min`}
+                color={theme().amberTxt}
+                size={18}
+                fontFamily={FontFamily.Poppins_Regular}
+              />
+            )}
             {orderData?.price && (
               <CText
                 value={`S$ ${orderData?.price}`}
@@ -663,16 +663,37 @@ export default function BookingScreen({ navigation, route }) {
         maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
         onConfirm={(val) => {
           console.log('date picker on confirm trigger');
+          if (val.getDay() === new Date().getDay()) {
+            console.log(
+              '🚀 ~VskingMatched>>>',
+              val.getDay(),
+              new Date().getDay(),
+            );
+            setselectedDate(
+              new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
+            );
+          } else {
+            console.log(
+              '🚀 ~VskingNotMatched>>>',
+              val.getDay(),
+              new Date().getDay(),
+            );
+            setselectedDate(val);
+          }
 
-          console.log(
-            '🚀 ~VskingNotMatched>>>',
-            val.getDay(),
-            new Date().getDay(),
-          );
-          setTimeAndStaffLoader(true);
-          setselectedDate(val);
           getAvailableSlots(val);
           setisDatePickerVisible(false);
+          setTimeAndStaffLoader(true);
+
+          // console.log(
+          //   '🚀 ~VskingNotMatched>>>',
+          //   val.getDay(),
+          //   new Date().getDay(),
+          // );
+          // setTimeAndStaffLoader(true);
+          // setselectedDate(val);
+          // getAvailableSlots(val);
+          // setisDatePickerVisible(false);
 
           console.log(
             '🚀 ~ file: index.js ~ line 266 ~ BookingScreen ~ val Vk>>',

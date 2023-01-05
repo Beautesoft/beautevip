@@ -34,9 +34,10 @@ import { Linking } from 'react-native';
 
 export default function Settings({ navigation }) {
   const currentTheme = useSelector((state) => state.theme.theme);
-  console.log('currentTheme', currentTheme);
+
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
+
   const isFocused = useIsFocused();
   const { updateUserData } = AuthAction;
   const { logout, setUserData, setStoreData } = AuthAction;
@@ -49,7 +50,7 @@ export default function Settings({ navigation }) {
 
   const [loader, setloader] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
-
+  console.log('listArr', listArr);
   // console.log("vsking1",userData)
 
   useEffect(() => {
@@ -72,9 +73,9 @@ export default function Settings({ navigation }) {
         );
         if (result?.success == 1) {
           setTotalPoints(result.totalPoints);
-          listArr[5].value = result.totalPoints;
+          listArr[6].value = result.totalPoints;
           console.log('listArr', listArr);
-          setState(listArr);
+          setState([...listArr]);
         }
       })
       .catch((err) => {
@@ -102,7 +103,7 @@ export default function Settings({ navigation }) {
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-          listArr[5].value = json?.result?.[0].address;
+          listArr[4].value = json?.result?.[0].address;
           setState(listArr);
         } catch (error) {}
 

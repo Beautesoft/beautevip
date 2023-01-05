@@ -50,12 +50,12 @@ export const styledFunc = () => {
     pointsButtonTitle: {
       fontSize: 16,
       fontFamily: FontFamily.Poppins_Bold,
-      color: theme().color_fffaf0,
+      color: theme().white,
     },
     pointsText: {
       fontSize: 16,
       fontFamily: FontFamily.Poppins_Medium,
-      color: theme().color_fffaf0,
+      color: theme().white,
     },
     rewardAndRedeemContainer: {
       flexDirection: 'row',
@@ -66,7 +66,7 @@ export const styledFunc = () => {
     rewardText: {
       fontSize: 16,
       fontFamily: FontFamily.Poppins_Medium,
-      color: theme().color_fffaf0,
+      color: theme().white,
     },
     rewardButton: {
       width: '50%',

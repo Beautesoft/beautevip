@@ -18,13 +18,18 @@ const Invoice = (props) => {
     'No.',
     'Description',
     'Qty',
-    'U/P',
+    'Amount',
   ]);
   const [tableData, setTableData] = useState();
   const orderData = props.route.params?.data;
+  const initialValue = 0;
   useEffect(() => {
     let orderItem = props.route.params?.data.items;
     let tempData = [];
+    const totalQuantity = orderItem.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.itemQty,
+      initialValue,
+    );
     orderItem.map((item, index) => {
       tempData.push([
         index + 1,
@@ -36,7 +41,8 @@ const Invoice = (props) => {
         tempData.push([
           '',
           '',
-          orderItem.length,
+          totalQuantity,
+          // orderItem.length,
           orderData.depositAmount.toFixed(2),
         ]);
       }
@@ -111,7 +117,7 @@ const Invoice = (props) => {
         </View>
         <View style={styles.dateTimeContainer}>
           <CText
-            value={'Issued :'}
+            value={'Issued to:'}
             color={theme().white}
             size={20}
             fontFamily={FontFamily.Poppins_SemiBold}

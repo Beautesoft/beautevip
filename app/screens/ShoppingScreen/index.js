@@ -267,20 +267,20 @@ export default function ShoppingScreen({ navigation }) {
               }}
               value={searchTxt}
               placeholderTextColor={theme().amber}
-              onChangeText={setsearchTxt}
-              onChange={() => {
+              onChangeText={(text) => {
                 // const tempArr = productList.filter((item) => {
                 //   const name =
                 //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
-                //   return name.includes(searchTxt.toLowerCase());
+                //   return name.includes(text.toLowerCase());
                 // });
+                setsearchTxt(text);
                 const tempArr = productList.filter((item) =>
                   item?.itemName
                     .toLowerCase()
                     .replace(/\s+/g, '')
-                    .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
+                    .includes(text.toLowerCase().replace(/\s+/g, '')),
                 );
-                if (isEmpty(searchTxt)) {
+                if (isEmpty(text)) {
                   setfilterArr(productList);
                 } else {
                   setfilterArr(tempArr);
