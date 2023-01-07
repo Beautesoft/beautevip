@@ -303,6 +303,7 @@ export default function ShoppingBag({ navigation }) {
         title={t('shoppingBag')}
         showLeftIcon
         showLeftFirstIcon
+        leftFisrtIcon={Icons.home}
         onLeftFirstIconPress={() => {
           navigation.reset({
             index: 0,
