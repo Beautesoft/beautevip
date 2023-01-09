@@ -43,6 +43,7 @@
 	<string>Need to access photos for selecting Profile Picture</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>MaterialIcons.ttf</string>
 		<string>Poppins-Black.ttf</string>
 		<string>Poppins-BlackItalic.ttf</string>
 		<string>Poppins-Bold.ttf</string>

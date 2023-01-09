@@ -21,7 +21,6 @@ import { t } from 'i18next';
 import CLoader from '../../components/CLoader';
 import { useIsFocused } from '@react-navigation/core';
 import { baseUrl } from '../../config/settings';
-
 export default function ShoppingScreen({ navigation }) {
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);

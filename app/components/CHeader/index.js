@@ -3,6 +3,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import CText from '../CText';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function CHeader(props) {
   const {
@@ -35,11 +36,12 @@ export default function CHeader(props) {
         <CText value={title} size={32} color={theme().darkGrey} />
         {showLeftFirstIcon && (
           <TouchableOpacity onPress={onLeftFirstIconPress} activeOpacity={0.7}>
-            <Image
+            {/* <Image
               source={leftFisrtIcon}
               style={{ height: 34, width: 34, tintColor: theme().darkGrey }}
               resizeMode="center"
-            />
+            /> */}
+            <MaterialIcons name="home" size={35} color={theme().darkGrey} />
           </TouchableOpacity>
         )}
         {showLeftIcon && (
