@@ -48,8 +48,7 @@ export default function CHeader(props) {
           <TouchableOpacity onPress={onLeftIconPress} activeOpacity={0.7}>
             <Image
               source={leftIcon}
-              tintColor={theme().darkGrey}
-              style={{ height: 34, width: 34 }}
+              style={{ height: 34, width: 34, tintColor: theme().darkGrey }}
               resizeMode="center"
             />
           </TouchableOpacity>
