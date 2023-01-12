@@ -402,7 +402,8 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   const GetSaloonList = () => {
-    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
+    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0&serviceItemCode=${orderData.packageList[0].itemCode}`;
+    console.log('url',url)
     fetch(url)
       .then((response) => response.json())
       .then((json) => {

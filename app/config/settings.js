@@ -42,7 +42,7 @@ const BaseSetting = {
     stripeCustomerCreate: '/StripeCustomerCreate',
     stripePaymentIntentCreate: '/StripePaymentIntentCreate',
     stripePaymentIntentConfirm: '/StripePaymentIntentConfirm',
-    appTransPostSales: '/appTransPostSalesF21',
+    appTransPostSales: '/appTransPostSalesTnc',
     mypackages: '/mypackages',
     cartAllItemDelete: '/cartAllItemDelete',
     homeBanner: '/dashBoardF21',
