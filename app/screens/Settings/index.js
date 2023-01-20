@@ -313,7 +313,7 @@ export default function Settings({ navigation }) {
 
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('Me');
+      navigation.goBack();
       return true;
     };
 
@@ -487,7 +487,7 @@ export default function Settings({ navigation }) {
           setState((pState) => {
             console.log('🚀 before>>', pState);
             //pState[0].title="My Pac "
-            pState[1].photoData = { uri: newPic + '?' + new Date() };
+            pState[2].photoData = { uri: newPic + '?' + new Date() };
             console.log('🚀 after>>', pState);
             return [...pState];
           });

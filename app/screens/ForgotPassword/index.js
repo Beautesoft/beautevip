@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ForgotPassword({ navigation }) {
   const styles = styledFunc();
@@ -57,7 +58,7 @@ export default function ForgotPassword({ navigation }) {
     getApiData(BaseSetting.endpoints.sendOtp, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-          navigation.navigate('ResetPassword');
+          navigation.navigate('ResetPassword', { data });
           //Alert.alert("Otp!",`${result?.result}`)
           dispatch(setSignupData(data));
         } else {
@@ -77,7 +78,7 @@ export default function ForgotPassword({ navigation }) {
     <>
       <BackgroundImage image={Images.backgroundImageSec} />
 
-      <ScrollView
+      <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
@@ -156,7 +157,7 @@ export default function ForgotPassword({ navigation }) {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );

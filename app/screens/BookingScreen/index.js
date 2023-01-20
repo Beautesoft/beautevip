@@ -334,7 +334,7 @@ export default function BookingScreen({ navigation, route }) {
   useEffect(() => {
     //setcardInputModal(false);
     // AvailableSlots();
-    GetAddress();
+    //GetAddress();
     // GetStaffMemberList();
     GetSaloonList();
   }, []);
@@ -402,17 +402,19 @@ export default function BookingScreen({ navigation, route }) {
   };
 
   const GetSaloonList = () => {
-    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0&serviceItemCode=${orderData.packageList[0].itemCode}`;
-    console.log('url',url)
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('🚀 line 371>', json);
-        setsaloonList(json?.result);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (packageType) {
+      const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0&serviceItemCode=${orderData.packageList[0].itemCode}`;
+      console.log('url', url);
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log('🚀 line 371>', json);
+          setsaloonList(json?.result);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const cartAllItemDelete = () => {
@@ -457,7 +459,11 @@ export default function BookingScreen({ navigation, route }) {
         // if (result?.success == 1) {
         //   getCartItems();
         // }
-        navigation.navigate('ShoppingBag');
+        // navigation.navigate('ShoppingBag');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'BottomTabsNavigator' }],
+        });
         Toast.show('Added to cart.');
       })
       .catch((err) => {

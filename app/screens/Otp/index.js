@@ -16,7 +16,7 @@ import BaseSetting from '../../config/settings';
 import CLoader from '../../components/CLoader';
 import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 export default function Otp({ navigation, route }) {
   const styles = styledFunc();
   const { signupData } = useSelector((state) => state.auth);
@@ -83,7 +83,7 @@ export default function Otp({ navigation, route }) {
     <>
       <BackgroundImage image={Images.backgroundImageSec} />
 
-      <ScrollView
+      <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
@@ -148,7 +148,7 @@ export default function Otp({ navigation, route }) {
             }}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );

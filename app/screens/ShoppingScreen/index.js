@@ -145,9 +145,10 @@ export default function ShoppingScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
-
   useEffect(() => {
     StoreDetails(1);
+  }, []);
+  useEffect(() => {
     GetCartItemList();
   }, [isFocused]);
 

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import { styledFunc } from './styles';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
@@ -9,14 +15,35 @@ import { useSelector } from 'react-redux';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import moment from 'moment';
-const MyOrder = ({ navigation }) => {
+const MyOrder = ({ navigation, route }) => {
   const styles = styledFunc();
   const [loader, setloader] = useState(false);
   const [orderList, setorderList] = useState([]);
   const [refreshing, setrefreshing] = useState(false);
   const { userData } = useSelector((state) => state.auth);
+  const resetFlow = !!route.params?.resetFlow;
   useEffect(() => {
     transactionInVoice();
+  }, []);
+  useEffect(() => {
+    const backAction = () => {
+      if (resetFlow) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'BottomTabsNavigator' }],
+        });
+      } else {
+        navigation.goBack();
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
   }, []);
   const transactionInVoice = () => {
     setorderList([]);
@@ -135,7 +162,16 @@ const MyOrder = ({ navigation }) => {
       <CHeader
         title={'My Order'}
         showLeftIcon
-        onLeftIconPress={() => navigation.goBack()}
+        onLeftIconPress={() => {
+          if (resetFlow) {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'BottomTabsNavigator' }],
+            });
+          } else {
+            navigation.goBack();
+          }
+        }}
       />
       <View style={styles.container}>
         <View style={{ flex: 1 }}>

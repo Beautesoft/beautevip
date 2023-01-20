@@ -169,6 +169,7 @@ export default function SignUp({ navigation }) {
             secureTextEntry={secureTextEntry}
             showRightIcon
             contStyle={styles.cInput}
+            maxLength={6}
           />
           <CInput
             placeholder={t('phConfirmPassword')}
@@ -182,6 +183,7 @@ export default function SignUp({ navigation }) {
             secureTextEntry={secureTextEntry}
             showRightIcon
             contStyle={styles.cInput}
+            maxLength={6}
           />
           <CInput
             placeholder={t('phEnterPromoCode')}
@@ -203,11 +205,14 @@ export default function SignUp({ navigation }) {
             <View style={styles.forgotStyle}>
               <TouchableOpacity
                 activeOpacity={0.7}
+                hitSlop={{
+                  top: 20,
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                }}
                 onPress={() => {
-                  //navigation.navigate('Login')
-                  try {
-                    navigation.goBack();
-                  } catch (error) {}
+                  navigation.goBack();
                 }}>
                 <CText
                   value={t('alreadyUser')}

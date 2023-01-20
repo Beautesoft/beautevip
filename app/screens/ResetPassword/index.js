@@ -19,13 +19,15 @@ import { t } from 'i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 
-export default function ResetPassword({ navigation }) {
+export default function ResetPassword({ navigation, route }) {
   const styles = styledFunc();
   const { setUserData, setStoreData } = AuthAction;
   const { signupData } = useSelector((state) => state.auth);
+  const data = route.params?.data;
   const dispatch = useDispatch();
   //   const [moNumber, setmoNumber] = useState('');
-  const moNumber = signupData.phoneNumber;
+  console.log('data', data);
+  const moNumber = data.phoneNumber;
   const [otp, setotp] = useState('');
   const [password, setpassword] = useState('');
   const [cpassword, setcpassword] = useState('');

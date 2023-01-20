@@ -230,7 +230,8 @@ export default function Checkout({ navigation, route }) {
         setloader(false);
         if (result?.success == 1) {
           Toast.show('Order confirmed');
-          navigation.navigate('BottomTabsNavigator');
+          // navigation.navigate('BottomTabsNavigator');
+          navigation.navigate('MyOrder', { resetFlow: true });
         }
         console.log('🚀 ~ file: index.js  ~ .then ~ loader', loader);
       })
@@ -402,33 +403,41 @@ export default function Checkout({ navigation, route }) {
               bottom: 0,
               left: 0,
               right: 0,
-              height: '85%',
+              height: '88%',
             }}>
-            <CreditCardInput
-              onChange={(val) => {
-                const expMonth = split(val?.values?.expiry, '/')[0];
-                const expYear = split(val?.values?.expiry, '/')[1];
+            <View
+              style={{
+                position: 'absolute',
+                alignSelf: 'center',
+                top: 70,
+                //left: 0,
+              }}>
+              <CreditCardInput
+                onChange={(val) => {
+                  const expMonth = split(val?.values?.expiry, '/')[0];
+                  const expYear = split(val?.values?.expiry, '/')[1];
 
-                const tempObj = {
-                  number: val?.values?.number,
-                  exp_month: expMonth,
-                  exp_year: 20 + expYear,
-                  cvc: val?.values?.cvc,
-                };
-                console.log(
-                  '🚀 ~ file: index.js ~ line 373 ~ productList.map ~ tempObj',
-                  val?.values?.type,
-                );
+                  const tempObj = {
+                    number: val?.values?.number,
+                    exp_month: expMonth,
+                    exp_year: 20 + expYear,
+                    cvc: val?.values?.cvc,
+                  };
+                  console.log(
+                    '🚀 ~ file: index.js ~ line 373 ~ productList.map ~ tempObj',
+                    val?.values?.type,
+                  );
 
-                setcardType(val?.values?.type);
+                  setcardType(val?.values?.type);
 
-                setcardObj(tempObj);
-              }}
-              cardFontFamily={FontFamily.arial_bold}
-              // validColor={theme().whiteColor}
-              labelStyle={{ color: theme().black }}
-              allowScroll={true}
-            />
+                  setcardObj(tempObj);
+                }}
+                cardFontFamily={FontFamily.arial_bold}
+                // validColor={theme().whiteColor}
+                labelStyle={{ color: theme().black }}
+                allowScroll={true}
+              />
+            </View>
             <CButton
               loader={loader}
               title={t('submit')}
@@ -437,7 +446,7 @@ export default function Checkout({ navigation, route }) {
               }}
               style={{
                 position: 'absolute',
-                top: Platform.OS === 'ios' ? '45%' : '75%',
+                top: Platform.OS === 'ios' ? '55%' : '80%',
                 width: '90%',
                 marginBottom: 0,
                 alignSelf: 'center',

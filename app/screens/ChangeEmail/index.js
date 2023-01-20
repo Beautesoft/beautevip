@@ -39,7 +39,7 @@ export default function ChangeEmail({ navigation }) {
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 23 ~ .then ~ result', result);
         if (result?.success == 1) {
-          Alert.alert(`Your OTP is ${result?.result}`);
+          // Alert.alert(`Your OTP is ${result?.result}`);
 
           navigation.navigate('Otp', {
             type: 'update',
