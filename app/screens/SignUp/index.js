@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, ScrollView, TextInput, View } from 'react-native';
+import { Alert, Image, TouchableOpacity, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
 import { styledFunc } from './styles';
 import CText from '../../components/CText';
@@ -17,7 +17,6 @@ import BaseSetting from '../../config/settings';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import validator from 'validator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -121,12 +120,10 @@ export default function SignUp({ navigation }) {
     <>
       <BackgroundImage image={Images.backgroundImageSec} />
       <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
         extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
-        {/* <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}> */}
         <Image
           source={Images.logo}
           style={{

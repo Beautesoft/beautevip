@@ -98,6 +98,7 @@ export default function Login({ navigation }) {
       <BackgroundImage image={Images.backgroundImageSec} />
 
       <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
         extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>

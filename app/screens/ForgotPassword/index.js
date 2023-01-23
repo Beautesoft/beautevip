@@ -79,6 +79,7 @@ export default function ForgotPassword({ navigation }) {
       <BackgroundImage image={Images.backgroundImageSec} />
 
       <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image

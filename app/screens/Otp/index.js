@@ -84,6 +84,7 @@ export default function Otp({ navigation, route }) {
       <BackgroundImage image={Images.backgroundImageSec} />
 
       <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
