@@ -12,13 +12,16 @@
     "release": "cd ./android && gradlew clean && gradlew assemblerelease",
     "debug": "cd ./android && gradlew clean && gradlew assembledebug %% http-server",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "clean": "cd android && ./gradlew clean",
+    "clean": "cd android && gradlew clean",
     "ipod": "cd ios && pod install",
     "rpod": "cd ios && rm -rf Pods Podfile.lock",
     "rnode": "rm -rf node_modules package-lock.json",
     "rdupres": "rm -rf ./android/app/src/main/res/drawable-* && rm -rf ./android/app/src/main/res/raw",
     "bundleRelease": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && rm -rf android/app/src/main/res/drawable- && rm -rf android/app/src/main/res/raw/ && cd android && ./gradlew bundleRelease && cd ..",
-    "apkRelease": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && rm -rf android/app/src/main/res/drawable- && rm -rf android/app/src/main/res/raw/ && cd android && ./gradlew assembleRelease && cd .."
+    "apkRelease": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/build/intermediates/res/merged/release/ && rm -rf android/app/src/main/res/drawable- && rm -rf android/app/src/main/res/raw/ && cd android && ./gradlew assembleRelease && cd ..",
+    "prebuild": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "build": "cd android && gradlew assembleDebug && cd ../",
+    "clear": "cd android && gradlew clean && cd ../"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.11",
@@ -55,6 +58,7 @@
     "react-native-screens": "^3.18.2",
     "react-native-simple-toast": "^1.1.3",
     "react-native-table-component": "^1.2.2",
+    "react-native-vector-icons": "^9.2.0",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",

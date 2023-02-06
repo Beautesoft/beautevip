@@ -25,7 +25,7 @@ export const BottomTabsNavigator = () => {
           let iconName;
           if (route.name === 'Home') {
             iconName = Icons.home;
-          } else if (route.name === 'Booking') {
+          } else if (route.name === 'Services') {
             iconName = Icons.calendar;
           } else if (route.name === 'My Booking') {
             iconName = Icons.time_circle;
@@ -60,7 +60,7 @@ export const BottomTabsNavigator = () => {
         },
       })}
       initialRouteName="Home">
-      <Tab.Screen name="Booking" component={ServiceScreen} />
+      <Tab.Screen name="Services" component={ServiceScreen} />
       <Tab.Screen name="My Booking" component={OrdersScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Shopping" component={ShoppingScreen} />
