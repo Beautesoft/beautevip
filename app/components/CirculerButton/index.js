@@ -33,7 +33,7 @@ export default function CircularButton(props) {
           }}>
           <Image
             source={iconSrouce}
-            style={{ height: '50%', width: '50%' }}
+            style={{ height: '70%', width: '70%' }}
             resizeMode="center"
             tintColor={theme().black}
           />

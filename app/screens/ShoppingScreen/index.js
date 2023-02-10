@@ -238,7 +238,7 @@ export default function ShoppingScreen({ navigation }) {
           }}>
           <Image
             style={{ height: 40, width: 40 }}
-            source={Images.logoResized}
+            source={Images.logo}
             resizeMode="center"
           />
           {/* <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>

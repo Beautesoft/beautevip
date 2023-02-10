@@ -300,7 +300,7 @@ export default function ShoppingBag({ navigation }) {
   return (
     <>
       <CHeader
-        title={t('shoppingBag')}
+        title={t('cart')}
         showLeftIcon
         showLeftFirstIcon
         leftFisrtIcon={Icons.home}
@@ -321,52 +321,7 @@ export default function ShoppingBag({ navigation }) {
         <FlatList data={itemList} renderItem={renderItem} />
         {!!subTotal && (
           <>
-            <CText value={t('haveDicoundCode')} size={14} />
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                alignItems: 'center',
-                backgroundColor: theme().white,
-                alignSelf: 'center',
-                padding: 4,
-                borderRadius: 40,
-                paddingHorizontal: 8,
-                marginTop: 8,
-              }}>
-              <Image
-                source={Images.goals}
-                style={{ height: 22, width: 22 }}
-                resizeMode="contain"
-              />
-              <TextInput
-                placeholder="Enter Here"
-                placeholderTextColor={'#A3A3A3'}
-                style={{
-                  flex: 1,
-                  marginHorizontal: 8,
-                  fontSize: 14,
-                  fontFamily: FontFamily.Poppins_Regular,
-                  color: theme().black,
-                }}
-              />
-              <View
-                style={{
-                  height: 38,
-                  width: 38,
-                  borderRadius: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: theme().amber,
-                }}>
-                <Image
-                  source={Icons.right_arrow}
-                  style={{ height: '40%', width: '40%' }}
-                  resizeMode="contain"
-                  tintColor={theme().darkGrey}
-                />
-              </View>
-            </View>
+          
             <View
               style={{
                 height: 1,

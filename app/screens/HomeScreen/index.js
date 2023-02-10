@@ -208,7 +208,7 @@ export default function HomeScreen({ navigation }) {
     return (
       <View
         style={{
-          width: '25%',
+          width: '33%',
           alignItems: 'center',
           marginTop: 12,
         }}>
@@ -281,7 +281,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.headerCont}>
         <Image
           style={{ height: 48, width: 40 }}
-          source={Images.logoResized}
+          source={Images.logo}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
@@ -325,25 +325,27 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
           <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={0.9}
             onPress={() => navigation.navigate('Notification')}>
             <Image
-              source={Icons.notification}
+              source={Icons.notification_o}
               style={{
                 marginHorizontal: 8,
                 marginEnd: 8,
+                height: 22,
+                width: 22,
               }}
               resizeMode="center"
             />
           </TouchableOpacity>
           <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={0.9}
             onPress={() => dispatch(logout())}>
             <Image
-              source={Icons.exit}
+              source={Icons.exit_o}
               style={{
-                height: 20,
-                width: 20,
+                height: 22,
+                width: 22,
                 marginHorizontal: 8,
                 marginStart: 8,
               }}
@@ -421,12 +423,13 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View>
             <FlatList
-              numColumns={4}
+              numColumns={3}
               data={serviceList}
               renderItem={renderServiceBtn}
-              // contentContainerStyle={{
-              //   width: '100%',
-              // }}
+              contentContainerStyle={{
+                justifyContent: 'space-between',
+                flexGrow: 1,
+              }}
               keyExtractor={(item, index) => index}
             />
           </View>

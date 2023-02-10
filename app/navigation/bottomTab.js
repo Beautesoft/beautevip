@@ -38,19 +38,19 @@ export const BottomTabsNavigator = () => {
           return (
             <Image
               resizeMode="contain"
-              tintColor={focused ? theme().amber : theme().greyYellow}
-              style={{ height: 24, width: 24 }}
+              tintColor={focused ? theme().amber : theme().color_806306}
+              style={{ height: 32, width: 32 }}
               source={iconName}
             />
           );
         },
         tabBarActiveTintColor: theme().amber,
-        tabBarInactiveTintColor: theme().greyYellow,
+        tabBarInactiveTintColor: theme().white,
         tabBarLabelStyle: {
           fontSize: (Dimensions.get('window').width * 3.1) / 120,
           alignItems: 'center',
           marginTop: 6,
-          fontFamily: FontFamily.Poppins_Medium,
+          fontFamily: FontFamily.Poppins_SemiBold,
         },
         tabBarStyle: {
           backgroundColor: theme().darkGrey,

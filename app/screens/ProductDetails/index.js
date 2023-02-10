@@ -21,7 +21,7 @@ import { Images } from '../../config/images';
 import BaseSetting from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
-
+import Toast from 'react-native-simple-toast';
 export default function ProductDetails({ navigation, route }) {
   const styles = styledFunc();
   const productDetails = route?.params?.productDetails;
@@ -51,6 +51,7 @@ export default function ProductDetails({ navigation, route }) {
         console.log('🚀 ~ file: index.js ~ line 33 ~ .then ~ result', result);
         if (result?.success == 1) {
           navigation.goBack();
+          Toast.show('Added to cart.');
           // navigation.navigate('ShoppingScreen');
         }
         setloader(false);
