@@ -54,7 +54,11 @@ export default function ServiceScreen({ navigation }) {
   };
   return (
     <>
-      <CHeader title={t('Service')} />
+      <CHeader
+        title={t('Service')}
+        showCartIcon
+        onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
+      />
       <View style={styles.container}>
         <FlatList
           numColumns={4}

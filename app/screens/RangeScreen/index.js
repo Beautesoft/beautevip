@@ -32,6 +32,8 @@ export default function RangeScreen({ navigation, route }) {
         title={serviceData?.departmentName}
         showLeftIcon
         onLeftIconPress={() => navigation.goBack()}
+        showCartIcon
+        onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
       />
       <View style={styles.container}>
         <FlatList

@@ -478,7 +478,9 @@ export default function BookingScreen({ navigation, route }) {
       <CHeader
         title={t('booking')}
         showLeftIcon
+        showCartIcon
         onLeftIconPress={() => navigation.goBack()}
+        onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
       />
 
       <View style={styles.container}>

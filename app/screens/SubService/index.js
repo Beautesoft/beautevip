@@ -33,7 +33,9 @@ export default function SubService({ navigation, route }) {
       <CHeader
         title={rangeData?.rangeName}
         showLeftIcon
+        showCartIcon
         onLeftIconPress={() => navigation.goBack()}
+        onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
       />
       <View style={styles.container}>
         <FlatList

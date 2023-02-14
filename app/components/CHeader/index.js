@@ -9,10 +9,13 @@ export default function CHeader(props) {
   const {
     title = 'Title',
     leftIcon = Icons.back_arrow,
+    cartIcon = Icons.cart,
     showLeftIcon,
     onLeftIconPress = () => {},
+    onCartIconPress = () => {},
     leftFisrtIcon = Icons.home,
     showLeftFirstIcon,
+    showCartIcon,
     onLeftFirstIconPress = () => {},
   } = props;
   return (
@@ -42,6 +45,15 @@ export default function CHeader(props) {
               resizeMode="center"
             /> */}
             <MaterialIcons name="home" size={35} color={theme().darkGrey} />
+          </TouchableOpacity>
+        )}
+        {showCartIcon && (
+          <TouchableOpacity onPress={onCartIconPress} activeOpacity={0.7}>
+            <Image
+              source={cartIcon}
+              style={{ height: 34, width: 34, tintColor: theme().darkGrey }}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         )}
         {showLeftIcon && (
