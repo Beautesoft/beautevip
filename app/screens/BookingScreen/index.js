@@ -380,6 +380,7 @@ export default function BookingScreen({ navigation, route }) {
       siteCode: selectedLocation?.siteCode,
       apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       slotTimeIn24Hrs: slotTime.timeIn24Hrs,
+      itemCode: orderData.packageList[0].itemCode,
     };
     console.log('line>>349>>', data);
 

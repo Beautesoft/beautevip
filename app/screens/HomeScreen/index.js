@@ -292,7 +292,7 @@ export default function HomeScreen({ navigation }) {
               resizeMode="center"
             />
             <TextInput
-              placeholder={t('searchServices')}
+              placeholder={t('searchProducts')}
               style={{
                 marginStart: 12,
                 marginEnd: 8,
