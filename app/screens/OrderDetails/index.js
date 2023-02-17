@@ -276,7 +276,7 @@ export default function OrderDetails({ navigation, route }) {
               />
             </View>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate('Invoice');
             }}>
@@ -286,7 +286,7 @@ export default function OrderDetails({ navigation, route }) {
               color={theme().amberTxt}
               style={{ marginTop: 8 }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
 
         {orderData?.status === 'Completed' ? (
