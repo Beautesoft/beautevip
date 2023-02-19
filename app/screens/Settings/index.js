@@ -141,6 +141,12 @@ export default function Settings({ navigation }) {
       },
     },
     {
+      title: 'My Products',
+      onPress: () => {
+        navigation.navigate('MyProducts');
+      },
+    },
+    {
       title: t('profilePhoto'),
       //{uri: (userData?.profilePic && userData?.profilePic != 33) ? userData?.profilePic : userData?.clientLogo}
       photoData: cUserData.photo,

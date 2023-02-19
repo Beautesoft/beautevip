@@ -44,6 +44,7 @@ const BaseSetting = {
     stripePaymentIntentConfirm: '/StripePaymentIntentConfirm',
     appTransPostSales: '/appTransPostSalesTnc',
     mypackages: '/mypackages',
+    myProducts: '/myProducts',
     cartAllItemDelete: '/cartAllItemDelete',
     homeBanner: '/dashBoardF21',
     setFcmToken: '/fcmTokenForCustomerApp',
