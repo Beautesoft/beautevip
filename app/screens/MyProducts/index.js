@@ -33,20 +33,12 @@ const MyProducts = ({ navigation, route }) => {
     getApiData(BaseSetting.endpoints.myProducts, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
-          // if (result?.futureAppointments) {
-          //   setorderList([...result?.result, ...result?.futureAppointments]);
-
-          // } else {
-          //   setorderList([...result?.result]);
-          // }
-          
           setorderList([...result?.result]);
         }
         setloader(false);
         setrefreshing(false);
       })
       .catch((err) => {
-        
         setloader(false);
         setrefreshing(false);
       });
