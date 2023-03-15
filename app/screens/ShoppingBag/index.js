@@ -39,7 +39,7 @@ export default function ShoppingBag({ navigation }) {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [modifiedItem, setmodifiedItem] = useState({});
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const AddToCart = (item, iQty) => {
     console.log('Item>>>Line>>46>>', '' + item);
 
@@ -205,7 +205,7 @@ export default function ShoppingBag({ navigation }) {
           source={
             item?.imageUrl.includes('http')
               ? { uri: item?.imageUrl }
-              : Images?.logo
+              : clientDetails?.clientLogo
           }
           style={{ height: 90, width: 90, borderRadius: 8 }}
           resizeMode="cover"

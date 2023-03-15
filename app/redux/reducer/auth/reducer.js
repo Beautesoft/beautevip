@@ -6,10 +6,16 @@ const initialState = {
   signupData: {},
   storeData: {},
   currentLanguage: 'en',
+  clientDetails: {},
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case 'GET_CLIENT_DETAILS':
+      return {
+        ...state,
+        clientDetails: { ...action.clientDetailsData },
+      };
     case 'LOGIN_SUCCESS':
       return {
         ...state,

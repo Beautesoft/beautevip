@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Image,
@@ -36,7 +36,7 @@ export default function Login({ navigation }) {
   const [secureTextEntry, setsecureTextEntry] = useState(true);
 
   const [loader, setloader] = useState(false);
-
+  const [clientDetails, setClientDetails] = useState([]);
   const Validate = () => {
     if (isEmpty(moNumber)) {
       Alert.alert('Error !', 'Please Enter Mobile Number!');
@@ -46,12 +46,33 @@ export default function Login({ navigation }) {
       handleLogin();
     }
   };
+  useEffect(() => {
+    getClientDetails();
+  }, []);
+  const getClientDetails = () => {
+    getApiData(BaseSetting.endpoints.getClientDetails, 'get')
+      .then((result) => {
+        if (result?.success == 1) {
+          setClientDetails(result.result);
+          dispatch({
+            type: 'GET_CLIENT_DETAILS',
+            clientDetailsData: result?.result,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(
+          '🚀 ~ file: index.js ~ getClientDetails ~ line 60 ~ .then ~ err',
+          err,
+        );
+      });
+  };
 
   const handleLogin = () => {
     setloader(true);
     const data = {
       phoneNumber: moNumber,
-      storeCode: 'TNC',
+      storeCode: clientDetails?.clientCode,
       passcode: password,
     };
     console.log('🚀 ~ file: index.js ~ line 24 ~ login ~ data', data);
@@ -103,7 +124,7 @@ export default function Login({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           resizeMode="contain"
           style={{
             height: 180,

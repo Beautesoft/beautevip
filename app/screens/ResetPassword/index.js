@@ -32,7 +32,7 @@ export default function ResetPassword({ navigation, route }) {
   const [password, setpassword] = useState('');
   const [cpassword, setcpassword] = useState('');
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
 
   const Validate = () => {
@@ -107,7 +107,7 @@ export default function ResetPassword({ navigation, route }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

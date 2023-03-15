@@ -26,7 +26,7 @@ export default function Otp({ navigation, route }) {
 
   const [otp, setotp] = useState('');
   const [loader, setloader] = useState(false);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const VerifyOtp = () => {
     setloader(true);
     const data = {
@@ -88,7 +88,7 @@ export default function Otp({ navigation, route }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

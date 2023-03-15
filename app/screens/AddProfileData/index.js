@@ -29,7 +29,7 @@ import { theme } from '../../redux/reducer/theme';
 export default function AddProfileData({ navigation }) {
   const styles = styledFunc();
   const { signupData } = useSelector((state) => state.auth);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [name, setname] = useState('');
   const [mail, setmail] = useState('');
   const [address, setaddress] = useState('');
@@ -197,7 +197,7 @@ export default function AddProfileData({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

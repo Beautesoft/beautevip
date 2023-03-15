@@ -29,7 +29,7 @@ export default function ShoppingScreen({ navigation }) {
     id: 1,
     title: t('forYou'),
   });
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [productList, setproductList] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
   const [searchTxt, setsearchTxt] = useState('');
@@ -238,7 +238,7 @@ export default function ShoppingScreen({ navigation }) {
           }}>
           <Image
             style={{ height: 40, width: 40 }}
-            source={Images.logo}
+            source={{ uri: clientDetails?.clientLogo }}
             resizeMode="center"
           />
           {/* <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>

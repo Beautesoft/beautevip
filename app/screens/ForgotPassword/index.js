@@ -18,7 +18,7 @@ import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { useSelector } from 'react-redux';
 export default function ForgotPassword({ navigation }) {
   const styles = styledFunc();
   const { setSignupData, setStoreData } = AuthAction;
@@ -26,7 +26,7 @@ export default function ForgotPassword({ navigation }) {
   const [moNumber, setmoNumber] = useState('');
   const [password, setpassword] = useState('');
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
 
   const Validate = () => {
@@ -83,7 +83,7 @@ export default function ForgotPassword({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

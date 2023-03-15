@@ -27,7 +27,7 @@ export default function SignUp({ navigation }) {
   const [confirmPassword, setconfirmPassword] = useState('');
   const [promoCode, setpromoCode] = useState('');
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
 
   const { setSignupData } = AuthAction;
@@ -125,7 +125,7 @@ export default function SignUp({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

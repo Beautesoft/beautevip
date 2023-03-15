@@ -147,7 +147,7 @@ const MyProducts = ({ navigation, route }) => {
             contentContainerStyle={{ flexGrow: 1 }}
             ListEmptyComponent={() => (
               <View style={styles.noOrder}>
-                <Text>No Orders</Text>
+                <Text>No Products</Text>
               </View>
             )}
             ItemSeparatorComponent={() => (

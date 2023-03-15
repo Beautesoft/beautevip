@@ -28,7 +28,7 @@ export default function MyPackages({ navigation }) {
 
   const [packageList, setpackageList] = useState([]);
   const [availPackageList, setavailPackageList] = useState([]);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
 
   useFocusEffect(
@@ -76,7 +76,7 @@ export default function MyPackages({ navigation }) {
               <View>
                 <Image
                   resizeMode="cover"
-                  source={Images?.logo}
+                  source={{ uri: clientDetails?.clientLogo }}
                   style={styles.packageImage}
                 />
               </View>

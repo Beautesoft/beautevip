@@ -1,4 +1,5 @@
 const actions = {
+  GET_CLIENT_DETAILS: 'auth/GET_CLIENT_DETAILS',
   SET_USERDATA: 'auth/SET_USERDATA',
   UPDATE_USERDATA: 'auth/UPDATE_USERDATA',
   SET_SIGNUPDATA: 'auth/SET_SIGNUPDATA',
@@ -7,6 +8,10 @@ const actions = {
   LOGOUT: 'auth/LOGOUT',
   REMOVE_USR_DATA: 'auth/REMOVE_USR_DATA',
 
+  getClientDetails: () => (dispatch) =>
+    dispatch({
+      type: actions.GET_CLIENT_DETAILS,
+    }),
   remmoveUsrData: () => (dispatch) =>
     dispatch({
       type: actions.REMOVE_USR_DATA,

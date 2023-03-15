@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }) {
   const { logout, setStoreData } = AuthAction;
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.auth);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const bannerListRef = useRef();
 
   const [searchTxt, setsearchTxt] = useState('');
@@ -281,7 +281,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.headerCont}>
         <Image
           style={{ height: 48, width: 40 }}
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>

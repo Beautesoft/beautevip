@@ -83,7 +83,7 @@ export default function BookingScreen({ navigation, route }) {
 
   const [visible, setVisible] = useState(false);
   const [timeAndStaffLoader, setTimeAndStaffLoader] = useState(false);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
@@ -255,7 +255,7 @@ export default function BookingScreen({ navigation, route }) {
           setexpandBeaut(false);
         }}>
         <Image
-          source={item?.profilePic ? { uri: item?.profilePic } : Images.logo}
+          source={{ uri: item?.profilePic ?? clientDetails?.clientLogo }}
           style={{ height: 42, width: 36, borderRadius: 60 }}
           resizeMode="cover"
         />
@@ -579,9 +579,8 @@ export default function BookingScreen({ navigation, route }) {
               }}>
               <Text style={styles.btnTxt}>
                 {selectedDateTime?.time
-                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
-                      selectedDateTime?.time
-                    }`
+                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${selectedDateTime?.time
+                  }`
                   : t('setDateTime')}
               </Text>
               {expandTime && (
