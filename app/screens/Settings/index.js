@@ -73,7 +73,7 @@ export default function Settings({ navigation }) {
         );
         if (result?.success == 1) {
           setTotalPoints(result.totalPoints);
-          listArr[6].value = result.totalPoints;
+          listArr[7].value = result.totalPoints;
           console.log('listArr', listArr);
           setState([...listArr]);
         }
@@ -103,7 +103,7 @@ export default function Settings({ navigation }) {
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-          listArr[4].value = json?.result?.[0].address;
+          listArr[5].value = json?.result?.[0].address;
           setState(listArr);
         } catch (error) {}
 
@@ -214,13 +214,6 @@ export default function Settings({ navigation }) {
       onPress: () => {
         Linking.openURL('https://pages.flycricket.io/beautesoft-vip/');
       },
-    },
-    {
-      title: 'Change Theme',
-      onPress: () => {
-        handleChangeTheme();
-      },
-      value: currentTheme !== 'Dark' ? 'Light' : 'Dark',
     },
     // {
     //   title: t('languageSetting'),

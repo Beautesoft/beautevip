@@ -33,6 +33,9 @@ const MyProducts = ({ navigation, route }) => {
     getApiData(BaseSetting.endpoints.myProducts, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
+          console.log("myProductsListapi", BaseSetting.endpoints.myProducts);
+          console.log("myProductsListinput", data);
+          console.log("myProductsList", result?.result);
           setorderList([...result?.result]);
         }
         setloader(false);
@@ -51,14 +54,9 @@ const MyProducts = ({ navigation, route }) => {
         }}
         activeOpacity={1}
         style={styles.itemContainer}>
-        <View style={styles.dataContainer}>
+  <View style={styles.dataContainer}>
           <View style={{ width: '72%' }}>
-            <CText
-              value={`${item.invoiceNo}`}
-              color={theme().amberTxt}
-              size={14}
-              isBold
-            />
+
             <CText
               value={moment(item.transactionDate).format(
                 'DD/MM/YYYY - hh:mm A',
@@ -68,12 +66,6 @@ const MyProducts = ({ navigation, route }) => {
               isBold
             />
           </View>
-          <CText
-            value={`$ ${item.depositAmount.toFixed(2)}`}
-            color={theme().amberTxt}
-            size={14}
-            isBold
-          />
         </View>
         <View
           style={{
@@ -92,14 +84,7 @@ const MyProducts = ({ navigation, route }) => {
             onPress={() => {
               navigation.navigate('Invoice', { data: item });
             }}>
-            <Text
-              style={{
-                fontSize: 14,
-                color: theme().amberTxt,
-                textDecorationLine: 'underline',
-              }}>
-              Invoice
-            </Text>
+
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -107,19 +92,34 @@ const MyProducts = ({ navigation, route }) => {
   };
   const renderOrderItems = ({ item, index }) => {
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-        }}>
-        <View style={styles.dot} />
-        <CText
-          value={`${item.itemName} - ${item.itemQty}`}
-          color={theme().white}
-          size={14}
-        />
-      </View>
+      <>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}>
+          <CText
+            value={`${item.itemName}`}
+            color={theme().white}
+            size={14}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}>
+          <Text>Qty </Text>
+          <CText
+            value={`${item.itemQty}`}
+            color={theme().white}
+            size={14}
+          />
+        </View>
+      </>
+
     );
   };
   return (
