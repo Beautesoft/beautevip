@@ -54,7 +54,7 @@ const MyProducts = ({ navigation, route }) => {
         }}
         activeOpacity={1}
         style={styles.itemContainer}>
-  <View style={styles.dataContainer}>
+        <View style={styles.dataContainer}>
           <View style={{ width: '72%' }}>
 
             <CText
@@ -111,9 +111,16 @@ const MyProducts = ({ navigation, route }) => {
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
           }}>
-          <Text>Qty </Text>
+          <View
+            style={{ width: '80%' }}>
+            <CText
+              value={`Qty  ${item.itemQty}   `}
+              color={theme().white}
+              size={14}
+            />
+          </View>
           <CText
-            value={`${item.itemQty}`}
+            value={`Hold  Qty   ${item.holdQty}`}
             color={theme().white}
             size={14}
           />

@@ -118,110 +118,111 @@ export default function SignUp({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        extraHeight={100}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}>
-        <Image
-          source={{ uri: clientDetails?.clientLogo }}
-          style={{
-            height: 180,
-            width: 180,
-            marginTop: 102,
-            alignSelf: 'center',
-          }}
-        />
-        <View style={styles.container}>
-          <CText
-            value={t('welcome')}
-            color={theme().amberTxt}
-            size={24}
-            fontFamily={FontFamily.Poppins_SemiBold}
-          />
-          <CText
-            value={t('addDetails')}
-            color={theme().yellow}
-            size={14}
-            fontFamily={FontFamily.Poppins_Regular}
-          />
-          <CInput
-            placeholder={t('phMobileNumber')}
-            showLeftIcon
-            value={moNumber}
-            onChangeText={setmoNumber}
-            keyboardType="phone-pad"
-            contStyle={styles.cInput}
-          />
-          <CInput
-            placeholder={t('phPassword')}
-            showLeftIcon
-            onRightIconPress={() => {
-              setsecureTextEntry(!secureTextEntry);
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          extraHeight={100}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}>
+          <Image
+            source={{ uri: clientDetails?.clientLogo }}
+            style={{
+              height: 180,
+              width: 180,
+              marginTop: 102,
+              alignSelf: 'center',
             }}
-            leftIcon={Icons.password}
-            value={password}
-            onChangeText={setpassword}
-            secureTextEntry={secureTextEntry}
-            showRightIcon
-            contStyle={styles.cInput}
-            maxLength={6}
           />
-          <CInput
-            placeholder={t('phConfirmPassword')}
-            showLeftIcon
-            onRightIconPress={() => {
-              setsecureTextEntry(!secureTextEntry);
-            }}
-            leftIcon={Icons.password}
-            value={confirmPassword}
-            onChangeText={setconfirmPassword}
-            secureTextEntry={secureTextEntry}
-            showRightIcon
-            contStyle={styles.cInput}
-            maxLength={6}
-          />
-          <CInput
-            placeholder={t('phEnterPromoCode')}
-            showLeftIcon
-            leftIcon={Icons.tag_outline}
-            value={promoCode}
-            onChangeText={setpromoCode}
-            contStyle={styles.cInput}
-          />
-          <View style={styles.rowStyle}>
-            <CButton
-              title={t('next')}
-              style={styles.btnStyle}
-              onPress={() => {
-                Verify();
-                // navigation.navigate('Otp');
-              }}
+          <View style={styles.container}>
+            <CText
+              value={t('welcome')}
+              color={theme().amberTxt}
+              size={24}
+              fontFamily={FontFamily.Poppins_SemiBold}
             />
-            <View style={styles.forgotStyle}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                hitSlop={{
-                  top: 20,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                }}
+            <CText
+              value={t('addDetails')}
+              color={theme().yellow}
+              size={14}
+              fontFamily={FontFamily.Poppins_Regular}
+            />
+            <CInput
+              placeholder={t('phMobileNumber')}
+              showLeftIcon
+              value={moNumber}
+              onChangeText={setmoNumber}
+              keyboardType="phone-pad"
+              contStyle={styles.cInput}
+            />
+            <CInput
+              placeholder={t('phPassword')}
+              showLeftIcon
+              onRightIconPress={() => {
+                setsecureTextEntry(!secureTextEntry);
+              }}
+              leftIcon={Icons.password}
+              value={password}
+              onChangeText={setpassword}
+              secureTextEntry={secureTextEntry}
+              showRightIcon
+              contStyle={styles.cInput}
+              maxLength={6}
+            />
+            <CInput
+              placeholder={t('phConfirmPassword')}
+              showLeftIcon
+              onRightIconPress={() => {
+                setsecureTextEntry(!secureTextEntry);
+              }}
+              leftIcon={Icons.password}
+              value={confirmPassword}
+              onChangeText={setconfirmPassword}
+              secureTextEntry={secureTextEntry}
+              showRightIcon
+              contStyle={styles.cInput}
+              maxLength={6}
+            />
+            <CInput
+              placeholder={t('phEnterPromoCode')}
+              showLeftIcon
+              leftIcon={Icons.tag_outline}
+              value={promoCode}
+              onChangeText={setpromoCode}
+              contStyle={styles.cInput}
+            />
+            <View style={styles.rowStyle}>
+              <CButton
+                title={t('next')}
+                style={styles.btnStyle}
                 onPress={() => {
-                  navigation.goBack();
-                }}>
-                <CText
-                  value={t('alreadyUser')}
-                  color={theme().yellow}
-                  size={14}
-                  fontFamily={FontFamily.Poppins_Regular}
-                />
-              </TouchableOpacity>
+                  Verify();
+                  // navigation.navigate('Otp');
+                }}
+              />
+              <View style={styles.forgotStyle}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  hitSlop={{
+                    top: 20,
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                  }}
+                  onPress={() => {
+                    navigation.goBack();
+                  }}>
+                  <CText
+                    value={t('alreadyUser')}
+                    color={theme().yellow}
+                    size={14}
+                    fontFamily={FontFamily.Poppins_Regular}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </View>
       <CLoader loader={loader} />
     </>
   );

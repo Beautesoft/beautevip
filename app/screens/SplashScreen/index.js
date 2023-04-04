@@ -38,8 +38,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
-        <BackgroundImage />
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={styles.container}>
           <CText
             value={t('welcomeCAP')}

@@ -376,7 +376,7 @@ export default function ShoppingBag({ navigation }) {
           <View
             style={{
               height: 350,
-              backgroundColor: '#fff',
+              backgroundColor: 'black',
               width: '90%',
               borderRadius: 8,
             }}>

@@ -116,92 +116,92 @@ export default function Login({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
 
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        extraHeight={100}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}>
-        <Image
-          source={{ uri: clientDetails?.clientLogo }}
-          resizeMode="contain"
-          style={{
-            height: 180,
-            width: 180,
-            marginTop: 102,
-            alignSelf: 'center',
-          }}
-        />
-        <View style={styles.container}>
-          <CText
-            value={t('login')}
-            color={theme().amberTxt}
-            size={24}
-            fontFamily={FontFamily.Poppins_SemiBold}
-          />
-          <CText
-            value={t('pleaseLogin')}
-            color={theme().yellow}
-            size={14}
-            fontFamily={FontFamily.Poppins_Regular}
-          />
-          <CInput
-            placeholder={t('phMobileNumber')}
-            showLeftIcon
-            value={moNumber}
-            onChangeText={setmoNumber}
-            keyboardType="phone-pad"
-            contStyle={styles.cInput}
-          />
-          <CInput
-            placeholder={t('phPassword')}
-            showLeftIcon
-            onRightIconPress={() => {
-              setsecureTextEntry(!secureTextEntry);
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          extraHeight={100}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}>
+          <Image
+            source={{ uri: clientDetails?.clientLogo }}
+            resizeMode="contain"
+            style={{
+              height: 180,
+              width: 180,
+              marginTop: 102,
+              alignSelf: 'center',
             }}
-            leftIcon={Icons.password}
-            value={password}
-            onChangeText={setpassword}
-            secureTextEntry={secureTextEntry}
-            showRightIcon
-            contStyle={styles.cInput}
           />
-          <View style={styles.rowStyle}>
-            <CButton
-              title={t('login')}
-              style={styles.btnStyle}
-              onPress={() => {
-                Validate();
-                // navigation.navigate('BottomTabsNavigator');
-              }}
+          <View style={styles.container}>
+            <CText
+              value={t('login')}
+              color={theme().amberTxt}
+              size={24}
+              fontFamily={FontFamily.Poppins_SemiBold}
             />
-            <View style={styles.forgotStyle}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('ForgotPassword')}>
-                <CText
-                  value={t('forgotPassword')}
-                  color={theme().yellow}
-                  size={14}
-                  fontFamily={FontFamily.Poppins_Regular}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate('SignUp')}>
-                <CText
-                  value={t('newUser')}
-                  color={theme().yellow}
-                  size={14}
-                  fontFamily={FontFamily.Poppins_Regular}
-                />
-              </TouchableOpacity>
+            <CText
+              value={t('pleaseLogin')}
+              color={theme().yellow}
+              size={14}
+              fontFamily={FontFamily.Poppins_Regular}
+            />
+            <CInput
+              placeholder={t('phMobileNumber')}
+              showLeftIcon
+              value={moNumber}
+              onChangeText={setmoNumber}
+              keyboardType="phone-pad"
+              contStyle={styles.cInput}
+            />
+            <CInput
+              placeholder={t('phPassword')}
+              showLeftIcon
+              onRightIconPress={() => {
+                setsecureTextEntry(!secureTextEntry);
+              }}
+              leftIcon={Icons.password}
+              value={password}
+              onChangeText={setpassword}
+              secureTextEntry={secureTextEntry}
+              showRightIcon
+              contStyle={styles.cInput}
+            />
+            <View style={styles.rowStyle}>
+              <CButton
+                title={t('login')}
+                style={styles.btnStyle}
+                onPress={() => {
+                  Validate();
+                  // navigation.navigate('BottomTabsNavigator');
+                }}
+              />
+              <View style={styles.forgotStyle}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => navigation.navigate('ForgotPassword')}>
+                  <CText
+                    value={t('forgotPassword')}
+                    color={theme().yellow}
+                    size={14}
+                    fontFamily={FontFamily.Poppins_Regular}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => navigation.navigate('SignUp')}>
+                  <CText
+                    value={t('newUser')}
+                    color={theme().yellow}
+                    size={14}
+                    fontFamily={FontFamily.Poppins_Regular}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
-
+        </KeyboardAwareScrollView>
+      </View>
       <CLoader loader={loader} />
     </>
   );
