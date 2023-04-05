@@ -290,7 +290,11 @@ export default function OrdersScreen({ navigation }) {
 
   return (
     <>
-      <CHeader title="My Booking" />
+      <CHeader
+        title="My Booking"
+        showBookingIcon
+        onBookingIconPress={() => navigation?.navigate('BookingScreenNew', {})}
+      />
       <View style={styles.container}>
         <View>
           <FlatList

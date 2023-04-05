@@ -5,11 +5,12 @@ import CircularButton from '../../components/CirculerButton';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { styledFunc } from './styles';
-
+import { useSelector } from 'react-redux';
 export default function SubService({ navigation, route }) {
   const styles = styledFunc();
   const rangeData = route?.params?.itemData;
-
+  const { bookingData } = useSelector((state) => state.auth);
+  console.log(bookingData);
   const renderServiceBtn = ({ item, index }) => {
     return (
       <View
@@ -22,7 +23,10 @@ export default function SubService({ navigation, route }) {
           iconResource={item.image}
           title={item?.itemName}
           onPress={() =>
-            navigation.navigate('BookingScreen', { itemData: item })
+            navigation.navigate(
+              bookingData === 'oldflow' ? 'BookingScreen' : 'BookingScreenNew',
+              { itemData: item },
+            )
           }
         />
       </View>

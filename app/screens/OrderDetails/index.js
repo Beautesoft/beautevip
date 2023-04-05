@@ -140,7 +140,7 @@ export default function OrderDetails({ navigation, route }) {
             ]}>
             <View style={styles.lines} />
             <CText
-              value={t('bookingDetails')}
+              value={'Order Booked Details'}
               size={14}
               color="#b1b1b1"
               style={{ marginHorizontal: 24 }}
@@ -163,6 +163,12 @@ export default function OrderDetails({ navigation, route }) {
               />
               <CText
                 value={oid == 6 ? 'Staff' : t('beautician')}
+                size={16}
+                color="#b1b1b1"
+                style={{ marginTop: 8 }}
+              />
+              <CText
+                value={oid == 6 ? 'Transaction No.' : 'Id'}
                 size={16}
                 color="#b1b1b1"
                 style={{ marginTop: 8 }}
@@ -190,6 +196,14 @@ export default function OrderDetails({ navigation, route }) {
               <CText
                 value={
                   oid == 6 ? orderData?.staffName : orderData?.employeeName
+                }
+                size={16}
+                color={theme().amberTxt}
+                style={{ marginTop: 8 }}
+              />
+              <CText
+                value={
+                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
                 }
                 size={16}
                 color={theme().amberTxt}
@@ -223,59 +237,6 @@ export default function OrderDetails({ navigation, route }) {
             <CText title={''} />
           )}
 
-          <View
-            style={[
-              styles.rowStyle,
-              {
-                marginTop: 32,
-              },
-            ]}>
-            <View style={styles.lines} />
-            <CText
-              value={t('orderDetails')}
-              size={14}
-              color="#b1b1b1"
-              style={{ marginHorizontal: 24 }}
-            />
-            <View style={styles.lines} />
-          </View>
-
-          <View style={[styles.rowStyle, { marginTop: 8 }]}>
-            <View>
-              <CText
-                value={oid == 6 ? 'Transaction No.' : t('numberCap')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={oid == 6 ? 'Invoice No.' : t('dnt')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-            </View>
-            <View style={{ alignItems: 'flex-end' }}>
-              <CText
-                value={
-                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={
-                  oid == 6
-                    ? orderData?.invoiceNo
-                    : moment(orderData?.appointmentDate).format('DD-MM-YYYY LT')
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-            </View>
-          </View>
           {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate('Invoice');

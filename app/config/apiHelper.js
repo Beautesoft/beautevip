@@ -24,6 +24,7 @@ export function getApiData(endpoint, method, data, headers) {
     } else {
       params.headers = authHeaders;
     }
+    console.log(params.headers);
     if (params.method === 'post') {
       if (
         params.headers &&
@@ -38,6 +39,7 @@ export function getApiData(endpoint, method, data, headers) {
       qs = `?${query}`;
     }
 
+    console.log('params=--', params, endpoint);
 
     if (
       params.method === 'post' &&
@@ -45,6 +47,7 @@ export function getApiData(endpoint, method, data, headers) {
       params.headers['Content-Type'] &&
       params.headers['Content-Type'] === 'application/json'
     ) {
+      console.log(JSON.stringify(data));
     } else {
       let str = '';
       if (data && Object.keys(data).length > 0) {
@@ -52,10 +55,16 @@ export function getApiData(endpoint, method, data, headers) {
           str += `${dk}:${data[dk]}\n`;
         });
       }
+      console.log(str);
     }
+    console.log(
+      'BaseSetting.api + endpoint + qs====>>>>',
+      BaseSetting.api + endpoint + qs,
+    );
     fetch(BaseSetting.api + endpoint + qs, params)
       .then((response) => response.json())
       .then((resposeJson) => {
+        console.log('resposeJson', resposeJson);
         if (resposeJson.status !== 200 && resposeJson.status !== 401) {
           // const datas = {
           //   message: 'Could not find this method',
@@ -70,6 +79,7 @@ export function getApiData(endpoint, method, data, headers) {
           isString(resposeJson.message) &&
           resposeJson.message === 'Unauthorized'
         ) {
+          console.log('Unauthorized===>>>');
           // navigation.navigate('RedirectLS');
           resolve(resposeJson);
         } else {
@@ -85,6 +95,7 @@ export function getApiData(endpoint, method, data, headers) {
         // };
         // setBugsNagLog(JSON.stringify(datas));
 
+        console.log('error_apihelper', err);
         reject(err);
       });
   });

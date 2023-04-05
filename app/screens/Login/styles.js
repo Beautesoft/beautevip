@@ -29,6 +29,20 @@ export const styledFunc = () => {
       flex: 1,
       margin: 8,
     },
+    dropDownStyle: {
+      width: '100%',
+      flex: 1,
+      margin: 8,
+      backgroundColor: theme().transparent,
+    },
+    dropdown1BtnStyle: {
+      width: '80%',
+      height: 50,
+      backgroundColor: '#FFF',
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: '#444',
+    },
     forgotStyle: {
       flex: 1,
       justifyContent: 'space-around',

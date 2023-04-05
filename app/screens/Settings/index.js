@@ -99,13 +99,13 @@ export default function Settings({ navigation }) {
 
         try {
           setaddress(json?.result?.[0]);
-        } catch (error) {}
+        } catch (error) { }
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
           listArr[5].value = json?.result?.[0].address;
           setState(listArr);
-        } catch (error) {}
+        } catch (error) { }
 
         //setloader(false);
       })
@@ -129,21 +129,21 @@ export default function Settings({ navigation }) {
 
   const listArr = [
     {
-      title: t('myPackages'),
+      title: 'My Services',
       onPress: () => {
         navigation.navigate('MyPackages');
-      },
-    },
-    {
-      title: 'My Order',
-      onPress: () => {
-        navigation.navigate('MyOrder');
       },
     },
     {
       title: 'My Products',
       onPress: () => {
         navigation.navigate('MyProducts');
+      },
+    },
+    {
+      title: 'My Invoices',
+      onPress: () => {
+        navigation.navigate('MyOrder');
       },
     },
     {
@@ -214,6 +214,13 @@ export default function Settings({ navigation }) {
       onPress: () => {
         Linking.openURL('https://pages.flycricket.io/beautesoft-vip/');
       },
+    },
+    {
+      title: 'Change Theme',
+      onPress: () => {
+        handleChangeTheme();
+      },
+      value: currentTheme !== 'Dark' ? 'Light' : 'Dark',
     },
     // {
     //   title: t('languageSetting'),
@@ -486,7 +493,7 @@ export default function Settings({ navigation }) {
           setState((pState) => {
             console.log('🚀 before>>', pState);
             //pState[0].title="My Pac "
-            pState[2].photoData = { uri: newPic + '?' + new Date() };
+            pState[3].photoData = { uri: newPic + '?' + new Date() };
             console.log('🚀 after>>', pState);
             return [...pState];
           });
@@ -495,7 +502,7 @@ export default function Settings({ navigation }) {
 
           Alert.alert('Success!', 'Profile image uploaded successfully.');
         } else {
-          Alert.alert('Failed try again!', result?.Message);
+          Alert.alert('Failed try again!', result?.error);
         }
 
         if (loader) {
@@ -514,13 +521,7 @@ export default function Settings({ navigation }) {
 
   return (
     <>
-      <CHeader
-        title="Settings"
-        showLeftIcon
-        onLeftIconPress={() => {
-          navigation.navigate('Me');
-        }}
-      />
+      <CHeader title="My Profile" />
 
       <View style={styles.container}>
         <FlatList

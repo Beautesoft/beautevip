@@ -28,7 +28,7 @@ export default function ProductContainer(props) {
       ]}>
       <Image
         source={image}
-        style={{ height: 180, width: '100%' }}
+        style={{ height: 100, width: '100%' }}
         resizeMode="cover"
       />
       <View
