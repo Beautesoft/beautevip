@@ -13,13 +13,14 @@ import { isEmpty } from 'lodash';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import AuthAction from '../../redux/reducer/auth/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ForgotPassword({ navigation }) {
+  const { clientDetails } = useSelector((state) => state.auth);
   const styles = styledFunc();
   const { setSignupData, setStoreData } = AuthAction;
   const dispatch = useDispatch();
@@ -76,43 +77,43 @@ export default function ForgotPassword({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+   <BackgroundImage image={Images.backgroundImageSec} />
 
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}>
-        <Image
-          source={Images.logo}
-          style={{
-            height: 180,
-            width: 180,
-            marginTop: 102,
-            alignSelf: 'center',
-          }}
-        />
-        <View style={styles.container}>
-          <CText
-            value={t('forgotPassword')}
-            color={theme().amberTxt}
-            size={24}
-            fontFamily={FontFamily.Poppins_SemiBold}
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}>
+          <Image
+            source={{ uri: clientDetails?.clientLogo }}
+            style={{
+              height: 180,
+              width: 180,
+              marginTop: 102,
+              alignSelf: 'center',
+            }}
           />
-          {/* <CText
+          <View style={styles.container}>
+            <CText
+              value={t('forgotPassword')}
+              color={theme().amberTxt}
+              size={24}
+              fontFamily={FontFamily.Poppins_SemiBold}
+            />
+            {/* <CText
             value={t('pleaseLogin')}
             color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           /> */}
-          <CInput
-            placeholder={t('phMobileNumber')}
-            showLeftIcon
-            value={moNumber}
-            onChangeText={setmoNumber}
-            keyboardType="phone-pad"
-            contStyle={styles.cInput}
-          />
-          {/* <CInput
+            <CInput
+              placeholder={t('phMobileNumber')}
+              showLeftIcon
+              value={moNumber}
+              onChangeText={setmoNumber}
+              keyboardType="phone-pad"
+              contStyle={styles.cInput}
+            />
+            {/* <CInput
             placeholder={t('phPassword')}
             showLeftIcon
             onRightIconPress={() => {
@@ -125,27 +126,27 @@ export default function ForgotPassword({ navigation }) {
             showRightIcon
             contStyle={styles.cInput}
           /> */}
-          <View style={styles.rowStyle}>
-            <CButton
-              title={t('forgotPassword')}
-              style={styles.btnStyle}
-              onPress={() => {
-                Validate();
-                // navigation.navigate('BottomTabsNavigator');
-              }}
-            />
-            <View style={styles.forgotStyle}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => navigation.goBack()}>
-                <CText
-                  value={t('login')}
-                  color={theme().yellow}
-                  size={14}
-                  fontFamily={FontFamily.Poppins_Regular}
-                />
-              </TouchableOpacity>
-              {/* <TouchableOpacity
+            <View style={styles.rowStyle}>
+              <CButton
+                title={t('forgotPassword')}
+                style={styles.btnStyle}
+                onPress={() => {
+                  Validate();
+                  // navigation.navigate('BottomTabsNavigator');
+                }}
+              />
+              <View style={styles.forgotStyle}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => navigation.goBack()}>
+                  <CText
+                    value={t('login')}
+                    color={theme().yellow}
+                    size={14}
+                    fontFamily={FontFamily.Poppins_Regular}
+                  />
+                </TouchableOpacity>
+                {/* <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
@@ -155,10 +156,10 @@ export default function ForgotPassword({ navigation }) {
                   fontFamily={FontFamily.Poppins_Regular}
                 />
               </TouchableOpacity> */}
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );

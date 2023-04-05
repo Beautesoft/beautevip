@@ -43,10 +43,11 @@ export default function Login({ navigation }) {
   const [loader, setloader] = useState(false);
   const { userData } = useSelector((state) => state.auth);
   const isFocused = useIsFocused();
+  const { clientDetails } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
   useEffect(() => {
     GetSaloonList();
   }, [isFocused]);
-  const [clientDetails, setClientDetails] = useState([]);
   const Validate = () => {
     if (isEmpty(moNumber)) {
       Alert.alert('Error !', 'Please Enter Mobile Number!');
@@ -57,27 +58,6 @@ export default function Login({ navigation }) {
     } else {
       handleLogin();
     }
-  };
-  useEffect(() => {
-    getClientDetails();
-  }, []);
-  const getClientDetails = () => {
-    getApiData(BaseSetting.endpoints.getClientDetails, 'get')
-      .then((result) => {
-        if (result?.success == 1) {
-          setClientDetails(result.result);
-          dispatch({
-            type: 'GET_CLIENT_DETAILS',
-            clientDetailsData: result?.result,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(
-          '🚀 ~ file: index.js ~ getClientDetails ~ line 60 ~ .then ~ err',
-          err,
-        );
-      });
   };
 
   const handleLogin = () => {
@@ -142,15 +122,14 @@ export default function Login({ navigation }) {
   };
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
-
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           resizeMode="contain"
           style={{
             height: 180,
@@ -255,6 +234,7 @@ export default function Login({ navigation }) {
           </View>
         </View>
       </KeyboardAwareScrollView>
+
 
       <CLoader loader={loader} />
     </>

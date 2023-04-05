@@ -203,7 +203,7 @@ export default function Settings({ navigation }) {
     //   title: 'Health Declaration',
     //   onPress: () => {},
     // },
-    {
+   /* {
       title: t('feedback'),
       onPress: () => {
         navigation.navigate('Feedback');
@@ -221,7 +221,7 @@ export default function Settings({ navigation }) {
         handleChangeTheme();
       },
       value: currentTheme !== 'Dark' ? 'Light' : 'Dark',
-    },
+    },*/
     // {
     //   title: t('languageSetting'),
     //   onPress: () => {

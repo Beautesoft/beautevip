@@ -27,6 +27,7 @@ export default function Otp({ navigation, route }) {
   const [otp, setotp] = useState('');
   const [loader, setloader] = useState(false);
   const { clientDetails } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
   const VerifyOtp = () => {
     setloader(true);
     const data = {
@@ -81,7 +82,7 @@ export default function Otp({ navigation, route }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+       <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"

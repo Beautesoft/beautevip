@@ -32,6 +32,7 @@ export default function SignUp({ navigation }) {
 
   const { setSignupData } = AuthAction;
   const auth = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
   // console.log('🚀 ~ file: index.js ~ line 26 ~ SignUp ~ auth', auth.signupData);
   const dispatch = useDispatch();
 
@@ -118,7 +119,7 @@ export default function SignUp({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         extraHeight={100}
