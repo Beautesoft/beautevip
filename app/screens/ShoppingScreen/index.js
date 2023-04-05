@@ -288,6 +288,18 @@ export default function ShoppingScreen({ navigation }) {
               }}
             />
           </View>
+           <TouchableOpacity
+            onPress={() => {
+              navigation.goBack()
+            }}
+            activeOpacity={0.7}>
+            <Image
+              source={Icons.back_arrow}
+              tintColor={theme().darkGrey}
+              style={{ height: 34, width: 34 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               navigation?.navigate('ShoppingBag', {

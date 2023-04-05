@@ -160,7 +160,7 @@ const MyOrder = ({ navigation, route }) => {
   return (
     <>
       <CHeader
-        title={'My Order'}
+        title={'My Invoices'}
         showLeftIcon
         onLeftIconPress={() => {
           if (resetFlow) {

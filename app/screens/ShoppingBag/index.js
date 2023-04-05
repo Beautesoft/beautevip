@@ -23,10 +23,12 @@ import { Images } from '../../config/images';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
-
+import { useIsFocused } from '@react-navigation/core';
 export default function ShoppingBag({ navigation }) {
+  const isFocused = useIsFocused();
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
 
   const [itemList, setitemList] = useState([]);
   const [loader, setloader] = useState(false);
@@ -75,7 +77,7 @@ export default function ShoppingBag({ navigation }) {
   useEffect(() => {
     GetCartItemList();
     CartSummary();
-  }, []);
+  }, [isFocused]);
 
   const GetCartItemList = () => {
     setloader(true);
@@ -302,14 +304,6 @@ export default function ShoppingBag({ navigation }) {
       <CHeader
         title={t('cart')}
         showLeftIcon
-        showLeftFirstIcon
-        leftFisrtIcon={Icons.home}
-        onLeftFirstIconPress={() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'BottomTabsNavigator' }],
-          });
-        }}
         onLeftIconPress={() => navigation.goBack()}
       />
       <View style={styles.container}>
@@ -376,7 +370,7 @@ export default function ShoppingBag({ navigation }) {
           <View
             style={{
               height: 350,
-              backgroundColor: 'black',
+              backgroundColor: currentTheme !== 'Dark' ? 'black' : 'white',
               width: '90%',
               borderRadius: 8,
             }}>

@@ -81,76 +81,75 @@ export default function Otp({ navigation, route }) {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <BackgroundImage image={Images.backgroundImageSec} />
 
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}>
-          <Image
-            source={{ uri: clientDetails?.clientLogo }}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}>
+        <Image
+        source={{ uri: clientDetails?.clientLogo }}
+          style={{
+            height: 180,
+            width: 180,
+            marginTop: 102,
+            alignSelf: 'center',
+          }}
+        />
+        <View style={styles.container}>
+          <CText
+            value={t('otp')}
+            color={theme().amberTxt}
+            size={24}
+            fontFamily={FontFamily.Poppins_SemiBold}
+          />
+          <CText
+            value={t('enterCode')}
+            color={theme().yellow}
+            size={14}
+            fontFamily={FontFamily.Poppins_Regular}
+          />
+          <OTPInputView
             style={{
-              height: 180,
-              width: 180,
-              marginTop: 102,
-              alignSelf: 'center',
+              width: '100%',
+              height: 200,
+              justifyContent: 'space-between',
+              alignContent: 'space-between',
+            }}
+            pinCount={6}
+            // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+            onCodeChanged={(code) => {
+              setotp(code);
+            }}
+            autoFocusOnLoad
+            codeInputFieldStyle={{
+              width: 48,
+              height: 48,
+              borderWidth: 1,
+              borderRadius: 6,
+              borderColor: theme().amber,
+              color: theme().amber,
+              fontSize: 14,
+              fontFamily: FontFamily.Poppins_Medium,
+            }}
+            codeInputHighlightStyle={{}}
+            onCodeFilled={(code) => {
+              console.log(`Code is ${code}, you are good to go!`);
             }}
           />
-          <View style={styles.container}>
-            <CText
-              value={t('otp')}
-              color={theme().amberTxt}
-              size={24}
-              fontFamily={FontFamily.Poppins_SemiBold}
-            />
-            <CText
-              value={t('enterCode')}
-              color={theme().yellow}
-              size={14}
-              fontFamily={FontFamily.Poppins_Regular}
-            />
-            <OTPInputView
-              style={{
-                width: '100%',
-                height: 200,
-                justifyContent: 'space-between',
-                alignContent: 'space-between',
-              }}
-              pinCount={6}
-              // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              onCodeChanged={(code) => {
-                setotp(code);
-              }}
-              autoFocusOnLoad
-              codeInputFieldStyle={{
-                width: 48,
-                height: 48,
-                borderWidth: 1,
-                borderRadius: 6,
-                borderColor: theme().amber,
-                color: theme().amber,
-                fontSize: 14,
-                fontFamily: FontFamily.Poppins_Medium,
-              }}
-              codeInputHighlightStyle={{}}
-              onCodeFilled={(code) => {
-                console.log(`Code is ${code}, you are good to go!`);
-              }}
-            />
-            <CButton
-              title={t('next')}
-              style={styles.btnStyle}
-              onPress={() => {
-                if (type == 'update') {
-                  updateProfile();
-                } else {
-                  VerifyOtp();
-                }
-              }}
-            />
-          </View>
-        </KeyboardAwareScrollView>
-      </View>
+          <CButton
+            title={t('next')}
+            style={styles.btnStyle}
+            onPress={() => {
+              if (type == 'update') {
+                updateProfile();
+              } else {
+                VerifyOtp();
+              }
+            }}
+          />
+        </View>
+      </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );

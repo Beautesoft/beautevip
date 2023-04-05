@@ -81,7 +81,7 @@ export default function ConfirmBooking({ navigation, route }) {
   const [loader, setloader] = useState(false);
 
   const [visible, setVisible] = useState(false);
-  const { clientDetails } = useSelector((state) => state.auth);
+
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
@@ -250,7 +250,7 @@ export default function ConfirmBooking({ navigation, route }) {
           setexpandBeaut(false);
         }}>
         <Image
-          source={{ uri: item?.profilePic ?? clientDetails?.clientLogo }}
+          source={item?.profilePic ? { uri: item?.profilePic } : Images.logo}
           style={{ height: 42, width: 36, borderRadius: 60 }}
           resizeMode="cover"
         />
@@ -963,8 +963,8 @@ export default function ConfirmBooking({ navigation, route }) {
             visible={cardInputModal}
             animationType="slide"
             onRequestClose={() => setcardInputModal(false)}
-          //onBackdropPress={() => setcardInputModal(false)}
-          //onSwipeComplete={() => setcardInputModal(false)}
+            //onBackdropPress={() => setcardInputModal(false)}
+            //onSwipeComplete={() => setcardInputModal(false)}
           >
             <TouchableOpacity
               activeOpacity={1}

@@ -90,21 +90,7 @@ export default function MyPackages({ navigation }) {
                 </Text>
               </View>
             </View>
-            <View style={styles.secondView}>
-              <TouchableOpacity
-                style={styles.bookBtn}
-                activeOpacity={0.7}
-                onPress={() => {
-                  navigation.navigate('BookingScreen', {
-                    itemData: item,
-                    type: 'package',
-                  });
-                }}>
-                <Text style={[styles.viewSession, { color: theme().amberTxt }]}>
-                  {t('bookNow')}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <View style={styles.secondView} />
           </View>
         </>
       );
@@ -128,7 +114,7 @@ export default function MyPackages({ navigation }) {
   return (
     <>
       <CHeader
-        title={t('myPackages')}
+        title={t('myServices')}
         showLeftIcon
         onLeftIconPress={() => navigation.goBack()}
       />

@@ -30,7 +30,7 @@ import { LogBox } from 'react-native';
 import { theme } from '../../redux/reducer/theme';
 export default function HomeScreen({ navigation }) {
   const styles = styledFunc();
-  const { logout, setStoreData } = AuthAction;
+  const { logout, setStoreData, addBookingData } = AuthAction;
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.auth);
   const { clientDetails } = useSelector((state) => state.auth);
@@ -125,6 +125,10 @@ export default function HomeScreen({ navigation }) {
     getDepartment();
   };
 
+  const serviceAction = (item) => {
+    dispatch(addBookingData('oldflow'));
+    navigation.navigate('RangeScreen', { serviceData: item });
+  };
   const StoreDetails = (sid) => {
     setloader(true);
     const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
@@ -215,9 +219,7 @@ export default function HomeScreen({ navigation }) {
         <CircularButton
           iconResource={item.image}
           title={item?.departmentName}
-          onPress={() =>
-            navigation.navigate('RangeScreen', { serviceData: item })
-          }
+          onPress={() => serviceAction(item)}
         />
       </View>
     );
@@ -362,9 +364,9 @@ export default function HomeScreen({ navigation }) {
         }}
         nestedScrollEnabled
         showsVerticalScrollIndicator={false}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      // }
       >
         <View>
           <View>
@@ -417,7 +419,7 @@ export default function HomeScreen({ navigation }) {
             <CText value={t('services')} size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Booking')}>
+              onPress={() => navigation.navigate('ServiceScreen')}>
               <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
@@ -440,7 +442,7 @@ export default function HomeScreen({ navigation }) {
             <CText value="Products" size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Shopping')}>
+              onPress={() => navigation.navigate('ShoppingScreen')}>
               <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
