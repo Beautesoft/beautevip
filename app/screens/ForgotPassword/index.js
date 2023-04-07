@@ -21,6 +21,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function ForgotPassword({ navigation }) {
   const { clientDetails } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
   const styles = styledFunc();
   const { setSignupData, setStoreData } = AuthAction;
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ export default function ForgotPassword({ navigation }) {
 
   return (
     <>
-   <BackgroundImage image={Images.backgroundImageSec} />
+       <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"

@@ -18,7 +18,7 @@ export default function SplashScreen({ navigation }) {
   const [clientDetails, setClientDetails] = useState([]);
   const dispatch = useDispatch();
   
-  dispatch(changeTheme('Light'));
+ 
   const uData = {
     clientLogo:
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
@@ -52,6 +52,7 @@ export default function SplashScreen({ navigation }) {
             type: 'GET_CLIENT_DETAILS',
             clientDetailsData: result?.result,
           });
+          dispatch(changeTheme(result?.result?.theme));
         }
       })
       .catch((err) => {
@@ -64,7 +65,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <>
-     <BackgroundImage image={Images.backgroundImageSec} />
+       <BackgroundImage image={Images.white_background} />
         <View style={styles.container}>
           <CText
             value={t('welcomeCAP')}
