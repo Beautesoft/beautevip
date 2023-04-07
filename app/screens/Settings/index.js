@@ -72,10 +72,12 @@ export default function Settings({ navigation }) {
           result,
         );
         if (result?.success == 1) {
+          /* Commented this Code Since we commented My Points So this code is not needed
           setTotalPoints(result.totalPoints);
           listArr[7].value = result.totalPoints;
           console.log('listArr', listArr);
           setState([...listArr]);
+        */
         }
       })
       .catch((err) => {
@@ -178,13 +180,13 @@ export default function Settings({ navigation }) {
         navigation.navigate('ChangeEmail');
       },
     },
-    {
+   /* {
       title: t('myPoints'),
       value: totalPoints,
       onPress: () => {
         navigation.navigate('MyEarnPoint');
       },
-    },
+    },*/
     {
       title: t('loginPassword'),
       value: '*********',
@@ -192,6 +194,7 @@ export default function Settings({ navigation }) {
         navigation.navigate('ChangePassword');
       },
     },
+    /* 
     {
       title: t('phoneNumber'),
       value: cUserData.phone,
@@ -203,7 +206,7 @@ export default function Settings({ navigation }) {
     //   title: 'Health Declaration',
     //   onPress: () => {},
     // },
-   /* {
+   {
       title: t('feedback'),
       onPress: () => {
         navigation.navigate('Feedback');
