@@ -98,14 +98,14 @@ export default function Settings({ navigation }) {
         //     setaddress(item);
         //   }
         // });
-
+console.log("addressjson",json);
         try {
           setaddress(json?.result?.[0]);
         } catch (error) { }
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-          listArr[5].value = json?.result?.[0].address;
+          listArr[2].value = json?.result?.[0].address;
           setState(listArr);
         } catch (error) { }
 
@@ -130,7 +130,7 @@ export default function Settings({ navigation }) {
   };
 
   const listArr = [
-    {
+    /*{
       title: 'My Services',
       onPress: () => {
         navigation.navigate('MyPackages');
@@ -147,7 +147,7 @@ export default function Settings({ navigation }) {
       onPress: () => {
         navigation.navigate('MyOrder');
       },
-    },
+    },*/
     {
       title: t('profilePhoto'),
       //{uri: (userData?.profilePic && userData?.profilePic != 33) ? userData?.profilePic : userData?.clientLogo}
@@ -180,13 +180,13 @@ export default function Settings({ navigation }) {
         navigation.navigate('ChangeEmail');
       },
     },
-   /* {
-      title: t('myPoints'),
-      value: totalPoints,
-      onPress: () => {
-        navigation.navigate('MyEarnPoint');
-      },
-    },*/
+    /* {
+       title: t('myPoints'),
+       value: totalPoints,
+       onPress: () => {
+         navigation.navigate('MyEarnPoint');
+       },
+     },*/
     {
       title: t('loginPassword'),
       value: '*********',
@@ -251,7 +251,7 @@ export default function Settings({ navigation }) {
     // },
     {
       title: 'Version',
-      value: '0.0.3',
+      value: '1.0.0.3',
       onPress: () => {
         //navigation.navigate('Language');
       },
@@ -496,7 +496,7 @@ export default function Settings({ navigation }) {
           setState((pState) => {
             console.log('🚀 before>>', pState);
             //pState[0].title="My Pac "
-            pState[3].photoData = { uri: newPic + '?' + new Date() };
+            pState[0].photoData = { uri: newPic + '?' + new Date() };
             console.log('🚀 after>>', pState);
             return [...pState];
           });

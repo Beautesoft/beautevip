@@ -148,7 +148,6 @@ export default function Checkout({ navigation, route }) {
     getApiData(BaseSetting.endpoints.stripePaymentIntentConfirm, 'post', data)
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 143 ~ .then ~ result', result);
-        setloader(false);
         if (result?.success == 1) {
           appTransPostSales();
           setcardInputModal(false);
@@ -163,7 +162,6 @@ export default function Checkout({ navigation, route }) {
   };
 
   const appTransPostSales = () => {
-    setloader(false);
 
     let tempArr = [];
     productList.map((item, index) => {

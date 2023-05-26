@@ -45,7 +45,7 @@ export default function ResetPassword({ navigation, route }) {
     } else if (!validatePassword(password)) {
       Alert.alert(
         'Error!',
-        'Password must contains uppercase, lowercase,number,special character and maximum length should be 6.',
+        'Password must contains uppercase, lowercase,number,special character and minimium length should be 6.',
       );
     } else if (password !== cpassword) {
       Alert.alert('Error!', 'Password and Confirm Password must be same.');
@@ -64,7 +64,7 @@ export default function ResetPassword({ navigation, route }) {
         minSymbols: 1,
       })
     ) {
-      if (value.length <= 6) {
+      if (value.length <= 15) {
         return true;
       } else {
         return false;
@@ -89,7 +89,7 @@ export default function ResetPassword({ navigation, route }) {
           Alert.alert('Success!', 'Your password has been saved successfully.');
           navigation.navigate('Login');
         }
-        Toast.show(result?.error);
+        //Toast.show(result?.error);
         setloader(false);
       })
       .catch((err) => {

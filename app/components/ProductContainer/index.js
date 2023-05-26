@@ -10,7 +10,7 @@ export default function ProductContainer(props) {
   const {
     name = 'Name',
     price = 10.0,
-    onPress = () => {},
+    onPress = () => { },
     image = Images.sampleOne,
     style = {},
   } = props;
@@ -54,7 +54,7 @@ export default function ProductContainer(props) {
             fontFamily={FontFamily.Poppins_Medium}
           />
         </View>
-        <TouchableOpacity
+        <View
           activeOpacity={0.7}
           style={{
             height: 24,
@@ -70,7 +70,7 @@ export default function ProductContainer(props) {
             style={{ height: '50%', width: '50%' }}
             resizeMode="center"
           />
-        </TouchableOpacity>
+        </View>
       </View>
     </TouchableOpacity>
   );

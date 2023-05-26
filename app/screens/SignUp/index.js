@@ -46,7 +46,7 @@ export default function SignUp({ navigation }) {
     } else if (!validatePassword(password)) {
       Alert.alert(
         'Error!',
-        'Password must contains uppercase, lowercase,number,special character and maximum length should be 6.',
+        'Password must contains uppercase, lowercase,number,special character and minimium length should be 6.',
       );
     } else if (password !== confirmPassword) {
       Alert.alert('Error!', 'Password and Confirm Password must be same');

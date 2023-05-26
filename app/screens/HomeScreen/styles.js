@@ -10,8 +10,6 @@ export const styledFunc = () => {
       marginTop: '14%',
     },
     searchCont: {
-      backgroundColor: theme().color_2E2100,
-      borderRadius: 80,
       alignItems: 'center',
       height: 48,
       flexDirection: 'row',

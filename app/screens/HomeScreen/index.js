@@ -13,6 +13,7 @@ import {
   View,
   BackHandler,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { styledFunc } from './styles';
 import { Icons } from '../../config/icons';
@@ -207,7 +208,25 @@ export default function HomeScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
-
+  const handleLogout = () =>
+    Alert.alert(
+      'Log Out !',
+      'Are you Sure ? ',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => dispatch(logout()),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
   const renderServiceBtn = ({ item, index }) => {
     return (
       <View
@@ -281,14 +300,16 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={{ backgroundColor: theme().darkGrey, flex: 1 }}>
       <View style={styles.headerCont}>
+
         <Image
           style={{ height: 48, width: 40 }}
           source={{ uri: clientDetails?.clientLogo }}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+
           <View style={styles.searchCont}>
-            <Image
+            {/* <Image
               source={Icons.search}
               style={{ height: 18, width: 18 }}
               resizeMode="center"
@@ -324,8 +345,9 @@ export default function HomeScreen({ navigation }) {
                 }
               }}
               resizeMode="center"
-            />
+            /> */}
           </View>
+
           <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => navigation.navigate('Notification')}>
@@ -342,7 +364,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.9}
-            onPress={() => dispatch(logout())}>
+            onPress={() => handleLogout()}>
             <Image
               source={Icons.exit_o}
               style={{
@@ -414,6 +436,7 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
+        {/*
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
             <CText value={t('services')} size={20} color={theme().amberTxt} />
@@ -505,6 +528,7 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
+      */}
       </ScrollView>
       {/* </View> */}
       <CLoader loader={loader} />
