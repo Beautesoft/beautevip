@@ -64,6 +64,7 @@ export const BottomTabsNavigator = () => {
       initialRouteName="Home">
       <Tab.Screen name="My Booking" component={OrdersScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Cart" component={ShoppingBag} />
       <Tab.Screen name="My Profile" component={SettingsScreen} />
     </Tab.Navigator>
   );
