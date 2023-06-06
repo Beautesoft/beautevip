@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Image, ScrollView, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
 import { styledFunc } from './styles';
@@ -26,8 +26,15 @@ export default function Otp({ navigation, route }) {
 
   const [otp, setotp] = useState('');
   const [loader, setloader] = useState(false);
+  const { clientDetails } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
+  const otpRef = useRef(null);
 
+  useEffect(() => {
+    setTimeout(() => otpRef.current.focusField(0), 250);
+  }, []);
   const VerifyOtp = () => {
+
     setloader(true);
     const data = {
       phoneNumber: signupData?.moNumber,
@@ -81,14 +88,14 @@ export default function Otp({ navigation, route }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+       <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+        source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,
@@ -121,7 +128,8 @@ export default function Otp({ navigation, route }) {
             onCodeChanged={(code) => {
               setotp(code);
             }}
-            autoFocusOnLoad
+            ref={otpRef}
+            autoFocusOnLoad={false}
             codeInputFieldStyle={{
               width: 48,
               height: 48,

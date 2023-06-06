@@ -30,6 +30,9 @@ import Invoice from '../screens/Invoice';
 import MyOrder from '../screens/MyOrder';
 import MyProducts from '../screens/MyProducts';
 import ConfirmBooking from '../screens/ConfirmBooking';
+import BookingScreenNew from '../screens/BookingScreenNew';
+import ServiceScreen from '../screens/ServiceScreen';
+import ShoppingScreen from '../screens/ShoppingScreen';
 
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
@@ -39,7 +42,7 @@ export const AppStackNavigator = () => {
         headerShown: false,
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
       }}
-      //initialRouteName="BottomTabsNavigator"
+    //initialRouteName="BottomTabsNavigator"
     >
       <AppStack.Screen
         name="BottomTabsNavigator"
@@ -53,6 +56,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="RangeScreen" component={RangeScreen} />
       <AppStack.Screen name="SubService" component={SubService} />
       <AppStack.Screen name="BookingScreen" component={BookingScreen} />
+      <AppStack.Screen name="BookingScreenNew" component={BookingScreenNew} />
       <AppStack.Screen name="ProductDetails" component={ProductDetails} />
       <AppStack.Screen name="Settings" component={Settings} />
       <AppStack.Screen name="ChangeUserName" component={ChangeUserName} />
@@ -71,6 +75,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="OrderConfirm" component={OrderConfirm} />
       <AppStack.Screen name="MyPackages" component={MyPackages} />
       <AppStack.Screen name="ConfirmBooking" component={ConfirmBooking} />
+      <AppStack.Screen name="ShoppingScreen" component={ShoppingScreen} />
       <AppStack.Screen
         name="NotificationDetail"
         component={NotificationDetail}
@@ -79,6 +84,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="Invoice" component={Invoice} />
       <AppStack.Screen name="MyOrder" component={MyOrder} />
       <AppStack.Screen name="MyProducts" component={MyProducts} />
+      <AppStack.Screen name="ServiceScreen" component={ServiceScreen} />
     </AppStack.Navigator>
   );
 };

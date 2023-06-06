@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CircularButton from '../../components/CirculerButton';
@@ -56,7 +56,9 @@ export default function ServiceScreen({ navigation }) {
     <>
       <CHeader
         title={t('Service')}
+        showLeftIcon
         showCartIcon
+        onLeftIconPress={() => navigation.goBack()}
         onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
       />
       <View style={styles.container}>
@@ -64,9 +66,6 @@ export default function ServiceScreen({ navigation }) {
           numColumns={4}
           data={serviceList}
           renderItem={renderServiceBtn}
-          // contentContainerStyle={{
-          //   width: '100%',
-          // }}
           keyExtractor={(item, index) => index}
         />
       </View>

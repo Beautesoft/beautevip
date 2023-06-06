@@ -33,4 +33,5 @@ export const Icons = {
   pencil: require('../assets/icons/pencil.png'),
   delete: require('../assets/icons/delete.png'),
   bell_fill: require('../assets/icons/bell_fill.png'),
+  booking_plus_icon: require('../assets/icons/plus_logo_150_150.png'),
 };

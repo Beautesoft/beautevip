@@ -10,13 +10,16 @@ export default function CHeader(props) {
     title = 'Title',
     leftIcon = Icons.back_arrow,
     cartIcon = Icons.cart,
+    bookingIcon = Icons.booking_plus_icon,
     showLeftIcon,
-    onLeftIconPress = () => {},
-    onCartIconPress = () => {},
+    onLeftIconPress = () => { },
+    onCartIconPress = () => { },
     leftFisrtIcon = Icons.home,
     showLeftFirstIcon,
     showCartIcon,
-    onLeftFirstIconPress = () => {},
+    onLeftFirstIconPress = () => { },
+    showBookingIcon,
+    onBookingIconPress = () => { },
   } = props;
   return (
     <View
@@ -36,7 +39,13 @@ export default function CHeader(props) {
           alignItems: 'center',
           flex: 1,
         }}>
-        <CText value={title} size={32} color={theme().darkGrey} />
+        <CText
+          value={
+            title.length < 15 ? `${title}` : `${title.substring(0, 15)}...`
+          }
+          size={24}
+          color={theme().darkGrey}
+        />
         {showLeftFirstIcon && (
           <TouchableOpacity onPress={onLeftFirstIconPress} activeOpacity={0.7}>
             {/* <Image
@@ -60,6 +69,15 @@ export default function CHeader(props) {
           <TouchableOpacity onPress={onLeftIconPress} activeOpacity={0.7}>
             <Image
               source={leftIcon}
+              style={{ height: 34, width: 34, tintColor: theme().darkGrey }}
+              resizeMode="center"
+            />
+          </TouchableOpacity>
+        )}
+        {showBookingIcon && (
+          <TouchableOpacity onPress={onBookingIconPress} activeOpacity={0.7}>
+            <Image
+              source={bookingIcon}
               style={{ height: 34, width: 34, tintColor: theme().darkGrey }}
               resizeMode="center"
             />

@@ -32,28 +32,30 @@ import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import CLoader from '../../components/CLoader';
 import Toast from 'react-native-simple-toast';
-import { isEmpty, isArray, split } from 'lodash';
+import { isEmpty, isArray, split, filter } from 'lodash';
 import { t } from 'i18next';
 import { CreditCardInput } from 'react-native-credit-card-input-view';
 import MyModal from '../../components/MyModal';
 import { baseUrl } from '../../config/settings';
 import { theme } from '../../redux/reducer/theme';
-export default function BookingScreen({ navigation, route }) {
+import AuthAction from '../../redux/reducer/auth/actions';
+import { useDispatch } from 'react-redux';
+export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
-  const orderData = route?.params?.itemData;
+
   console.log(
-    '🚀 ~ file: vk index.js ~ line 36 ~ BookingScreen ~ orderData',
+    '🚀 ~ file: vk index.js ~ line 36 ~ BookingScreenNew ~ orderData',
     route?.params,
   );
 
-  const type = route?.params?.type;
+  const type = 'package';
 
   const packageType = type === 'package' ? true : false;
-
+  const orderData = route?.params?.itemData;
   const { userData } = useSelector((state) => state.auth);
-
   const [rateService, setrateService] = useState(false);
   const [expandLocation, setexpandLocation] = useState(false);
+  const [expandService, setexpandService] = useState(false);
   const [expandTime, setexpandTime] = useState(false);
   const [expandBeaut, setexpandBeaut] = useState(false);
   const [selectedDateTime, setselectedDateTime] = useState();
@@ -62,6 +64,7 @@ export default function BookingScreen({ navigation, route }) {
   const [location, setlocation] = useState([]);
   const [beauty, setbeauty] = useState();
   const [selectedLocation, setSelectedLoation] = useState();
+  const [selectedService, setSelectedService] = useState();
 
   const [isDatePickerVisible, setisDatePickerVisible] = useState(false);
 
@@ -99,65 +102,9 @@ export default function BookingScreen({ navigation, route }) {
         console.error(error);
       });
   };
-
-  const locationArr = [
-    {
-      image: Images.sampleOne,
-      name: 'Location 1',
-      txt: '12 abc, #01-23',
-      loc: 'Singapore 012345',
-    },
-    {
-      image: Images.sampleOne,
-      name: 'Location 1',
-      txt: '12 abc, #01-23',
-      loc: 'Singapore 012345',
-    },
-    {
-      image: Images.sampleOne,
-      name: 'Location 1',
-      txt: '12 abc, #01-23',
-      loc: 'Singapore 012345',
-    },
-    {
-      image: Images.sampleOne,
-      name: 'Location 1',
-      txt: '12 abc, #01-23',
-      loc: 'Singapore 012345',
-    },
-  ];
-
-  const beautyArr = [
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-    {
-      title: 'Suzzaine',
-      image: Images.sampleOne,
-    },
-  ];
-
+  const { addBookingData } = AuthAction;
+  const dispatch = useDispatch();
+  const { bookingData } = useSelector((state) => state.auth);
   let backPressed = 0;
 
   function handleBackButtonClick() {
@@ -176,7 +123,7 @@ export default function BookingScreen({ navigation, route }) {
   }
 
   useEffect(() => {
-    console.log('bookinggggg screen');
+    console.log('booking screen new ');
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -288,27 +235,21 @@ export default function BookingScreen({ navigation, route }) {
     const data = {
       phoneNumber: userData?.customerPhone,
       customerCode: userData?.customerCode,
-      itemCode: packageType
-        ? orderData?.packageList[0].itemCode
-        : orderData?.itemCode,
+      itemCode: orderData?.itemCode,
       appointmentDate: moment(selectedDate).format('YYYY-MM-DD'),
       appointmentTime: selectedDateTime?.timeIn24Hrs,
-      appointmentDuration: packageType
-        ? Number(orderData?.packageList[0].duration)
-        : orderData?.duration,
+      appointmentDuration: orderData?.duration,
       siteCode: selectedLocation?.siteCode, //userData?.siteCode,
-      itemName: packageType ? orderData?.packageName : orderData?.itemName,
-      treatmentId: packageType ? orderData?.packageID : '',
+      itemName: orderData?.itemName,
+      treatmentId: '',
       appointmentRemark: '',
       staffCode: beauty?.staffCode,
       appointmentItemDetails: [
         {
           lineNumber: '1',
-          itemCode: packageType
-            ? orderData?.packageList[0].itemCode
-            : orderData?.itemCode,
-          itemName: packageType ? orderData?.packageName : orderData?.itemName,
-          unitPrice: packageType ? orderData?.unitPrice : orderData?.price,
+          itemCode: orderData?.itemCode,
+          itemName: orderData?.itemName,
+          unitPrice: orderData?.price,
         },
       ],
     };
@@ -380,7 +321,7 @@ export default function BookingScreen({ navigation, route }) {
       siteCode: selectedLocation?.siteCode,
       apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       slotTimeIn24Hrs: slotTime.timeIn24Hrs,
-      itemCode: orderData.packageList[0].itemCode,
+      //itemCode: orderData.packageList[0].itemCode,
     };
     console.log('line>>349>>', data);
 
@@ -404,13 +345,16 @@ export default function BookingScreen({ navigation, route }) {
 
   const GetSaloonList = () => {
     if (packageType) {
-      const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0&serviceItemCode=${orderData.packageList[0].itemCode}`;
+      const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
       console.log('GetSaloonListURL', url);
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
-          console.log('🚀 line 371>', json);
+          const filtered = json?.result?.filter((response) => {
+            return response.siteCode === userData.siteCode;
+          });
           setsaloonList(json?.result);
+          setSelectedLoation(filtered[0]);
         })
         .catch((error) => {
           console.error(error);
@@ -437,39 +381,6 @@ export default function BookingScreen({ navigation, route }) {
           '🚀 ~ file: index.js ~ line 451 ~ cartAllItemDelete ~ err',
           err,
         );
-      });
-  };
-
-  const AddToCart = () => {
-    //setloader(true);
-    const data = {
-      phoneNumber: userData?.customerPhone,
-      customerCode: userData?.customerCode,
-      itemCode: orderData?.itemCode,
-      itemDescription: orderData?.itemDescription,
-      itemQuantity: 1,
-      itemPrice: orderData?.price,
-      siteCode: userData?.siteCode,
-      redeemPoint: '0',
-      itemType: 3,
-    };
-    getApiData(BaseSetting?.endpoints?.cartItemInput, 'post', data)
-      .then((result) => {
-        //setloader(false);
-        console.log('🚀 ~ file: index.js ~ line 33 ~ .then ~ result', result);
-        // if (result?.success == 1) {
-        //   getCartItems();
-        // }
-        // navigation.navigate('ShoppingBag');
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'BottomTabsNavigator' }],
-        });
-        Toast.show('Added to cart.');
-      })
-      .catch((err) => {
-        //setloader(false);
-        console.log('🚀 ~ file: index.js ~ line 35 ~ .then ~ err', err);
       });
   };
 
@@ -508,7 +419,7 @@ export default function BookingScreen({ navigation, route }) {
           </View>
           <View style={{ paddingStart: 8, flex: 1 }}>
             <CText
-              value={packageType ? orderData?.packageName : orderData?.itemName}
+              value="New Appointment"
               color={theme().amberTxt}
               size={20}
               fontFamily={FontFamily.Poppins_SemiBold}
@@ -531,115 +442,145 @@ export default function BookingScreen({ navigation, route }) {
             )}
           </View>
         </View>
-        {packageType && (
-          <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
-            <CText value={t('addAppDetail')} color={theme().white} size={14} />
-            <TouchableOpacity
-              style={styles.btnCont}
-              activeOpacity={0.7}
-              onPress={() => {
-                setexpandBeaut(false);
-                setexpandTime(false);
-                setisDatePickerVisible(false);
-                setexpandLocation(!expandLocation);
-                //GetAddress();
-              }}>
-              <Text style={styles.btnTxt}>
-                {selectedLocation
-                  ? selectedLocation?.siteName
-                  : t('selectLocation')}
-              </Text>
-              {expandLocation && (
-                <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
-                  <FlatList
-                    data={saloonList}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderLocation}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    showsVerticalScrollIndicator={false}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.btnCont]}
-              activeOpacity={0.7}
-              onPress={() => {
-                if (selectedLocation) {
-                  setexpandBeaut(false);
-                  setexpandLocation(false);
-                  setisDatePickerVisible(!isDatePickerVisible);
-                } else {
-                  Toast.show('Please select location first.');
-                }
 
-                // setexpandTime(!expandTime);
-              }}>
-              <Text style={styles.btnTxt}>
-                {selectedDateTime?.time
-                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
-                      selectedDateTime?.time
-                    }`
-                  : t('setDateTime')}
-              </Text>
-              {expandTime && (
-                <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
-                  <FlatList
-                    data={availableSlots}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderTimeSlots}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    showsVerticalScrollIndicator={false}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnCont}
-              activeOpacity={0.7}
-              onPress={() => {
-                if (selectedLocation && selectedDate && selectedDateTime) {
-                  setexpandTime(false);
-                  setexpandLocation(false);
-                  setisDatePickerVisible(false);
-                  setexpandBeaut(!expandBeaut);
-                } else {
-                  Toast.show('Please select location,date and time first.');
-                }
-              }}>
-              <Text style={styles.btnTxt}>
-                {beauty
-                  ? `${beauty?.firstName} ${beauty?.lastName}`
-                  : t('selectAvail')}
-              </Text>
-
-              {expandBeaut && (
-                <View
-                  style={{
-                    height: 160,
+        <View style={{ alignItems: 'center', flex: 1, marginTop: 4 }}>
+          <CText value={t('addAppDetail')} color={theme().white} size={14} />
+          {/*Select Location  */}
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              setexpandService(false);
+              setexpandBeaut(false);
+              setexpandTime(false);
+              setisDatePickerVisible(false);
+              setexpandLocation(!expandLocation);
+              //GetAddress();
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedLocation
+                ? selectedLocation?.siteName
+                : t('selectLocation')}
+            </Text>
+            {expandLocation && (
+              <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
+                <FlatList
+                  data={saloonList}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderLocation}
+                  contentContainerStyle={{
                     width: '100%',
-                    paddingTop: 12,
-                    marginBottom: '10%',
-                  }}>
-                  <FlatList
-                    data={staffArr}
-                    keyExtractor={(item, index) => index}
-                    renderItem={renderBeauty}
-                    contentContainerStyle={{
-                      width: '100%',
-                    }}
-                    numColumns={4}
-                    showsVerticalScrollIndicator={true}
-                  />
-                </View>
-              )}
-            </TouchableOpacity>
-          </View>
-        )}
+                  }}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          {/*Select Service  */}
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+
+            onPress={() => {
+              if (selectedLocation) {
+                const userDataFromRedux = {
+                  ...userData,
+                  siteCode: selectedLocation?.siteCode,
+                };
+                userDataFromRedux.siteCode = selectedLocation?.siteCode;
+                dispatch({
+                  type: 'LOGIN_SUCCESS',
+                  data: userDataFromRedux,
+                });
+                navigation.navigate('ServiceScreen');
+                // bookingData.itemCode = '101';
+                dispatch(addBookingData('newflow'));
+              } else {
+                Toast.show('Please select location first.');
+              }
+            }}>
+            <Text style={styles.btnTxt}>
+              {orderData ? orderData?.itemDescription : t('selectService')}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.btnCont]}
+            activeOpacity={0.7}
+            onPress={() => {
+              if (selectedLocation) {
+                setexpandBeaut(false);
+                setexpandLocation(false);
+                setisDatePickerVisible(!isDatePickerVisible);
+              } else {
+                Toast.show('Please select location first.');
+              }
+
+              // setexpandTime(!expandTime);
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedDateTime?.time
+                ? `${moment(selectedDate).format('YYYY-MM-DD')} ${selectedDateTime?.time
+                }`
+                : t('setDateTime')}
+            </Text>
+            {expandTime && (
+              <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
+                <FlatList
+                  data={availableSlots}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderTimeSlots}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              if (selectedLocation && selectedDate && selectedDateTime) {
+                setexpandTime(false);
+                setexpandLocation(false);
+                setisDatePickerVisible(false);
+                setexpandBeaut(!expandBeaut);
+              } else {
+                Toast.show('Please select location,date and time first.');
+              }
+            }}>
+            <Text style={styles.btnTxt}>
+              {beauty
+                ? `${beauty?.firstName} ${beauty?.lastName}`
+                : t('selectAvail')}
+            </Text>
+
+            {expandBeaut && (
+              <View
+                style={{
+                  height: 160,
+                  width: '100%',
+                  paddingTop: 12,
+                  marginBottom: '10%',
+                }}>
+                <FlatList
+                  data={staffArr}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderBeauty}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  numColumns={4}
+                  showsVerticalScrollIndicator={true}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{
@@ -656,8 +597,6 @@ export default function BookingScreen({ navigation, route }) {
             } else {
               if (packageType) {
                 BookAppointment();
-              } else {
-                AddToCart();
               }
             }
           }}
@@ -706,7 +645,7 @@ export default function BookingScreen({ navigation, route }) {
           // setisDatePickerVisible(false);
 
           console.log(
-            '🚀 ~ file: index.js ~ line 266 ~ BookingScreen ~ val Vk>>',
+            '🚀 ~ file: index.js ~ line 266 ~ BookingScreenNew ~ val Vk>>',
             val + ',' + new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
             moment().add(2, 'days'),
           );

@@ -23,10 +23,12 @@ import { Images } from '../../config/images';
 import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
-
+import { useIsFocused } from '@react-navigation/core';
 export default function ShoppingBag({ navigation }) {
+  const isFocused = useIsFocused();
   const styles = styledFunc();
   const { userData } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
 
   const [itemList, setitemList] = useState([]);
   const [loader, setloader] = useState(false);
@@ -39,7 +41,7 @@ export default function ShoppingBag({ navigation }) {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [modifiedItem, setmodifiedItem] = useState({});
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const AddToCart = (item, iQty) => {
     console.log('Item>>>Line>>46>>', '' + item);
 
@@ -75,7 +77,7 @@ export default function ShoppingBag({ navigation }) {
   useEffect(() => {
     GetCartItemList();
     CartSummary();
-  }, []);
+  }, [isFocused]);
 
   const GetCartItemList = () => {
     setloader(true);
@@ -205,7 +207,7 @@ export default function ShoppingBag({ navigation }) {
           source={
             item?.imageUrl.includes('http')
               ? { uri: item?.imageUrl }
-              : Images?.logo
+              : clientDetails?.clientLogo
           }
           style={{ height: 90, width: 90, borderRadius: 8 }}
           resizeMode="cover"
@@ -302,14 +304,6 @@ export default function ShoppingBag({ navigation }) {
       <CHeader
         title={t('cart')}
         showLeftIcon
-        showLeftFirstIcon
-        leftFisrtIcon={Icons.home}
-        onLeftFirstIconPress={() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'BottomTabsNavigator' }],
-          });
-        }}
         onLeftIconPress={() => navigation.goBack()}
       />
       <View style={styles.container}>
@@ -376,7 +370,7 @@ export default function ShoppingBag({ navigation }) {
           <View
             style={{
               height: 350,
-              backgroundColor: '#fff',
+              backgroundColor: currentTheme !== 'Dark' ? 'black' : 'white',
               width: '90%',
               borderRadius: 8,
             }}>

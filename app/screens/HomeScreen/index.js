@@ -13,6 +13,7 @@ import {
   View,
   BackHandler,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { styledFunc } from './styles';
 import { Icons } from '../../config/icons';
@@ -30,10 +31,10 @@ import { LogBox } from 'react-native';
 import { theme } from '../../redux/reducer/theme';
 export default function HomeScreen({ navigation }) {
   const styles = styledFunc();
-  const { logout, setStoreData } = AuthAction;
+  const { logout, setStoreData, addBookingData } = AuthAction;
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.auth);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const bannerListRef = useRef();
 
   const [searchTxt, setsearchTxt] = useState('');
@@ -125,6 +126,10 @@ export default function HomeScreen({ navigation }) {
     getDepartment();
   };
 
+  const serviceAction = (item) => {
+    dispatch(addBookingData('oldflow'));
+    navigation.navigate('RangeScreen', { serviceData: item });
+  };
   const StoreDetails = (sid) => {
     setloader(true);
     const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
@@ -203,7 +208,25 @@ export default function HomeScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
-
+  const handleLogout = () =>
+    Alert.alert(
+      'Log Out !',
+      'Are you Sure ? ',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => dispatch(logout()),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
   const renderServiceBtn = ({ item, index }) => {
     return (
       <View
@@ -215,9 +238,7 @@ export default function HomeScreen({ navigation }) {
         <CircularButton
           iconResource={item.image}
           title={item?.departmentName}
-          onPress={() =>
-            navigation.navigate('RangeScreen', { serviceData: item })
-          }
+          onPress={() => serviceAction(item)}
         />
       </View>
     );
@@ -279,14 +300,16 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={{ backgroundColor: theme().darkGrey, flex: 1 }}>
       <View style={styles.headerCont}>
+
         <Image
           style={{ height: 48, width: 40 }}
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+
           <View style={styles.searchCont}>
-            <Image
+            {/* <Image
               source={Icons.search}
               style={{ height: 18, width: 18 }}
               resizeMode="center"
@@ -322,8 +345,9 @@ export default function HomeScreen({ navigation }) {
                 }
               }}
               resizeMode="center"
-            />
+            /> */}
           </View>
+
           <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => navigation.navigate('Notification')}>
@@ -340,7 +364,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.9}
-            onPress={() => dispatch(logout())}>
+            onPress={() => handleLogout()}>
             <Image
               source={Icons.exit_o}
               style={{
@@ -362,9 +386,9 @@ export default function HomeScreen({ navigation }) {
         }}
         nestedScrollEnabled
         showsVerticalScrollIndicator={false}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
+      // refreshControl={
+      //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      // }
       >
         <View>
           <View>
@@ -412,12 +436,13 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
+        {/*
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
             <CText value={t('services')} size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Booking')}>
+              onPress={() => navigation.navigate('ServiceScreen')}>
               <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
@@ -440,7 +465,7 @@ export default function HomeScreen({ navigation }) {
             <CText value="Products" size={20} color={theme().amberTxt} />
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => navigation.navigate('Shopping')}>
+              onPress={() => navigation.navigate('ShoppingScreen')}>
               <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
             </TouchableOpacity>
           </View>
@@ -503,6 +528,7 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
+      */}
       </ScrollView>
       {/* </View> */}
       <CLoader loader={loader} />

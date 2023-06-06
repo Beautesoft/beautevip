@@ -2,7 +2,7 @@
 const devMode = __DEV__;
 
 //const baseUrl = 'http://103.253.15.102:88/main_api';
-export const baseUrl = 'http://103.253.15.102:88/mainapi_cloudtest/';
+export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
   name: 'TNCCRM',
@@ -51,6 +51,7 @@ const BaseSetting = {
     availableSlotsTnc: '/AvailableSlotsTnc',
     AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
+    getClientDetails: '/getClientDetails',
   },
 };
 

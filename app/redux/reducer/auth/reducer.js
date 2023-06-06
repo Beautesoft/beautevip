@@ -6,10 +6,17 @@ const initialState = {
   signupData: {},
   storeData: {},
   currentLanguage: 'en',
+  clientDetails: {},
+  bookingData: '',
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case 'GET_CLIENT_DETAILS':
+      return {
+        ...state,
+        clientDetails: { ...action.clientDetailsData },
+      };
     case 'LOGIN_SUCCESS':
       return {
         ...state,
@@ -21,7 +28,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         userData: action.userData,
       };
-
+    case types.ADD_BOOKING_DATA:
+      return {
+        ...state,
+        bookingData: action.bookingData,
+      };
     case types.SET_SIGNUPDATA:
       return {
         ...state,
@@ -46,6 +57,7 @@ export default function reducer(state = initialState, action) {
         signupData: null,
         userData: {},
         storeData: {},
+        bookingData: {},
       };
 
     case types.REMOVE_USR_DATA:

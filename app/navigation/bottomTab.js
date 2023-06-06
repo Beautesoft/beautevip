@@ -5,12 +5,14 @@ import OrdersScreen from '../screens/OrdersScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/Settings';
 // import BottomTabBar from "./BottomTabBar";
 import { theme } from '../redux/reducer/theme';
 
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Icons } from '../config/icons';
 import { FontFamily } from '../config/typography';
+import ShoppingBag from '../screens/ShoppingBag';
 
 export const BottomTabsNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -29,9 +31,9 @@ export const BottomTabsNavigator = () => {
             iconName = Icons.calendar;
           } else if (route.name === 'My Booking') {
             iconName = Icons.time_circle;
-          } else if (route.name === 'Shopping') {
+          } else if (route.name === 'Cart') {
             iconName = Icons.bag_new;
-          } else if (route.name === 'Me') {
+          } else if (route.name === 'My Profile') {
             iconName = Icons.profile;
           }
 
@@ -60,11 +62,9 @@ export const BottomTabsNavigator = () => {
         },
       })}
       initialRouteName="Home">
-      <Tab.Screen name="Services" component={ServiceScreen} />
       <Tab.Screen name="My Booking" component={OrdersScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Shopping" component={ShoppingScreen} />
-      <Tab.Screen name="Me" component={ProfileScreen} />
+      <Tab.Screen name="My Profile" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };

@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
@@ -52,6 +53,25 @@ export default function OrderDetails({ navigation, route }) {
     DataTable: tData,
   };
 
+  const showAppointmentCancelAlert = () =>
+    Alert.alert(
+      'Cancel Appointment !',
+      'Are you Sure ? ',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => AppointmentCancel(),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
   const AppointmentCancel = () => {
     const data = {
       appointmentCode: orderData?.appointmentID,
@@ -62,7 +82,9 @@ export default function OrderDetails({ navigation, route }) {
         console.log('🚀 ~ file: index.js ~ line 35 ~ .then ~ result', result);
         if (result?.success == 1) {
           Toast.show(result?.result);
-          navigation?.navigate('Orders');
+          navigation.navigate('BottomTabsNavigator', { screen: 'Home' });
+        } else {
+          Toast.show(result?.result);
         }
       })
       .catch((err) => {
@@ -89,7 +111,7 @@ export default function OrderDetails({ navigation, route }) {
   return (
     <>
       <CHeader
-        title={oid == 5 ? t('history') : t('ordersDetails')}
+        title={oid == 5 ? t('history') : t('appointmentDetails')}
         showLeftIcon
         onLeftIconPress={() => navigation.goBack()}
       />
@@ -140,7 +162,7 @@ export default function OrderDetails({ navigation, route }) {
             ]}>
             <View style={styles.lines} />
             <CText
-              value={t('bookingDetails')}
+              value={'Appointment Details'}
               size={14}
               color="#b1b1b1"
               style={{ marginHorizontal: 24 }}
@@ -163,6 +185,12 @@ export default function OrderDetails({ navigation, route }) {
               />
               <CText
                 value={oid == 6 ? 'Staff' : t('beautician')}
+                size={16}
+                color="#b1b1b1"
+                style={{ marginTop: 8 }}
+              />
+              <CText
+                value={oid == 6 ? 'Transaction No.' : 'Id'}
                 size={16}
                 color="#b1b1b1"
                 style={{ marginTop: 8 }}
@@ -190,6 +218,14 @@ export default function OrderDetails({ navigation, route }) {
               <CText
                 value={
                   oid == 6 ? orderData?.staffName : orderData?.employeeName
+                }
+                size={16}
+                color={theme().amberTxt}
+                style={{ marginTop: 8 }}
+              />
+              <CText
+                value={
+                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
                 }
                 size={16}
                 color={theme().amberTxt}
@@ -223,59 +259,6 @@ export default function OrderDetails({ navigation, route }) {
             <CText title={''} />
           )}
 
-          <View
-            style={[
-              styles.rowStyle,
-              {
-                marginTop: 32,
-              },
-            ]}>
-            <View style={styles.lines} />
-            <CText
-              value={t('orderDetails')}
-              size={14}
-              color="#b1b1b1"
-              style={{ marginHorizontal: 24 }}
-            />
-            <View style={styles.lines} />
-          </View>
-
-          <View style={[styles.rowStyle, { marginTop: 8 }]}>
-            <View>
-              <CText
-                value={oid == 6 ? 'Transaction No.' : t('numberCap')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={oid == 6 ? 'Invoice No.' : t('dnt')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-            </View>
-            <View style={{ alignItems: 'flex-end' }}>
-              <CText
-                value={
-                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={
-                  oid == 6
-                    ? orderData?.invoiceNo
-                    : moment(orderData?.appointmentDate).format('DD-MM-YYYY LT')
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-            </View>
-          </View>
           {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate('Invoice');
@@ -308,8 +291,8 @@ export default function OrderDetails({ navigation, route }) {
               />
             ) : (
               <CButton
-                title={t('cancelOrder')}
-                onPress={() => AppointmentCancel()}
+                title={t('cancelAppointment')}
+                onPress={() => showAppointmentCancelAlert()}
               />
             )}
           </>

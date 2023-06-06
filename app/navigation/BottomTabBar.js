@@ -8,7 +8,7 @@ const ButtonIcons = {
   Booking: Icons.calendar,
   Orders: Icons.time_circle,
   Home: Icons.home,
-  Shopping: Icons.bag_new, //Icons.bag,
+  Cart: Icons.bag_new, //Icons.bag,
   Me: Icons.profile,
 };
 
@@ -16,7 +16,7 @@ const ButtonNames = {
   Booking: 'Booking',
   Orders: 'Orders',
   Home: 'Home',
-  Shopping: 'Shopping',
+  Cart: 'Shopping',
   Me: 'Me',
 };
 

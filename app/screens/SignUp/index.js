@@ -27,11 +27,12 @@ export default function SignUp({ navigation }) {
   const [confirmPassword, setconfirmPassword] = useState('');
   const [promoCode, setpromoCode] = useState('');
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
 
   const { setSignupData } = AuthAction;
   const auth = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
   // console.log('🚀 ~ file: index.js ~ line 26 ~ SignUp ~ auth', auth.signupData);
   const dispatch = useDispatch();
 
@@ -45,7 +46,7 @@ export default function SignUp({ navigation }) {
     } else if (!validatePassword(password)) {
       Alert.alert(
         'Error!',
-        'Password must contains uppercase, lowercase,number,special character and maximum length should be 6.',
+        'Password must contains uppercase, lowercase,number,special character and minimium length should be 6.',
       );
     } else if (password !== confirmPassword) {
       Alert.alert('Error!', 'Password and Confirm Password must be same');
@@ -55,7 +56,7 @@ export default function SignUp({ navigation }) {
   };
 
   const mobilevalidate = (text) => {
-    const reg = /^[0]?[789]\d{5,13}$/;
+    const reg = /^[+0]?[56789]\d{5,20}$/;
     if (reg.test(text) === false) {
       return false;
     } else {
@@ -73,7 +74,7 @@ export default function SignUp({ navigation }) {
         minSymbols: 1,
       })
     ) {
-      if (value.length <= 6) {
+      if (value.length <= 15) {
         return true;
       } else {
         return false;
@@ -118,14 +119,14 @@ export default function SignUp({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,
@@ -166,7 +167,7 @@ export default function SignUp({ navigation }) {
             secureTextEntry={secureTextEntry}
             showRightIcon
             contStyle={styles.cInput}
-            maxLength={6}
+            maxLength={15}
           />
           <CInput
             placeholder={t('phConfirmPassword')}
@@ -180,16 +181,16 @@ export default function SignUp({ navigation }) {
             secureTextEntry={secureTextEntry}
             showRightIcon
             contStyle={styles.cInput}
-            maxLength={6}
+            maxLength={15}
           />
-          <CInput
+          {/* <CInput
             placeholder={t('phEnterPromoCode')}
             showLeftIcon
             leftIcon={Icons.tag_outline}
             value={promoCode}
             onChangeText={setpromoCode}
             contStyle={styles.cInput}
-          />
+          />*/}
           <View style={styles.rowStyle}>
             <CButton
               title={t('next')}

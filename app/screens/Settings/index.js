@@ -72,10 +72,12 @@ export default function Settings({ navigation }) {
           result,
         );
         if (result?.success == 1) {
+          /* Commented this Code Since we commented My Points So this code is not needed
           setTotalPoints(result.totalPoints);
-          listArr[6].value = result.totalPoints;
+          listArr[7].value = result.totalPoints;
           console.log('listArr', listArr);
           setState([...listArr]);
+        */
         }
       })
       .catch((err) => {
@@ -96,16 +98,16 @@ export default function Settings({ navigation }) {
         //     setaddress(item);
         //   }
         // });
-
+console.log("addressjson",json);
         try {
           setaddress(json?.result?.[0]);
-        } catch (error) {}
+        } catch (error) { }
         try {
           userData.customerAddress = json?.result?.[0].address;
           dispatch(updateUserData(userData));
-          listArr[4].value = json?.result?.[0].address;
+          listArr[2].value = json?.result?.[0].address;
           setState(listArr);
-        } catch (error) {}
+        } catch (error) { }
 
         //setloader(false);
       })
@@ -128,16 +130,10 @@ export default function Settings({ navigation }) {
   };
 
   const listArr = [
-    {
-      title: t('myPackages'),
+    /*{
+      title: 'My Services',
       onPress: () => {
         navigation.navigate('MyPackages');
-      },
-    },
-    {
-      title: 'My Order',
-      onPress: () => {
-        navigation.navigate('MyOrder');
       },
     },
     {
@@ -146,6 +142,12 @@ export default function Settings({ navigation }) {
         navigation.navigate('MyProducts');
       },
     },
+    {
+      title: 'My Invoices',
+      onPress: () => {
+        navigation.navigate('MyOrder');
+      },
+    },*/
     {
       title: t('profilePhoto'),
       //{uri: (userData?.profilePic && userData?.profilePic != 33) ? userData?.profilePic : userData?.clientLogo}
@@ -178,13 +180,13 @@ export default function Settings({ navigation }) {
         navigation.navigate('ChangeEmail');
       },
     },
-    {
-      title: t('myPoints'),
-      value: totalPoints,
-      onPress: () => {
-        navigation.navigate('MyEarnPoint');
-      },
-    },
+    /* {
+       title: t('myPoints'),
+       value: totalPoints,
+       onPress: () => {
+         navigation.navigate('MyEarnPoint');
+       },
+     },*/
     {
       title: t('loginPassword'),
       value: '*********',
@@ -192,6 +194,7 @@ export default function Settings({ navigation }) {
         navigation.navigate('ChangePassword');
       },
     },
+    /* 
     {
       title: t('phoneNumber'),
       value: cUserData.phone,
@@ -203,7 +206,7 @@ export default function Settings({ navigation }) {
     //   title: 'Health Declaration',
     //   onPress: () => {},
     // },
-    {
+   {
       title: t('feedback'),
       onPress: () => {
         navigation.navigate('Feedback');
@@ -221,7 +224,7 @@ export default function Settings({ navigation }) {
         handleChangeTheme();
       },
       value: currentTheme !== 'Dark' ? 'Light' : 'Dark',
-    },
+    },*/
     // {
     //   title: t('languageSetting'),
     //   onPress: () => {
@@ -248,7 +251,7 @@ export default function Settings({ navigation }) {
     // },
     {
       title: 'Version',
-      value: '0.0.3',
+      value: '1.0.0.3',
       onPress: () => {
         //navigation.navigate('Language');
       },
@@ -493,7 +496,7 @@ export default function Settings({ navigation }) {
           setState((pState) => {
             console.log('🚀 before>>', pState);
             //pState[0].title="My Pac "
-            pState[2].photoData = { uri: newPic + '?' + new Date() };
+            pState[0].photoData = { uri: newPic + '?' + new Date() };
             console.log('🚀 after>>', pState);
             return [...pState];
           });
@@ -502,7 +505,7 @@ export default function Settings({ navigation }) {
 
           Alert.alert('Success!', 'Profile image uploaded successfully.');
         } else {
-          Alert.alert('Failed try again!', result?.Message);
+          Alert.alert('Failed try again!', result?.error);
         }
 
         if (loader) {
@@ -521,13 +524,7 @@ export default function Settings({ navigation }) {
 
   return (
     <>
-      <CHeader
-        title="Settings"
-        showLeftIcon
-        onLeftIconPress={() => {
-          navigation.navigate('Me');
-        }}
-      />
+      <CHeader title="My Profile" />
 
       <View style={styles.container}>
         <FlatList

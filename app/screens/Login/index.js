@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Image,
@@ -20,12 +20,15 @@ import { isEmpty } from 'lodash';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import AuthAction from '../../redux/reducer/auth/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getFcmToken } from '../../firebase/fcmtoken';
+import { baseUrl } from '../../config/settings';
+import SelectDropdown from 'react-native-select-dropdown';
+import { useIsFocused } from '@react-navigation/core';
 
 export default function Login({ navigation }) {
   const styles = styledFunc();
@@ -33,15 +36,25 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch();
   const [moNumber, setmoNumber] = useState('');
   const [password, setpassword] = useState('');
+  const [outlet, setOutlet] = useState('');
   const [secureTextEntry, setsecureTextEntry] = useState(true);
-
+  const [saloonList, setsaloonList] = useState([]);
+  const [saloonListResponse, setSaloonListResponse] = useState([]);
   const [loader, setloader] = useState(false);
-
+  const { userData } = useSelector((state) => state.auth);
+  const isFocused = useIsFocused();
+  const { clientDetails } = useSelector((state) => state.auth);
+  const currentTheme = useSelector((state) => state.theme.theme);
+  useEffect(() => {
+    GetSaloonList();
+  }, [isFocused]);
   const Validate = () => {
     if (isEmpty(moNumber)) {
       Alert.alert('Error !', 'Please Enter Mobile Number!');
     } else if (isEmpty(password)) {
       Alert.alert('Error !', 'Please Enter Password!');
+    } else if (isEmpty(outlet)) {
+      Alert.alert('Error !', 'Please Choose Outlet!');
     } else {
       handleLogin();
     }
@@ -51,7 +64,7 @@ export default function Login({ navigation }) {
     setloader(true);
     const data = {
       phoneNumber: moNumber,
-      storeCode: 'TNC',
+      storeCode: clientDetails?.clientCode,
       passcode: password,
     };
     console.log('🚀 ~ file: index.js ~ line 24 ~ login ~ data', data);
@@ -60,9 +73,11 @@ export default function Login({ navigation }) {
         setloader(false);
         if (result?.success == 1) {
           //  dispatch(setUserData(result?.result));
+          const result1 = { ...result?.result, siteCode: outlet };
+          result1.siteCode = outlet;
           dispatch({
             type: 'LOGIN_SUCCESS',
-            data: result?.result,
+            data: result1,
           });
         }
         setFcmToken(result?.result);
@@ -92,18 +107,29 @@ export default function Login({ navigation }) {
         });
     }
   };
-
+  const GetSaloonList = () => {
+    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
+    console.log('GetSaloonListURL', url);
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log('🚀 line 371>', json);
+        setSaloonListResponse(json?.result);
+        for (let i = 0; i < json?.result.length; i++) {
+          saloonList.push(json?.result[i].siteName);
+        }
+      });
+  };
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
-
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         extraHeight={100}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           resizeMode="contain"
           style={{
             height: 180,
@@ -146,6 +172,34 @@ export default function Login({ navigation }) {
             showRightIcon
             contStyle={styles.cInput}
           />
+          <View
+            style={styles.dropDownStyle}>
+            <SelectDropdown
+              data={saloonList}
+              buttonStyle={{
+                backgroundColor: theme().transparent,
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                borderBottomColor: theme().amberTxt,
+                paddingHorizontal: 8,
+                width: '100%',
+                textAlign: 'left'
+              }}
+              defaultButtonText="Select outlet"
+              buttonTextStyle={{ color: theme().amberTxt, textAlign: 'left' }}
+              rowTextStyle={{ textAlign: 'left' }}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem);
+                const filtered = saloonListResponse.filter((response) => {
+                  return response.siteName === selectedItem;
+                });
+                console.log(filtered[0]?.siteCode);
+                setOutlet(filtered[0]?.siteCode);
+                //Validate();
+              }}
+            />
+          </View>
+
           <View style={styles.rowStyle}>
             <CButton
               title={t('login')}
@@ -180,6 +234,7 @@ export default function Login({ navigation }) {
           </View>
         </View>
       </KeyboardAwareScrollView>
+
 
       <CLoader loader={loader} />
     </>
