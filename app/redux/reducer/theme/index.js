@@ -8,7 +8,7 @@ export const themeOptions = {
 export const theme = () => {
   let returnTheme;
   const colorOptions = Object.keys(themeOptions);
-  const themeType = store.getState().theme.theme || 'Dark';
+  const themeType = 'Light';
 
   colorOptions.map((item, index) => {
     if (themeType === item) {
