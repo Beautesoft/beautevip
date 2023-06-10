@@ -54,7 +54,12 @@ export default function Login({ navigation }) {
     } else if (isEmpty(password)) {
       Alert.alert('Error !', 'Please Enter Password!');
     } else if (isEmpty(outlet)) {
-      Alert.alert('Error !', 'Please Choose Outlet!');
+      if (clientDetails?.isEnableLoginOutletDropdown == "Yes") {
+        Alert.alert('Error !', 'Please Choose Outlet!');
+      }
+      else {
+        handleLogin();
+      }
     } else {
       handleLogin();
     }
@@ -72,13 +77,21 @@ export default function Login({ navigation }) {
       .then((result) => {
         setloader(false);
         if (result?.success == 1) {
-          //  dispatch(setUserData(result?.result));
-          const result1 = { ...result?.result, siteCode: outlet };
-          result1.siteCode = outlet;
-          dispatch({
-            type: 'LOGIN_SUCCESS',
-            data: result1,
-          });
+          //dispatch(setUserData(result?.result));
+          if (clientDetails?.isEnableLoginOutletDropdown == "Yes") {
+            const result1 = { ...result?.result, siteCode: outlet };
+            result1.siteCode = outlet;
+            dispatch({
+              type: 'LOGIN_SUCCESS',
+              data: result1,
+            });
+          }
+          else {
+            dispatch({
+              type: 'LOGIN_SUCCESS',
+              data: result?.result,
+            });
+          }
         }
         setFcmToken(result?.result);
         Toast.show(result?.error);
@@ -172,33 +185,35 @@ export default function Login({ navigation }) {
             showRightIcon
             contStyle={styles.cInput}
           />
-          <View
-            style={styles.dropDownStyle}>
-            <SelectDropdown
-              data={saloonList}
-              buttonStyle={{
-                backgroundColor: theme().transparent,
-                flexDirection: 'row',
-                borderBottomWidth: 1,
-                borderBottomColor: theme().amberTxt,
-                paddingHorizontal: 8,
-                width: '100%',
-                textAlign: 'left'
-              }}
-              defaultButtonText="Select outlet"
-              buttonTextStyle={{ color: theme().amberTxt, textAlign: 'left' }}
-              rowTextStyle={{ textAlign: 'left' }}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem);
-                const filtered = saloonListResponse.filter((response) => {
-                  return response.siteName === selectedItem;
-                });
-                console.log(filtered[0]?.siteCode);
-                setOutlet(filtered[0]?.siteCode);
-                //Validate();
-              }}
-            />
-          </View>
+          {clientDetails?.isEnableLoginOutletDropdown == "Yes" &&
+            <View
+              style={styles.dropDownStyle}>
+              <SelectDropdown
+                data={saloonList}
+                buttonStyle={{
+                  backgroundColor: theme().transparent,
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: theme().amberTxt,
+                  paddingHorizontal: 8,
+                  width: '100%',
+                  textAlign: 'left'
+                }}
+                defaultButtonText="Select outlet"
+                buttonTextStyle={{ color: theme().amberTxt, textAlign: 'left' }}
+                rowTextStyle={{ textAlign: 'left' }}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem);
+                  const filtered = saloonListResponse.filter((response) => {
+                    return response.siteName === selectedItem;
+                  });
+                  console.log(filtered[0]?.siteCode);
+                  setOutlet(filtered[0]?.siteCode);
+                  //Validate();
+                }}
+              />
+            </View>
+          }
 
           <View style={styles.rowStyle}>
             <CButton

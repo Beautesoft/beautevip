@@ -139,6 +139,8 @@ export default function HomeScreen({ navigation }) {
       .then((result) => {
         if (result?.success == 1) {
           console.log('result home page----->', userData, result);
+          console.log("response_product_data", result?.product);
+          console.log("response_product_data_images", result?.product[0].items);
           sethStoreData(result);
           setserviceList(result?.service);
           // setproductList(result?.product);
