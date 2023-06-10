@@ -18,7 +18,6 @@
 		485D318D806448DCB91FA27E /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E825CA87C24842808D268515 /* Poppins-ExtraLightItalic.ttf */; };
 		4E203E8E01DB4C86A09AD013 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3CF260CB947490B8205585A /* Poppins-Light.ttf */; };
 		54E108B755F34663B3972E55 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C13C871AED9E48B5A550EF7D /* Poppins-Medium.ttf */; };
-		741DFC85296C51C700AB359B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 741DFC84296C51C700AB359B /* MaterialIcons.ttf */; };
 		7471DFEE2948A76B0093CD83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7471DFED2948A76B0093CD83 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8963124D94B64B76B94F3307 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E0A9035C89E4EF2B5B5FB3E /* Poppins-BoldItalic.ttf */; };
@@ -328,7 +327,6 @@
 				8C90D6211088409093502212 /* Poppins-LightItalic.ttf in Resources */,
 				54E108B755F34663B3972E55 /* Poppins-Medium.ttf in Resources */,
 				D3D4FD9C9D4248CC84020F40 /* Poppins-MediumItalic.ttf in Resources */,
-				741DFC85296C51C700AB359B /* MaterialIcons.ttf in Resources */,
 				F507AD95BA3243579DF40297 /* Poppins-Regular.ttf in Resources */,
 				9140FDFA5B6F442CA089E366 /* Poppins-SemiBold.ttf in Resources */,
 				A873AA5EEB94412D93C0F828 /* Poppins-SemiBoldItalic.ttf in Resources */,
