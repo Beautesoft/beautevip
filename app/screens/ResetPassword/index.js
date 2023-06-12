@@ -34,6 +34,7 @@ export default function ResetPassword({ navigation, route }) {
   const [secureTextEntry, setsecureTextEntry] = useState(true);
   const { clientDetails } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
+  const currentTheme = useSelector((state) => state.theme.theme);
 
   const Validate = () => {
     if (isEmpty(otp)) {
@@ -101,7 +102,7 @@ export default function ResetPassword({ navigation, route }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}

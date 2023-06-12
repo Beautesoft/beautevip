@@ -139,6 +139,8 @@ export default function HomeScreen({ navigation }) {
       .then((result) => {
         if (result?.success == 1) {
           console.log('result home page----->', userData, result);
+          console.log("response_product_data", result?.product);
+          console.log("response_product_data_images", result?.product[0].items);
           sethStoreData(result);
           setserviceList(result?.service);
           // setproductList(result?.product);
@@ -309,7 +311,7 @@ export default function HomeScreen({ navigation }) {
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
 
           <View style={styles.searchCont}>
-            {/* <Image
+            <Image
               source={Icons.search}
               style={{ height: 18, width: 18 }}
               resizeMode="center"
@@ -345,7 +347,7 @@ export default function HomeScreen({ navigation }) {
                 }
               }}
               resizeMode="center"
-            /> */}
+            /> 
           </View>
 
           <TouchableOpacity
@@ -436,7 +438,7 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
-        {/*
+        
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
             <CText value={t('services')} size={20} color={theme().amberTxt} />
@@ -528,7 +530,7 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
-      */}
+      
       </ScrollView>
       {/* </View> */}
       <CLoader loader={loader} />

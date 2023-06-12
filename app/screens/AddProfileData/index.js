@@ -38,6 +38,8 @@ export default function AddProfileData({ navigation }) {
   const [loader, setloader] = useState(false);
 
   const [showModal, setshowModal] = useState(false);
+  const currentTheme = useSelector((state) => state.theme.theme);
+  const { clientDetails } = useSelector((state) => state.auth);
 
   const onChoosePhoto = () => {
     ImagePicker.openPicker({
@@ -191,13 +193,13 @@ export default function AddProfileData({ navigation }) {
 
   return (
     <>
-      <BackgroundImage image={Images.backgroundImageSec} />
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}>
         <Image
-          source={Images.logo}
+          source={{ uri: clientDetails?.clientLogo }}
           style={{
             height: 180,
             width: 180,

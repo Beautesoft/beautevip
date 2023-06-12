@@ -98,14 +98,14 @@ export default function Settings({ navigation }) {
         //     setaddress(item);
         //   }
         // });
-console.log("addressjson",json);
+        console.log("addressjson", json);
         try {
-          setaddress(json?.result?.[0]);
+          setaddress(json?.result?.[0] ?? "");
         } catch (error) { }
         try {
-          userData.customerAddress = json?.result?.[0].address;
+          userData.customerAddress = json?.result?.[0].address ?? "";
           dispatch(updateUserData(userData));
-          listArr[2].value = json?.result?.[0].address;
+          listArr[2].value = json?.result?.[0].address ?? "";
           setState(listArr);
         } catch (error) { }
 
