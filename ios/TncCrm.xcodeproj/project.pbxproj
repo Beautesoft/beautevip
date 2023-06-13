@@ -588,7 +588,7 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.7;
+				CURRENT_PROJECT_VERSION = 1.1.8;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TncCrm/Info.plist;
@@ -623,7 +623,7 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.7;
+				CURRENT_PROJECT_VERSION = 1.1.8;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				INFOPLIST_FILE = TncCrm/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft VIP";
