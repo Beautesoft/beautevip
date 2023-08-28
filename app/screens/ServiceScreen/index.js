@@ -43,7 +43,11 @@ export default function ServiceScreen({ navigation }) {
           marginTop: 12,
         }}>
         <CircularButton
-          iconResource={item.image}
+           iconSrouce={
+            item?.imageUrl
+              ? { uri: item?.imageUrl }
+              : item?.imageUrl
+          }
           title={item?.departmentName}
           onPress={() =>
             navigation.navigate('RangeScreen', { serviceData: item })

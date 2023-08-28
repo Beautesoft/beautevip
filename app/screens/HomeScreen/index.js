@@ -238,7 +238,11 @@ export default function HomeScreen({ navigation }) {
           marginTop: 12,
         }}>
         <CircularButton
-          iconResource={item.image}
+          iconSrouce={
+            item?.imageUrl
+              ? { uri: item?.imageUrl }
+              : item?.imageUrl
+          }
           title={item?.departmentName}
           onPress={() => serviceAction(item)}
         />
@@ -347,7 +351,7 @@ export default function HomeScreen({ navigation }) {
                 }
               }}
               resizeMode="center"
-            /> 
+            />
           </View>
 
           <TouchableOpacity
@@ -438,7 +442,7 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
-        
+
         <View style={{ padding: 12 }}>
           <View style={styles.contHeader}>
             <CText value={t('services')} size={20} color={theme().amberTxt} />
@@ -530,7 +534,7 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
-      
+        
       </ScrollView>
       {/* </View> */}
       <CLoader loader={loader} />

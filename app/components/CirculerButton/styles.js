@@ -8,7 +8,7 @@ export default styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: 'white',
   },
   titleSty: {
     textAlign: 'center',
