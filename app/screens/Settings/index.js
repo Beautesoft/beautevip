@@ -124,7 +124,7 @@ export default function Settings({ navigation }) {
   let cUserData = {
     photo: ppphoto,
     name: userData?.customerName,
-    address: address ? address.address : userData?.customerAddress,
+    address: address ? address.address : userData?.customerAddress === "" ? "" : userData?.customerAddress,
     email: userData?.email,
     phone: userData?.customerPhone,
   };
@@ -168,7 +168,7 @@ export default function Settings({ navigation }) {
     },
     {
       title: t('address'),
-      value: `${userData?.customerAddress}`,
+      value: `${userData?.customerAddress === "" ? "" : userData?.customerAddress}`,
       onPress: () => {
         navigation.navigate('ChangeAddress');
       },
@@ -232,23 +232,23 @@ export default function Settings({ navigation }) {
     //   },
     // },
     {
-       title: t('deleteAccount'),
-       onPress: () => {
-         Alert.alert(
-           'Delete Account?',
-           'Are you sure you want to delete?',
-           [
-             {
-               text: 'Cancel',
-               onPress: () => console.log('Cancel Pressed'),
-               style: 'cancel',
-             },
-             { text: 'OK', onPress: () => deleteUser() },
-           ],
-           { cancelable: false },
-         );
-       },
-     },
+      title: t('deleteAccount'),
+      onPress: () => {
+        Alert.alert(
+          'Delete Account?',
+          'Are you sure you want to delete?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => deleteUser() },
+          ],
+          { cancelable: false },
+        );
+      },
+    },
     {
       title: 'Version',
       value: '1.0.0.3',

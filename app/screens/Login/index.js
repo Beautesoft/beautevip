@@ -54,7 +54,7 @@ export default function Login({ navigation }) {
     } else if (isEmpty(password)) {
       Alert.alert('Error !', 'Please Enter Password!');
     } else if (isEmpty(outlet)) {
-      if (clientDetails?.isEnableLoginOutletDropdown == "Yes") {
+      if (clientDetails?.isEnableLoginOutletDropdown === "Yes") {
         Alert.alert('Error !', 'Please Choose Outlet!');
       }
       else {
@@ -78,7 +78,7 @@ export default function Login({ navigation }) {
         setloader(false);
         if (result?.success == 1) {
           //dispatch(setUserData(result?.result));
-          if (clientDetails?.isEnableLoginOutletDropdown == "Yes") {
+          if (clientDetails?.isEnableLoginOutletDropdown === "Yes") {
             const result1 = { ...result?.result, siteCode: outlet };
             result1.siteCode = outlet;
             dispatch({
@@ -185,7 +185,7 @@ export default function Login({ navigation }) {
             showRightIcon
             contStyle={styles.cInput}
           />
-          {clientDetails?.isEnableLoginOutletDropdown == "Yes" &&
+          {clientDetails?.isEnableLoginOutletDropdown === "Yes" && (
             <View
               style={styles.dropDownStyle}>
               <SelectDropdown
@@ -213,7 +213,7 @@ export default function Login({ navigation }) {
                 }}
               />
             </View>
-          }
+          )}
 
           <View style={styles.rowStyle}>
             <CButton
