@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
+import { Images } from '../../config/images';
 import LinearGradient from 'react-native-linear-gradient';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
@@ -9,16 +10,15 @@ import styles from './styles';
 
 export default function CircularButton(props) {
   const {
-    iconSrouce = Icons.mail,
+    iconSrouce = Images.no_image,
     title = 'Title',
     style = {},
     circleStyle = {},
-    onPress = () => {},
+    onPress = () => { },
   } = props;
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={[styles.rootCont, style]}
       onPress={onPress}>
       <View style={[styles.llCont, circleStyle]}>
         <LinearGradient
@@ -28,14 +28,14 @@ export default function CircularButton(props) {
           style={{
             flex: 1,
             width: '100%',
+            height:'100%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <Image
-            source={iconSrouce}
-            style={{ height: '70%', width: '70%' }}
-            resizeMode="center"
-            tintColor={theme().black}
+            source={iconSrouce ? iconSrouce : Images.no_image}
+            style={{ height: 60, width: 60 }}
+            resizeMode={iconSrouce ? "cover" : "center"}
           />
         </LinearGradient>
       </View>

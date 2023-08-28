@@ -19,7 +19,7 @@ export default function RangeScreen({ navigation, route }) {
           marginTop: 12,
         }}>
         <CircularButton
-          iconResource={item.image}
+          iconSrouce={item.image}
           title={item?.rangeName}
           onPress={() => navigation.navigate('SubService', { itemData: item })}
         />
