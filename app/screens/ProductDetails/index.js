@@ -27,7 +27,7 @@ export default function ProductDetails({ navigation, route }) {
   const productDetails = route?.params?.productDetails;
   const { userData } = useSelector((state) => state.auth);
   const [loader, setloader] = useState(false);
-
+  const { clientDetails } = useSelector((state) => state.auth);
   const [selectedQuantity, setselectedQuantity] = useState(1);
   const [showQuantity, setshowQuantity] = useState(false);
 
@@ -115,33 +115,35 @@ export default function ProductDetails({ navigation, route }) {
             />
           </View>
         </ScrollView>
-        <View style={styles.aTCCOnt}>
-          <TouchableOpacity
-            style={styles.dropCont}
-            activeOpacity={0.7}
-            onPress={() => {
-              setshowQuantity(true);
-            }}>
-            <Text style={styles.dropValue}>{selectedQuantity}</Text>
-            <Image
-              style={{ height: 16, width: 16, tintColor: theme().black }}
-              resizeMode="center"
-              source={Icons.drop_icon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              AddToCart();
-            }}>
-            <CText
-              value={t('addToCart')}
-              color={theme().black}
-              size={20}
-              fontFamily={FontFamily.Poppins_Medium}
-            />
-          </TouchableOpacity>
-        </View>
+        {clientDetails?.isEnableAddtoCart == "Yes" &&
+          <View style={styles.aTCCOnt}>
+            <TouchableOpacity
+              style={styles.dropCont}
+              activeOpacity={0.7}
+              onPress={() => {
+                setshowQuantity(true);
+              }}>
+              <Text style={styles.dropValue}>{selectedQuantity}</Text>
+              <Image
+                style={{ height: 16, width: 16, tintColor: theme().black }}
+                resizeMode="center"
+                source={Icons.drop_icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                AddToCart();
+              }}>
+              <CText
+                value={t('addToCart')}
+                color={theme().black}
+                size={20}
+                fontFamily={FontFamily.Poppins_Medium}
+              />
+            </TouchableOpacity>
+          </View>
+        }
         <CLoader loader={loader} />
         <Modal style={{ flex: 1 }} transparent visible={showQuantity}>
           <View

@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import React, {  useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
 import CButton from '../../components/CButton';
@@ -16,9 +16,8 @@ export default function SplashScreen({ navigation }) {
   const styles = styledFunc();
   const { setUserData, setStoreData } = AuthAction;
   const [clientDetails, setClientDetails] = useState([]);
+  const [theme, setTheme] = useState();
   const dispatch = useDispatch();
-  
- 
   const uData = {
     clientLogo:
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
@@ -52,7 +51,10 @@ export default function SplashScreen({ navigation }) {
             type: 'GET_CLIENT_DETAILS',
             clientDetailsData: result?.result,
           });
-          dispatch(changeTheme(result?.result?.theme));
+          const theme = result?.result?.theme?.toLowerCase();
+          const themeResult = theme === 'dark' ? "Dark" : "Light";     
+          setTheme(themeResult);
+          dispatch(changeTheme(themeResult));
         }
       })
       .catch((err) => {
@@ -65,28 +67,28 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <>
-       <BackgroundImage image={Images.white_background} />
-        <View style={styles.container}>
-          <CText
-            value={t('welcomeCAP')}
-            style={styles.heading}
-            fontFamily={FontFamily.Poppins_SemiBold}
-            size={20}
-          />
-          <CText
-            value={t('beautisoftVIP')}
-            style={styles.heading}
-            fontFamily={FontFamily.Poppins_SemiBold}
-            size={20}
-          />
-          <CButton
-            title={t('getStarted')}
-            style={styles.btnStyle}
-            onPress={
-              () => navigation.navigate('Login')
-              //dispatch(setUserData(uData))
-            }
-          />
+      <BackgroundImage image={theme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
+      <View style={styles.container}>
+        <CText
+          value={t('welcomeCAP')}
+          style={styles.heading}
+          fontFamily={FontFamily.Poppins_SemiBold}
+          size={20}
+        />
+        <CText
+          value={t('beautisoftVIP')}
+          style={styles.heading}
+          fontFamily={FontFamily.Poppins_SemiBold}
+          size={20}
+        />
+        <CButton
+          title={t('getStarted')}
+          style={styles.btnStyle}
+          onPress={
+            () => navigation.navigate('Login')
+            //dispatch(setUserData(uData))
+          }
+        />
       </View>
     </>
   );
