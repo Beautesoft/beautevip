@@ -20,7 +20,7 @@ export default function SubService({ navigation, route }) {
           marginTop: 12,
         }}>
         <CircularButton
-          iconResource={item.image}
+          iconSrouce={item.image}
           title={item?.itemName}
           onPress={() =>
             navigation.navigate(

@@ -45,6 +45,7 @@ export default function ConfirmBooking({ navigation, route }) {
     route?.params,
   );
 
+  const { clientDetails } = useSelector((state) => state.auth);
   const type = route?.params?.type;
 
   const packageType = type == 'package' ? true : false;
@@ -891,28 +892,30 @@ export default function ConfirmBooking({ navigation, route }) {
           />
         ) : null} */}
       </View>
-      <View style={{ height: 100, backgroundColor: theme().darkGrey }}>
-        <CButton
-          title="Add to cart"
-          onPress={() => {
-            console.log('🚀 ~sCode>', userData?.siteCode);
-            if (userData?.customerCode === 'CUSTAPP001') {
-              navigation.navigate('Login');
-            } else {
-              AddToCart();
-              //BookAppointment();
-            }
+      {clientDetails?.isEnableAddtoCart == "Yes" &&
+        <View style={{ height: 100, backgroundColor: theme().darkGrey }}>
+          <CButton
+            title="Add to cart"
+            onPress={() => {
+              console.log('🚀 ~sCode>', userData?.siteCode);
+              if (userData?.customerCode === 'CUSTAPP001') {
+                navigation.navigate('Login');
+              } else {
+                AddToCart();
+                //BookAppointment();
+              }
 
-            // if (packageType) {
-            //   BookAppointment();
+              // if (packageType) {
+              //   BookAppointment();
 
-            // } else {
-            //   // StripeCustomerCreate();
-            //   cartAllItemDelete();
-            // }
-          }}
-        />
-      </View>
+              // } else {
+              //   // StripeCustomerCreate();
+              //   cartAllItemDelete();
+              // }
+            }}
+          />
+        </View>
+      }
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
@@ -963,8 +966,8 @@ export default function ConfirmBooking({ navigation, route }) {
             visible={cardInputModal}
             animationType="slide"
             onRequestClose={() => setcardInputModal(false)}
-            //onBackdropPress={() => setcardInputModal(false)}
-            //onSwipeComplete={() => setcardInputModal(false)}
+          //onBackdropPress={() => setcardInputModal(false)}
+          //onSwipeComplete={() => setcardInputModal(false)}
           >
             <TouchableOpacity
               activeOpacity={1}

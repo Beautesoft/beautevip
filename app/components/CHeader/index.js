@@ -4,7 +4,7 @@ import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import CText from '../CText';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import { useSelector } from 'react-redux';
 export default function CHeader(props) {
   const {
     title = 'Title',
@@ -21,6 +21,7 @@ export default function CHeader(props) {
     showBookingIcon,
     onBookingIconPress = () => { },
   } = props;
+  const { clientDetails } = useSelector((state) => state.auth);
   return (
     <View
       style={{
@@ -56,7 +57,7 @@ export default function CHeader(props) {
             <MaterialIcons name="home" size={35} color={theme().darkGrey} />
           </TouchableOpacity>
         )}
-        {showCartIcon && (
+        {(showCartIcon && clientDetails?.isEnableAddtoCart == "Yes") && (
           <TouchableOpacity onPress={onCartIconPress} activeOpacity={0.7}>
             <Image
               source={cartIcon}

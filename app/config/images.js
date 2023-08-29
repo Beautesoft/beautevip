@@ -1,5 +1,6 @@
 export const Images = {
   logo: require('../assets/images/logo.png'),
+  no_image: require('../assets/images/no_image.png'),
   logoResized: require('../assets/images/logo_resized.png'),
   backgroundImage: require('../assets/images/background_image.png'),
   backgroundImageSec: require('../assets/images/background_image_sec.png'),

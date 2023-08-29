@@ -46,6 +46,7 @@ export default function BookingScreen({ navigation, route }) {
     route?.params,
   );
 
+  const { clientDetails } = useSelector((state) => state.auth);
   const type = route?.params?.type;
 
   const packageType = type === 'package' ? true : false;
@@ -579,9 +580,8 @@ export default function BookingScreen({ navigation, route }) {
               }}>
               <Text style={styles.btnTxt}>
                 {selectedDateTime?.time
-                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${
-                      selectedDateTime?.time
-                    }`
+                  ? `${moment(selectedDate).format('YYYY-MM-DD')} ${selectedDateTime?.time
+                  }`
                   : t('setDateTime')}
               </Text>
               {expandTime && (
@@ -641,29 +641,30 @@ export default function BookingScreen({ navigation, route }) {
           </View>
         )}
       </View>
-      <View
-        style={{
-          height: 100,
-          backgroundColor: theme().darkGrey,
-          paddingHorizontal: 20,
-        }}>
-        <CButton
-          title={packageType ? 'Book Now' : 'Add to cart'}
-          onPress={() => {
-            console.log('🚀 ~sCode>', userData?.siteCode);
-            if (userData?.customerCode === 'CUSTAPP001') {
-              navigation.navigate('Login');
-            } else {
-              if (packageType) {
-                BookAppointment();
+      {clientDetails?.isEnableAddtoCart == "Yes" &&
+        <View
+          style={{
+            height: 100,
+            backgroundColor: theme().darkGrey,
+            paddingHorizontal: 20,
+          }}>
+          <CButton
+            title={packageType ? 'Book Now' : 'Add to cart'}
+            onPress={() => {
+              console.log('🚀 ~sCode>', userData?.siteCode);
+              if (userData?.customerCode === 'CUSTAPP001') {
+                navigation.navigate('Login');
               } else {
-                AddToCart();
+                if (packageType) {
+                  BookAppointment();
+                } else {
+                  AddToCart();
+                }
               }
-            }
-          }}
-        />
-      </View>
-
+            }}
+          />
+        </View>
+      }
       <DatePicker
         modal
         mode="date"

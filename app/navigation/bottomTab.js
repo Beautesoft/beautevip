@@ -13,9 +13,10 @@ import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Icons } from '../config/icons';
 import { FontFamily } from '../config/typography';
 import ShoppingBag from '../screens/ShoppingBag';
-
+import { useSelector } from 'react-redux';
 export const BottomTabsNavigator = () => {
   const Tab = createBottomTabNavigator();
+  const { clientDetails } = useSelector((state) => state.auth);
   return (
     <Tab.Navigator
       //tabBar={BottomTabBar}
@@ -64,7 +65,9 @@ export const BottomTabsNavigator = () => {
       initialRouteName="Home">
       <Tab.Screen name="My Booking" component={OrdersScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={ShoppingBag} />
+      {clientDetails?.isEnableAddtoCart == "Yes" &&
+        <Tab.Screen name="Cart" component={ShoppingBag} />
+      }
       <Tab.Screen name="My Profile" component={SettingsScreen} />
     </Tab.Navigator>
   );

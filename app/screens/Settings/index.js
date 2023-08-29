@@ -50,8 +50,7 @@ export default function Settings({ navigation }) {
 
   const [loader, setloader] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
-  console.log('listArr', listArr);
-  // console.log("vsking1",userData)
+  const { clientDetails } = useSelector((state) => state.auth);
 
   useEffect(() => {
     GetAddress();
@@ -72,12 +71,9 @@ export default function Settings({ navigation }) {
           result,
         );
         if (result?.success == 1) {
-          /* Commented this Code Since we commented My Points So this code is not needed
           setTotalPoints(result.totalPoints);
-          listArr[7].value = result.totalPoints;
-          console.log('listArr', listArr);
-          setState([...listArr]);
-        */
+          //listArr[10].value = result.totalPoints;  // To be remove this commented code because total points are setting 
+          //setState([...listArr]);
         }
       })
       .catch((err) => {
@@ -124,7 +120,7 @@ export default function Settings({ navigation }) {
   let cUserData = {
     photo: ppphoto,
     name: userData?.customerName,
-    address: address ? address.address : userData?.customerAddress,
+    address: address ? address.address : userData?.customerAddress === "" ? "" : userData?.customerAddress,
     email: userData?.email,
     phone: userData?.customerPhone,
   };
@@ -168,7 +164,7 @@ export default function Settings({ navigation }) {
     },
     {
       title: t('address'),
-      value: `${userData?.customerAddress}`,
+      value: `${userData?.customerAddress === "" || userData?.customerAddress === null ? "" : userData?.customerAddress}`,
       onPress: () => {
         navigation.navigate('ChangeAddress');
       },
@@ -187,13 +183,13 @@ export default function Settings({ navigation }) {
          navigation.navigate('MyEarnPoint');
        },
      },*/
-    {
-      title: t('loginPassword'),
-      value: '*********',
-      onPress: () => {
-        navigation.navigate('ChangePassword');
-      },
-    },
+    /* {
+       title: t('loginPassword'),
+       value: '*********',
+       onPress: () => {
+         navigation.navigate('ChangePassword');
+       },
+     },*/
     /* 
     {
       title: t('phoneNumber'),
@@ -231,32 +227,97 @@ export default function Settings({ navigation }) {
     //     navigation.navigate('Language');
     //   },
     // },
-    // {
-    //   title: t('deleteAccount'),
-    //   onPress: () => {
-    //     Alert.alert(
-    //       'Delete Account?',
-    //       'Are you sure you want to delete?',
-    //       [
-    //         {
-    //           text: 'Cancel',
-    //           onPress: () => console.log('Cancel Pressed'),
-    //           style: 'cancel',
-    //         },
-    //         { text: 'OK', onPress: () => deleteUser() },
-    //       ],
-    //       { cancelable: false },
-    //     );
-    //   },
-    // },
+    /*{
+      title: t('deleteAccount'),
+      onPress: () => {
+        Alert.alert(
+          'Delete Account?',
+          'Are you sure you want to delete?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => deleteUser() },
+          ],
+          { cancelable: false },
+        );
+      },
+    },
     {
       title: 'Version',
       value: '1.0.0.3',
       onPress: () => {
         //navigation.navigate('Language');
       },
-    },
+    },*/
   ];
+  if (clientDetails?.isEnableMyServices === "Yes") {
+    listArr.push({
+      title: 'My Services',
+      onPress: () => {
+        navigation.navigate('MyPackages');
+      },
+    });
+  }
+  if (clientDetails?.isEnableMyProducts === "Yes") {
+    listArr.push({
+      title: 'My Products',
+      onPress: () => {
+        navigation.navigate('MyProducts');
+      },
+    });
+  }
+  if (clientDetails?.isEnableMyInvoices === "Yes") {
+    listArr.push({
+      title: 'My Invoices',
+      onPress: () => {
+        navigation.navigate('MyOrder');
+      },
+    });
+  }
+  if (clientDetails?.isEnableMyPoints === "Yes") {
+    listArr.push({
+      title: t('myPoints'),
+      value: totalPoints,
+      onPress: () => {
+        navigation.navigate('MyEarnPoint');
+      },
+    });
+  }
+  listArr.push({
+    title: t('loginPassword'),
+    value: '*********',
+    onPress: () => {
+      navigation.navigate('ChangePassword');
+    },
+  });
+  listArr.push({
+    title: t('deleteAccount'),
+    onPress: () => {
+      Alert.alert(
+        'Delete Account?',
+        'Are you sure you want to delete?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => deleteUser() },
+        ],
+        { cancelable: false },
+      );
+    },
+  });
+  listArr.push({
+    title: 'Version',
+    value: '1.0.0.3',
+    onPress: () => {
+      //navigation.navigate('Language');
+    },
+  });
   const handleChangeTheme = () => {
     dispatch(changeTheme(currentTheme === 'Dark' ? 'Light' : 'Dark'));
     setTimeout(() => {
