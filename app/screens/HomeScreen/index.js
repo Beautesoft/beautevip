@@ -442,99 +442,100 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
+        {clientDetails?.isShowServices == "Yes" &&
+          <View style={{ padding: 12 }}>
+            <View style={styles.contHeader}>
+              <CText value={t('services')} size={20} color={theme().amberTxt} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('ServiceScreen')}>
+                <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <FlatList
+                numColumns={3}
+                data={serviceList}
+                renderItem={renderServiceBtn}
+                contentContainerStyle={{
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                }}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
+          </View>
+        }
+        {clientDetails?.isShowProducts == "Yes" &&
+          <View style={{ padding: 12 }}>
+            <View style={styles.contHeader}>
+              <CText value="Products" size={20} color={theme().amberTxt} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('ShoppingScreen')}>
+                <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <FlatList
+                horizontal={true}
+                keyExtractor={(item, index) => index}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                }}
+                renderItem={({ item, index }) => {
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        styles.tabCont,
+                        {
+                          borderColor:
+                            item.id === selectedTab.id
+                              ? theme().amberTxt
+                              : theme().color_434343,
+                        },
+                      ]}
+                      onPress={() => {
+                        //        const tempArr = productList.filter((item) => {
+                        //   const name = item.itemName.toLowerCase();
+                        //   return name.includes(searchTxt.toLowerCase());
+                        // });
 
-        <View style={{ padding: 12 }}>
-          <View style={styles.contHeader}>
-            <CText value={t('services')} size={20} color={theme().amberTxt} />
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => navigation.navigate('ServiceScreen')}>
-              <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <FlatList
-              numColumns={3}
-              data={serviceList}
-              renderItem={renderServiceBtn}
-              contentContainerStyle={{
-                justifyContent: 'space-between',
-                flexGrow: 1,
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-        </View>
-
-        <View style={{ padding: 12 }}>
-          <View style={styles.contHeader}>
-            <CText value="Products" size={20} color={theme().amberTxt} />
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => navigation.navigate('ShoppingScreen')}>
-              <CText value={t('viewAll')} size={14} color={theme().darkAmber} />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <FlatList
-              horizontal={true}
-              keyExtractor={(item, index) => index}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                justifyContent: 'space-between',
-                flexGrow: 1,
-              }}
-              renderItem={({ item, index }) => {
-                return (
-                  <TouchableOpacity
-                    style={[
-                      styles.tabCont,
-                      {
-                        borderColor:
+                        setselectedTab(item);
+                        StoreDetails(item.id);
+                      }}
+                      activeOpacity={0.7}
+                      key={index}>
+                      <CText
+                        value={item.title}
+                        color={
                           item.id === selectedTab.id
                             ? theme().amberTxt
-                            : theme().color_434343,
-                      },
-                    ]}
-                    onPress={() => {
-                      //        const tempArr = productList.filter((item) => {
-                      //   const name = item.itemName.toLowerCase();
-                      //   return name.includes(searchTxt.toLowerCase());
-                      // });
+                            : theme().color_434343
+                        }
+                        size={14}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+                data={tabArr}
+              />
+            </View>
 
-                      setselectedTab(item);
-                      StoreDetails(item.id);
-                    }}
-                    activeOpacity={0.7}
-                    key={index}>
-                    <CText
-                      value={item.title}
-                      color={
-                        item.id === selectedTab.id
-                          ? theme().amberTxt
-                          : theme().color_434343
-                      }
-                      size={14}
-                    />
-                  </TouchableOpacity>
-                );
-              }}
-              data={tabArr}
-            />
+            <View>
+              <FlatList
+                keyExtractor={(item, index) => index}
+                data={filterArr}
+                renderItem={renderProducts}
+                scrollEnabled={false}
+                numColumns={2}
+                contentContainerStyle={{ marginTop: 16 }}
+              />
+            </View>
           </View>
-
-          <View>
-            <FlatList
-              keyExtractor={(item, index) => index}
-              data={filterArr}
-              renderItem={renderProducts}
-              scrollEnabled={false}
-              numColumns={2}
-              contentContainerStyle={{ marginTop: 16 }}
-            />
-          </View>
-        </View>
-        
+        }
       </ScrollView>
       {/* </View> */}
       <CLoader loader={loader} />
