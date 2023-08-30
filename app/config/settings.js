@@ -3,6 +3,7 @@ const devMode = __DEV__;
 
 //const baseUrl = 'http://103.253.15.102:88/main_api';
 export const baseUrl = 'http://sequoiasg.ddns.net:7043/Main_API_Train/';
+export const baseUrl_old = 'http://103.253.15.102:88/mainapi_nailqueen/';
 //export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';  // my demo url
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
