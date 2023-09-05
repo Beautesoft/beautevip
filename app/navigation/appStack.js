@@ -33,6 +33,7 @@ import ConfirmBooking from '../screens/ConfirmBooking';
 import BookingScreenNew from '../screens/BookingScreenNew';
 import ServiceScreen from '../screens/ServiceScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
+import Login from '../screens/Login';
 
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
@@ -49,7 +50,7 @@ export const AppStackNavigator = () => {
         component={BottomTabsNavigator}
       />
 
-      {/* <AppStack.Screen name="Login" component={Login} /> */}
+      { <AppStack.Screen name="Login" component={Login} /> }
       <AppStack.Screen name="Home" component={HomeScreen} />
 
       <AppStack.Screen name="OrderDetails" component={OrderDetails} />

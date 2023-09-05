@@ -173,6 +173,17 @@ export default function ShoppingBag({ navigation }) {
     //   });
   };
 
+  const navigateToCheckout = (navigation, userData, itemList, subTotal, SummaryData) =>{
+    if (userData?.customerCode === 'CUSTAPP001') {
+       navigation.navigate('Login');
+    } else {
+      navigation.navigate('Checkout', {
+        data: itemList,
+        subTotal,
+        orderSummary: SummaryData,
+      });
+    }
+  }
   const onDeleteItem = (item) => {
     setloader(true);
     const data = {
@@ -184,7 +195,6 @@ export default function ShoppingBag({ navigation }) {
       itemPrice: item?.itemPrice,
       siteCode: userData?.siteCode,
     };
-
     getApiData(BaseSetting?.endpoints?.cartItemDelete, 'post', data)
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 59 ~ .then ~ result', result);
@@ -346,13 +356,7 @@ export default function ShoppingBag({ navigation }) {
             <CButton
               title={t('placeOrder')}
               style={{ maringTop: 16 }}
-              onPress={() =>
-                navigation.navigate('Checkout', {
-                  data: itemList,
-                  subTotal,
-                  orderSummary: SummaryData,
-                })
-              }
+              onPress={() => navigateToCheckout(navigation, userData, itemList, subTotal, SummaryData)}
             />
           </>
         )}
