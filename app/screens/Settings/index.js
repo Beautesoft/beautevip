@@ -293,6 +293,7 @@ export default function Settings({ navigation }) {
       navigation.navigate('ChangePassword');
     },
   });
+  /*
   listArr.push({
     title: t('deleteAccount'),
     onPress: () => {
@@ -310,7 +311,7 @@ export default function Settings({ navigation }) {
         { cancelable: false },
       );
     },
-  });
+  });*/
   listArr.push({
     title: 'Version',
     value: '1.0.0.3',
