@@ -1,4 +1,4 @@
-package com.beautesoft.kirei;
+package com.beautesoft.luxelle;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
@@ -17,6 +17,6 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected String getMainComponentName() {
-    return "kirei";
+    return "luxelle";
   }
 }
