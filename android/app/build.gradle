@@ -130,7 +130,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.beautesoft.luxelle"
+        applicationId "com.beautesoft.coulisseheir"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -154,7 +154,7 @@ android {
             keyPassword 'android'
         }
          release {
-            storeFile file('luxelle_release.keystore')
+            storeFile file('coulisseheir_release.keystore')
             storePassword 'android'
             keyAlias 'androidreleasekey'
             keyPassword 'android'
