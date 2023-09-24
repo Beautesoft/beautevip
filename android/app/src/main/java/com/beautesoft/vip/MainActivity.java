@@ -1,4 +1,4 @@
-package com.beautesoft.vip;
+package com.beautesoft.Luxelle;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;

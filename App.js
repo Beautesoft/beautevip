@@ -33,7 +33,7 @@ export default function App() {
       />
       <StripeProvider
         publishableKey={'pk_test_GGEOsV78TJcV1OcvWcaH6lnz'}
-        merchantIdentifier="merchant.beautesoft.vip">
+        merchantIdentifier="merchant.beautesoft.Luxelle">
         <Provider store={store}>
           <PersistGate loading={false} persistor={persistor}>
             <NavigationContainer>
