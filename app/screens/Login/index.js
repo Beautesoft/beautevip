@@ -93,6 +93,7 @@ export default function Login({ navigation }) {
             });
           }
         }
+        navigation.navigate('BottomTabsNavigator');
         setFcmToken(result?.result);
         Toast.show(result?.error);
       })
