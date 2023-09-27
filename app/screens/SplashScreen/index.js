@@ -36,7 +36,7 @@ export default function SplashScreen({ navigation }) {
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
     referenceCode: '',
     salutation: '',
-    siteCode: 'TN01',
+    siteCode: 'CHHQ',
     storeName: 'TC',
   };
   useEffect(() => {
@@ -85,8 +85,13 @@ export default function SplashScreen({ navigation }) {
           title={t('getStarted')}
           style={styles.btnStyle}
           onPress={
-            () => navigation.navigate('Login')
+            () => 
+            //navigation.navigate('Login')
             //dispatch(setUserData(uData))
+            dispatch({
+              type: 'LOGIN_SUCCESS',
+              data: uData,
+            })
           }
         />
       </View>
