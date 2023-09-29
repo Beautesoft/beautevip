@@ -1,13 +1,9 @@
 /* eslint-disable no-undef */
 const devMode = __DEV__;
-
-//const baseUrl = 'http://103.253.15.102:88/main_api';
-export const baseUrl = 'http://sequoiasg.ddns.net:7049/Main_API_Train/';
-//export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';  // my demo url
-// const baseUrl = "http://192.168.0.5:1337";
+export const baseUrl = 'http://103.253.14.203:4029/Mainapi/';
 const BaseSetting = {
-  name: 'kirei',
-  displayName: 'kirei',
+  name: 'Mydemo',
+  displayName: 'Mydemo',
   appVersionCode: '1',
   baseUrl,
   api: `${baseUrl}/api`,

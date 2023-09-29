@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.beautesoft.kirei",
+  "applicationId": "com.beautesoft.mydemo",
   "variantName": "release",
   "elements": [
     {
