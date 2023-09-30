@@ -19,6 +19,7 @@ export const AuthStackNavigator = () => {
         //cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
       }}>
       <AuthStack.Screen name="Splash" component={SplashScreen} />
+      <AuthStack.Screen name="Login" component={Login} />
       <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
       <AuthStack.Screen name="SignUp" component={SignUp} />

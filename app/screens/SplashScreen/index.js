@@ -36,7 +36,7 @@ export default function SplashScreen({ navigation }) {
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
     referenceCode: '',
     salutation: '',
-    siteCode: 'NQHQ',
+    siteCode: 'LXHQ',
     storeName: 'TC',
   };
   useEffect(() => {
