@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
   const currentTheme = useSelector((state) => state.theme.theme);
   useEffect(() => {
     GetSaloonList();
-  }, [isFocused]);
+  }, []);
   const Validate = () => {
     if (isEmpty(moNumber)) {
       Alert.alert('Error !', 'Please Enter Mobile Number!');
