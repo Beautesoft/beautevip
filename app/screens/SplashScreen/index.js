@@ -36,7 +36,7 @@ export default function SplashScreen({ navigation }) {
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
     referenceCode: '',
     salutation: '',
-    siteCode: 'LXHQ',
+    siteCode: 'KBHQ',
     storeName: 'TC',
   };
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function SplashScreen({ navigation }) {
           size={20}
         />
         <CText
-          value={t('beautisoftLuxelle')}
+          value={t('beautisoftKirei')}
           style={styles.heading}
           fontFamily={FontFamily.Poppins_SemiBold}
           size={20}

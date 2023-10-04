@@ -165,7 +165,7 @@ export default function ProfileScreen({ navigation }) {
             activeOpacity={0.7}
             onPress={() => {
               Share.share({
-                message: `Use the promo code "${referalCaode}" for Beautesoft Luxelle Salon app. \n Download the app now \n "https://play.google.com/store/apps/details?id=com.beautesoft.Luxelle"`,
+                message: `Use the promo code "${referalCaode}" for Beautesoft Kirei Salon app. \n Download the app now \n "https://play.google.com/store/apps/details?id=com.beautesoft.Kirei"`,
               });
             }}>
             <Text style={styles.shareTxt}>{referalCaode}</Text>

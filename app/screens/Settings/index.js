@@ -211,7 +211,7 @@ export default function Settings({ navigation }) {
     {
       title: t('aboutUs'),
       onPress: () => {
-        Linking.openURL('https://pages.flycricket.io/beautesoft-Luxelle/');
+        Linking.openURL('https://pages.flycricket.io/beautesoft-Kirei/');
       },
     },
     {
