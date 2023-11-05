@@ -40,7 +40,7 @@ export default function OrderDetails({ navigation, route }) {
   const oid = route?.params?.oid;
   const tData = route?.params?.tData;
   const [rateService, setrateService] = useState(false);
-
+  console.log("OrderDetails", orderData);
   const state = {
     HeadTable: [
       'code',
