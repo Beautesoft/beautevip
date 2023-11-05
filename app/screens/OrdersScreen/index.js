@@ -37,7 +37,7 @@ export default function OrdersScreen({ navigation }) {
       title: t('history'),
     },
     {
-      id: 6,
+      id: 7,
       title: ('Book Now'),
     },
   ];
@@ -170,7 +170,7 @@ export default function OrdersScreen({ navigation }) {
                     setCurrentTab(item.id);
                     if (item.id === 5) {
                       setorderList(allOrder.result);
-                    } else if (item.id === 6) {
+                    } else if (item.id === 7) {
                       navigation?.navigate('BookingScreenNew')
                      }
                     else {
