@@ -10,8 +10,7 @@ import styles from './styles';
 import moment from 'moment';
 
 export default function OrderItem(props) {
-  const { item, id, onPress = () => { } } = props;
-  console.log("OrderItem", item);
+  const { item, id, onPress = () => {} } = props;
   //   if(id == 5){
   //     return(
   //       <TouchableOpacity
@@ -309,7 +308,7 @@ export default function OrderItem(props) {
                 color={theme().white}
               />
               <CText
-                value={ item?.remarks ? item?.apptStatus +" [" + item?.remarks + "]" : item?.apptStatus}
+                value={item?.apptStatus}
                 size={10}
                 fontFamily={FontFamily.Poppins_Regular}
                 color={theme().amberTxt}

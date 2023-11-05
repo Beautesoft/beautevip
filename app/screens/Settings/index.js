@@ -247,7 +247,7 @@ export default function Settings({ navigation }) {
     },
     {
       title: 'Version',
-      value: '04.11.2023',
+      value: '1.0.0.3',
       onPress: () => {
         //navigation.navigate('Language');
       },
@@ -313,7 +313,7 @@ export default function Settings({ navigation }) {
   });
   listArr.push({
     title: 'Version',
-    value: '01.11.2023',
+    value: '1.0.0.3',
     onPress: () => {
       //navigation.navigate('Language');
     },

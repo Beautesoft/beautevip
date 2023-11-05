@@ -5,11 +5,11 @@ import CircularButton from '../../components/CirculerButton';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { styledFunc } from './styles';
-import { useSelector } from 'react-redux';
+
 export default function RangeScreen({ navigation, route }) {
   const styles = styledFunc();
   const serviceData = route?.params?.serviceData;
-  const { bookingData } = useSelector((state) => state.auth);
+
   const renderServiceBtn = ({ item, index }) => {
     return (
       <View
@@ -19,16 +19,9 @@ export default function RangeScreen({ navigation, route }) {
           marginTop: 12,
         }}>
         <CircularButton
-        iconSrouce={
-            item?.imageUrl
-              ? { uri: item?.imageUrl }
-              : item?.imageUrl
-          }
-          title={item?.itemName}
-          onPress={() => navigation.navigate(
-            bookingData === 'oldflow' ? 'BookingScreen' : 'BookingScreenNew',
-            { itemData: item },
-          )}
+          iconSrouce={item.image}
+          title={item?.rangeName}
+          onPress={() => navigation.navigate('SubService', { itemData: item })}
         />
       </View>
     );
@@ -45,7 +38,7 @@ export default function RangeScreen({ navigation, route }) {
       <View style={styles.container}>
         <FlatList
           numColumns={4}
-          data={serviceData?.items}
+          data={serviceData?.ranges}
           renderItem={renderServiceBtn}
           // contentContainerStyle={{
           //   width: '100%',

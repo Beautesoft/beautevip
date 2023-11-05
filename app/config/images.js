@@ -6,6 +6,5 @@ export const Images = {
   backgroundImageSec: require('../assets/images/background_image_sec.png'),
   white_background: require('../assets/images/white_background.png'),
   sampleOne: require('../assets/images/sample_one.png'),
-  qrcode: require('../assets/images/qrcode.png'),
   goals: require('../assets/images/goals.png'),
 };

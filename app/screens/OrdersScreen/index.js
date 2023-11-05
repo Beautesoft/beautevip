@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {BackHandler,FlatList,RefreshControl,Text,TouchableOpacity,View} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
@@ -27,6 +34,32 @@ export default function OrdersScreen({ navigation }) {
   const [loader, setloader] = useState(false);
   const [refreshing, setrefreshing] = useState(false);
 
+  // const tabArr = [
+  //   {
+  //     id: 1,
+  //     title: t('all'),
+  //   },
+  //   {
+  //     id: 2,
+  //     title: t('booking'),
+  //   },
+  //   {
+  //     id: 3,
+  //     title: t('confirm'),
+  //   },
+  //   // {
+  //   //   id: 4,
+  //   //   title: t('waiting'),
+  //   // },
+  //   {
+  //     id: 4,
+  //     title: t('cancel'),
+  //   },
+  //   {
+  //     id: 5,
+  //     title: t('history'),
+  //   },
+  // ];
   const tabArr = [
     {
       id: 1,
@@ -35,10 +68,6 @@ export default function OrdersScreen({ navigation }) {
     {
       id: 5,
       title: t('history'),
-    },
-    {
-      id: 7,
-      title: ('Book Now'),
     },
   ];
 
@@ -80,7 +109,82 @@ export default function OrdersScreen({ navigation }) {
     };
   }, []);
 
-
+  const setOrderResults = (status, result) => {
+    if (result?.futureAppointments) {
+      if (status == 2) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus == 'Booking') {
+            allList.push(result?.result[i]);
+          }
+        }
+        for (let i = 0; i < result?.futureAppointments.length; i++) {
+          if (result?.futureAppointments[i].apptStatus == 'Booking') {
+            allList.push(result?.futureAppointments[i]);
+          }
+        }
+        setorderList(allList);
+      } else if (status == 3) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus.includes('Confirm')) {
+            allList.push(result?.result[i]);
+          }
+        }
+        for (let i = 0; i < result?.futureAppointments.length; i++) {
+          if (result?.futureAppointments[i].apptStatus.includes('Confirm')) {
+            allList.push(result?.futureAppointments[i]);
+          }
+        }
+        setorderList(allList);
+      } else if (status == 4) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus == 'Cancelled') {
+            allList.push(result?.result[i]);
+          }
+        }
+        for (let i = 0; i < result?.futureAppointments.length; i++) {
+          if (result?.futureAppointments[i].apptStatus == 'Cancelled') {
+            allList.push(result?.futureAppointments[i]);
+          }
+        }
+        setorderList(allList);
+      } else if (status == 5) {
+        setorderList([...result?.result]);
+      } else {
+        setorderList([...result?.result, ...result?.futureAppointments]);
+      }
+    } else {
+      if (status == 2) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus == 'Booking') {
+            allList.push(result?.result[i]);
+          }
+        }
+        setorderList(allList);
+      } else if (status == 3) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus.includes('Confirm')) {
+            allList.push(result?.result[i]);
+          }
+        }
+        setorderList(allList);
+      } else if (status == 4) {
+        var allList = [];
+        for (let i = 0; i < result?.result.length; i++) {
+          if (result?.result[i].apptStatus == 'Cancelled') {
+            allList.push(result?.result[i]);
+          }
+        }
+        setorderList(allList);
+      } else {
+        setorderList([...result?.result]);
+      }
+    }
+  };
   console.log('selectedTab.id', currentTab);
   const appointmentSearch = () => {
     setorderList([]);
@@ -97,7 +201,15 @@ export default function OrdersScreen({ navigation }) {
     getApiData(BaseSetting.endpoints.appointmentSearch, 'post', data)
       .then((result) => {
         if (result?.success == 1) {
+          console.log('result order screen with selectedTab.id', currentTab);
+          // if (result?.futureAppointments) {
+          //   setorderList([...result?.result, ...result?.futureAppointments]);
+
+          // } else {
+          //   setorderList([...result?.result]);
+          // }
           setAllOrder(result);
+          //  setOrderResults(status, result);
           if (currentTab === 5) {
             setorderList(result.result);
           } else {
@@ -108,7 +220,40 @@ export default function OrdersScreen({ navigation }) {
         setrefreshing(false);
       })
       .catch((err) => {
-        console.log('appointmentSearch - api -error', err);
+        console.log('🚀 ~ file: index.js ~ line 67 ~ .then ~ err', err);
+        setloader(false);
+        setrefreshing(false);
+      });
+  };
+
+  const transactionInVoice = () => {
+    setorderList([]);
+    setloader(true);
+    const data = {
+      siteCode: userData?.siteCode,
+      customerName: userData?.customerName,
+      fromDate: '1900-01-01',
+      toDate: '2200-12-31',
+      staffName: '',
+      invoiceNo: '',
+    };
+
+    getApiData(BaseSetting.endpoints.appTransSearchInvoice, 'post', data)
+      .then((result) => {
+        if (result?.success == 1) {
+          // if (result?.futureAppointments) {
+          //   setorderList([...result?.result, ...result?.futureAppointments]);
+
+          // } else {
+          //   setorderList([...result?.result]);
+          // }
+          setorderList([...result?.result]);
+        }
+        setloader(false);
+        setrefreshing(false);
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: index.js ~ line 67 ~ .then ~ err', err);
         setloader(false);
         setrefreshing(false);
       });
@@ -125,6 +270,13 @@ export default function OrdersScreen({ navigation }) {
           id={selectedTab.id}
           onPress={() => {
             let itemList = [];
+            // if(selectedTab.id == 5){
+            //   item?.items.forEach(it => {
+            //     let aItem=[it.itemCode,it.itemName,it.itemQty,'$'+it.unitPrice,'$'+it.promoPrice,'$'+it.itemAmount];
+            //     itemList.push(aItem)
+            //   });
+            // }
+
             navigation.navigate('OrderDetails', {
               orderData: item,
               oid: selectedTab.id,
@@ -170,12 +322,16 @@ export default function OrdersScreen({ navigation }) {
                     setCurrentTab(item.id);
                     if (item.id === 5) {
                       setorderList(allOrder.result);
-                    } else if (item.id === 7) {
-                      navigation?.navigate('BookingScreenNew')
-                     }
-                    else {
+                    } else {
                       setorderList(allOrder.futureAppointments);
                     }
+                    // if (item.id == 5) {
+                    //   setorderList([]);
+                    //   //transactionInVoice();
+                    //   appointmentSearch(item.id);
+                    // } else {
+                    //   appointmentSearch(item.id);
+                    // }
                   }}
                   activeOpacity={0.7}
                   key={index}>
