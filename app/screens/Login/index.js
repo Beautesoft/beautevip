@@ -124,15 +124,16 @@ export default function Login({ navigation }) {
   const GetSaloonList = () => {
     const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
     console.log('GetSaloonListURL', url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('🚀 line 371>', json);
-        setSaloonListResponse(json?.result);
-        for (let i = 0; i < json?.result.length; i++) {
-          saloonList.push(json?.result[i].siteName);
-        }
-      });
+    if (saloonList.length === 0) {
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          setSaloonListResponse(json?.result);
+          for (let i = 0; i < json?.result.length; i++) {
+            saloonList.push(json?.result[i].siteName);
+          }
+        });
+    }
   };
   return (
     <>
