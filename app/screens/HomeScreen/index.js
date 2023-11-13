@@ -41,6 +41,7 @@ export default function HomeScreen({ navigation }) {
   const [curIndex, setcurIndex] = useState(0);
   const [hStoreData, sethStoreData] = useState({});
   const [serviceList, setserviceList] = useState([]);
+  const [sallonDetail, setSallonDetail] = useState([]);
   const [productList, setproductList] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
 
@@ -118,6 +119,7 @@ export default function HomeScreen({ navigation }) {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     StoreDetails(1);
     getDepartment();
+    getSallonDetail();
   }, []);
 
   const onRefresh = () => {
@@ -127,8 +129,10 @@ export default function HomeScreen({ navigation }) {
   };
 
   const serviceAction = (item) => {
-    dispatch(addBookingData('oldflow'));
-    navigation.navigate('RangeScreen', { serviceData: item });
+    if (clientDetails?.isEnableAddtoCart == "Yes") {
+      dispatch(addBookingData('oldflow'));
+      navigation.navigate('RangeScreen', { serviceData: item });
+    }
   };
   const StoreDetails = (sid) => {
     setloader(true);
@@ -211,6 +215,23 @@ export default function HomeScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
+  const getSallonDetail = () => {
+    const url = `/getSallonDetail?siteCode=${userData?.siteCode}&userID=&hq=`;
+
+    getApiData(url, 'get', {})
+      .then((result) => {
+        if (result?.success == 1) {
+          setSallonDetail(result?.result);
+          console.log("getSallonDetail", result?.result)
+        }
+        setrefreshing(false);
+      })
+      .catch((err) => {
+        setrefreshing(false);
+        console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
+      });
+  };
+
   const handleLogout = () =>
     Alert.alert(
       'Log Out !',
@@ -454,20 +475,27 @@ export default function HomeScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <FlatList
-                numColumns={3}
-                data={serviceList}
-                renderItem={renderServiceBtn}
-                contentContainerStyle={{
-                  justifyContent: 'space-between',
-                  flexGrow: 1,
-                }}
-                keyExtractor={(item, index) => index}
-              />
+              <ScrollView
+                showsVerticalScrollIndicator
+                style={{ height: 100 }}
+              >
+                <FlatList
+                  numColumns={3}
+                  data={serviceList}
+                  renderItem={renderServiceBtn}
+                  contentContainerStyle={{
+                    justifyContent: 'space-between',
+                    flexGrow: 1,
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+
+              </ScrollView>
             </View>
           </View>
         }
-        {clientDetails?.isShowProducts == "Yes" &&
+
+        {clientDetails?.isShowProducts == "Yes" ?
           <View style={{ padding: 12 }}>
             <View style={styles.contHeader}>
               <CText value="Products" size={20} color={theme().amberTxt} />
@@ -534,6 +562,20 @@ export default function HomeScreen({ navigation }) {
                 numColumns={2}
                 contentContainerStyle={{ marginTop: 16 }}
               />
+            </View>
+          </View> :
+          <View style={{ flexDirection: "row", padding: 10 }}>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={{ uri: clientDetails?.clientLogo }}
+                style={{ justifyContent: 'flex-start', height: 100, width: '100%' }}
+                resizeMode="center"
+              />
+
+            </View>
+            <View style={{ flex: 1, paddingRight: 10 }}>
+              <CText value={sallonDetail[0]?.siteName} size={14} />
+              <CText value={sallonDetail[0]?.Location} size={14} />
             </View>
           </View>
         }

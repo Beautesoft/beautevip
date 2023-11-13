@@ -18,7 +18,7 @@ export const styledFunc = () => {
       marginStart: 8,
     },
     mainCont: {
-      height: 150,
+      height: 200,
       width: Dimensions.get('window').width - 16,
       paddingHorizontal: 16,
     },
