@@ -313,7 +313,7 @@ export default function Settings({ navigation }) {
   });
   listArr.push({
     title: 'Version',
-    value: '1.0.0.3',
+    value: '5.11.2023',
     onPress: () => {
       //navigation.navigate('Language');
     },

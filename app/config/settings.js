@@ -6,8 +6,8 @@ export const baseUrl = 'http://sequoiasg.ddns.net:7049/Main_API_Train/';
 //export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';  // my demo url
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
-  name: 'TNCCRM',
-  displayName: 'TNCCRM',
+  name: 'kirei',
+  displayName: 'kirei',
   appVersionCode: '1',
   baseUrl,
   api: `${baseUrl}/api`,
@@ -27,6 +27,8 @@ const BaseSetting = {
     appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice
     changePasscode: '/changePasscode',
     availableSlots: '/AvailableSlots',
+    availableSlotsTnc: '/AvailableSlotsTnc',
+    availableDatesTnc: '/AvailableDatesTnc',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',
