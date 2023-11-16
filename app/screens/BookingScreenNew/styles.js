@@ -49,7 +49,7 @@ export const styledFunc = () => {
       width: '90%',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 8,
+      padding: 3,
       marginVertical: 8,
     },
     locCont: {
@@ -64,6 +64,10 @@ export const styledFunc = () => {
       alignItems: 'center',
       marginTop: 12,
       padding: 4,
+    },
+    dateCont: {
+      borderBottomColor:'red',
+      
     },
   });
 };
