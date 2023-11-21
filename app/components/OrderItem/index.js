@@ -11,7 +11,7 @@ import moment from 'moment';
 
 export default function OrderItem(props) {
   const { item, id, onPress = () => { } } = props;
-  console.log("OrderItem", item);
+  //console.log("OrderItem", item);
   //   if(id == 5){
   //     return(
   //       <TouchableOpacity

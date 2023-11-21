@@ -18,7 +18,7 @@ export const styledFunc = () => {
       marginStart: 8,
     },
     mainCont: {
-      height: 200,
+      height: Dimensions.get('window').height - 400,
       width: Dimensions.get('window').width - 16,
       paddingHorizontal: 16,
     },
@@ -59,6 +59,23 @@ export const styledFunc = () => {
       justifyContent: 'center',
       alignItems: 'center',
       marginEnd: 8,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      width:100,
+    },
+    buttonOpen: {
+      backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+      backgroundColor: '#2196F3',
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
     },
   });
 };
