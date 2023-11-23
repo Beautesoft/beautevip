@@ -269,24 +269,25 @@ export default function BookingScreenNew({ navigation, route }) {
     const data = {
       phoneNumber: userData?.customerPhone,
       customerCode: userData?.customerCode,
-      itemCode: orderData?.itemCode,
+      itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
       appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
       appointmentTime: selectedDateTime?.timeIn24Hrs,
-      appointmentDuration: orderData?.duration,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration :orderData?.duration,
       siteCode: selectedLocation?.siteCode, //userData?.siteCode,
-      itemName: orderData?.itemName,
+      itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
       treatmentId: '',
       appointmentRemark: paymentMode == "qr" ? "payment pending" : "",
       staffCode: beauty?.staffCode,
       appointmentItemDetails: [
         {
           lineNumber: '1',
-          itemCode: orderData?.itemCode,
-          itemName: orderData?.itemName,
-          unitPrice: orderData?.price,
+          itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
+          itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
+          unitPrice: packageType ? 0 : orderData?.price,
         },
       ],
-      appointmentAdvanceAmount: paymentMode == "Cash" || packageType ? 0 : clientDetails.appointmentAdvanceAmount
+      appointmentAdvanceAmount: paymentMode == "Cash" || packageType ? 0 : clientDetails.appointmentAdvanceAmount,
+      numberOfAppointments: orderData?.numberOfAppointments > 1 ? orderData?.numberOfAppointments : 1
     };
     console.log('BookAppointment - Request Section', data);
     getApiData(BaseSetting.endpoints.bookAppointment, 'post', data)
@@ -353,6 +354,7 @@ export default function BookingScreenNew({ navigation, route }) {
     console.log("getAvailableDates - Request", data);
     await getApiData(BaseSetting.endpoints.availableDatesTnc, 'post', data)
       .then((result) => {
+        console.log("getAvailableDates - Response", result);
         setavailableDates(result?.result);
       })
       .catch((err) => {
