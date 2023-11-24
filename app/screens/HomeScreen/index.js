@@ -56,6 +56,10 @@ export default function HomeScreen({ navigation }) {
   const [isBannerUri, setIsBannerUri] = useState(false);
   const [priceListImageModal, setPriceListImageModal] = useState(false);
   const [priceListBannerImageURL, setPriceListBannerImageURL] = useState("");
+  const [IsRenderPriceList, SetIsRenderPriceList] = useState(false);
+  const [IsRenderTermsAndCondition, SetIsRenderTermsAndCondition] = useState(false);
+  const [IsRenderLocation, SetIsRenderLocation] = useState(false);
+  const [IsRenderButtonGroup, SetIsRenderButtonGroup] = useState(true);
   const bannerDefault = [
     {
       bannerImg: Images.sampleOne,
@@ -92,6 +96,8 @@ export default function HomeScreen({ navigation }) {
     id: 1,
     title: t('forYou'),
   });
+
+
 
   let backPressed = 0;
 
@@ -243,6 +249,20 @@ export default function HomeScreen({ navigation }) {
       });
   };
 
+  const handleNavigationPriceList = () => {
+    navigation.navigate('PriceList', { type: 'price', data: banner });
+  };
+
+  const handleNavigationTerms = () => {
+    navigation.navigate('PriceList', { type: 'terms', data: banner });
+  };
+
+  const handleNavigationLocation = () => {
+    navigation.navigate('PriceList', { type: 'location', data: banner });
+  };
+
+
+
   const handleLogout = () =>
     Alert.alert(
       'Log Out !',
@@ -367,7 +387,7 @@ export default function HomeScreen({ navigation }) {
           // index: ++index,
           animated: true,
         });
-      }, 3000);
+      }, 2000);
 
       return () => {
         clearInterval(interval);
@@ -514,6 +534,7 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
+
         {clientDetails?.isShowServices == "Yes" &&
           <View style={{ padding: 12 }}>
             <View style={styles.contHeader}>
@@ -544,9 +565,10 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>
         }
-        <ScrollView
-          showsHorizontalScrollIndicator
-          style={{ height: 'auto' }}>
+        {IsRenderPriceList &&
+          <ScrollView
+            showsHorizontalScrollIndicator
+            style={{ height: 'auto' }}>
             <FlatList
               data={priceList}
               keyExtractor={(item, index) => index}
@@ -557,11 +579,12 @@ export default function HomeScreen({ navigation }) {
               }}
               numColumns={4}
             />
-        </ScrollView>
-
-        <ScrollView
-          showsHorizontalScrollIndicator
-          style={{ height: 'auto' }}>
+          </ScrollView>
+        }
+        {IsRenderTermsAndCondition &&
+          <ScrollView
+            showsHorizontalScrollIndicator
+            style={{ height: 'auto' }}>
             <FlatList
               data={termsAndConditions}
               keyExtractor={(item, index) => index}
@@ -572,8 +595,8 @@ export default function HomeScreen({ navigation }) {
               }}
               numColumns={4}
             />
-        </ScrollView>
-
+          </ScrollView>
+        }
         {clientDetails?.isShowProducts == "Yes" ?
           <View style={{ padding: 12 }}>
             <View style={styles.contHeader}>
@@ -643,6 +666,9 @@ export default function HomeScreen({ navigation }) {
               />
             </View>
           </View> :
+          null
+        }
+        {IsRenderLocation &&
           <View style={{ flexDirection: "row", padding: 10 }}>
             <View style={{ flex: 1 }}>
               <Image
@@ -658,8 +684,24 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>
         }
+        {IsRenderButtonGroup &&
+          <View style={styles.container}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: 'orange' }]} onPress={handleNavigationPriceList}>
+              <Text style={styles.buttonText}>Price List</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#70ad47' }]} onPress={handleNavigationTerms}>
+              <Text style={styles.buttonText}>T & C</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { backgroundColor: 'grey' }]} onPress={handleNavigationLocation}>
+              <Text style={styles.buttonText}>Location</Text>
+            </TouchableOpacity>
+          </View>
+        }
       </ScrollView>
+
       {/* </View> */}
+
+
       <CLoader loader={loader} />
       <Modal
         style={{ flex: 1 }}
