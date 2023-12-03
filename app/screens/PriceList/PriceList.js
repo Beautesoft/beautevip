@@ -6,6 +6,7 @@ import BannerCarousel from '../Shared/Banner/BannerCarousel';
 import { Modal, Pressable } from 'react-native';//this is for android
 import { theme } from '../../redux/reducer/theme';
 import CText from '../../components/CText';
+import SocialMediaIcons from './SocialMediaIcons';
 const { width } = Dimensions.get('window');
 
 const PriceList = ({ route, navigation }) => {
@@ -157,6 +158,7 @@ const PriceList = ({ route, navigation }) => {
           <View style={{paddingLeft:10}}>
             <CText value="Address : 2 Venture drive #02-26, Vision Exchange" size={18} />
           </View>
+          <SocialMediaIcons/>
         </View>
       }
 
