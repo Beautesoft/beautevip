@@ -29,6 +29,7 @@ const BaseSetting = {
     availableSlots: '/AvailableSlots',
     availableSlotsTnc: '/AvailableSlotsTnc',
     availableDatesTnc: '/AvailableDatesTnc',
+    rescheduleAppointment:'/rescheduleAppointment',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',

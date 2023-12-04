@@ -11,7 +11,7 @@ import styles from './styles';
 export default function CircularButton(props) {
   const {
     iconSrouce = Images.no_image,
-    title = 'Title',
+    title = '',
     style = {},
     circleStyle = {},
     onPress = () => { },
@@ -39,6 +39,7 @@ export default function CircularButton(props) {
           />
         </LinearGradient>
       </View>
+      {title && 
       <CText
         value={title}
         size={14}
@@ -46,6 +47,7 @@ export default function CircularButton(props) {
         color={theme().amberTxt}
         style={styles?.titleSty}
       />
+      }
     </TouchableOpacity>
   );
 }

@@ -52,6 +52,17 @@ export const styledFunc = () => {
       padding: 3,
       marginVertical: 8,
     },
+    recheduleBtn: {
+      borderWidth: 0,
+      borderColor: theme().darkAmber,
+      borderRadius: 12,
+      width: '90%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 3,
+      marginVertical: 8,
+    },
+    
     locCont: {
       flexDirection: 'row',
       width: '100%',

@@ -33,10 +33,8 @@ import ConfirmBooking from '../screens/ConfirmBooking';
 import BookingScreenNew from '../screens/BookingScreenNew';
 import ServiceScreen from '../screens/ServiceScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
-import Login from '../screens/Login';
-import ForgotPassword from '../screens/ForgotPassword';
-import ResetPassword from '../screens/ResetPassword';
-import SignUp from '../screens/SignUp';
+import PriceList from '../screens/PriceList/PriceList';
+
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
   return (
@@ -52,11 +50,9 @@ export const AppStackNavigator = () => {
         component={BottomTabsNavigator}
       />
 
-      { <AppStack.Screen name="Login" component={Login} /> }
+      {/* <AppStack.Screen name="Login" component={Login} /> */}
       <AppStack.Screen name="Home" component={HomeScreen} />
-      <AppStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <AppStack.Screen name="ResetPassword" component={ResetPassword} />
-      <AppStack.Screen name="SignUp" component={SignUp} />
+
       <AppStack.Screen name="OrderDetails" component={OrderDetails} />
       <AppStack.Screen name="RangeScreen" component={RangeScreen} />
       <AppStack.Screen name="SubService" component={SubService} />
@@ -89,6 +85,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="Invoice" component={Invoice} />
       <AppStack.Screen name="MyOrder" component={MyOrder} />
       <AppStack.Screen name="MyProducts" component={MyProducts} />
+      <AppStack.Screen name="PriceList" component={PriceList} />
       <AppStack.Screen name="ServiceScreen" component={ServiceScreen} />
     </AppStack.Navigator>
   );

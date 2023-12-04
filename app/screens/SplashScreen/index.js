@@ -94,6 +94,14 @@ export default function SplashScreen({ navigation }) {
             })
           }
         />
+           <CButton
+          title={t('Login')}
+          style={styles.btnStyle}
+          onPress={
+            () => navigation.navigate('Login')
+            //dispatch(setUserData(uData))
+          }
+        />
       </View>
     </>
   );
