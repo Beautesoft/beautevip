@@ -38,6 +38,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <>
+<<<<<<< HEAD
       <View style={{ flex: 1 }}>
         <BackgroundImage />
         <View style={styles.container}>
@@ -62,6 +63,30 @@ export default function SplashScreen({ navigation }) {
             }
           />
         </View>
+=======
+      <BackgroundImage image={theme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
+      <View style={styles.container}>
+        <CText
+          value={t('welcomeCAP')}
+          style={styles.heading}
+          fontFamily={FontFamily.Poppins_SemiBold}
+          size={20}
+        />
+        <CText
+          value={t('beautisoftLuxelle')}
+          style={styles.heading}
+          fontFamily={FontFamily.Poppins_SemiBold}
+          size={20}
+        />
+        <CButton
+          title={t('getStarted')}
+          style={styles.btnStyle}
+          onPress={
+            () => navigation.navigate('Login')
+            //dispatch(setUserData(uData))
+          }
+        />
+>>>>>>> 8978276 (ios:modification-client-luxelle)
       </View>
     </>
   );

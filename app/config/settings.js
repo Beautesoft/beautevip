@@ -2,7 +2,12 @@
 const devMode = __DEV__;
 
 //const baseUrl = 'http://103.253.15.102:88/main_api';
+<<<<<<< HEAD
 export const baseUrl = 'http://103.253.15.102:88/mainapi_cloudtest/';
+=======
+export const baseUrl = 'http://sequoiasg.ddns.net:7048/Main_API_Train/';
+//export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';  // my demo url
+>>>>>>> 8978276 (ios:modification-client-luxelle)
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
   name: 'TNCCRM',

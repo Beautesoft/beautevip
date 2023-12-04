@@ -590,11 +590,19 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TncCrm/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft VIP";
+=======
+				CURRENT_PROJECT_VERSION = 1.2;
+				DEVELOPMENT_TEAM = WKVWWJ792U;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = TncCrm/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft Luxelle";
+>>>>>>> 8978276 (ios:modification-client-luxelle)
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -607,7 +615,11 @@
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.beautesoft.vip;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.beautesoft.Luxelle;
+>>>>>>> 8978276 (ios:modification-client-luxelle)
 				PRODUCT_NAME = TncCrm;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -625,10 +637,17 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				INFOPLIST_FILE = TncCrm/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft VIP";
+=======
+				CURRENT_PROJECT_VERSION = 1.2;
+				DEVELOPMENT_TEAM = WKVWWJ792U;
+				INFOPLIST_FILE = TncCrm/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft Luxelle";
+>>>>>>> 8978276 (ios:modification-client-luxelle)
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -641,7 +660,11 @@
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.beautesoft.vip;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.beautesoft.Luxelle;
+>>>>>>> 8978276 (ios:modification-client-luxelle)
 				PRODUCT_NAME = TncCrm;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

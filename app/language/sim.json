@@ -1,7 +1,11 @@
 {
   "translation": {
     "welcomeCAP": "WELCOME",
+<<<<<<< HEAD
     "beautisoftVIP": "Beautesoft VIP",
+=======
+    "beautisoftLuxelle": "Beautesoft Luxelle",
+>>>>>>> 8978276 (ios:modification-client-luxelle)
     "getStarted": "Get Started",
     "login": "Log In",
     "pleaseLogin": "Please login to your account",
