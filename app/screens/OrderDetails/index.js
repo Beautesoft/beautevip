@@ -338,7 +338,7 @@ export default function OrderDetails({ navigation, route }) {
           onPress={() => SetOpenreschedule(!Openreschedule)}
           style={styles.modalContainer}>
           <View style={[styles.modalContent, { height: modalHeight }]}>
-            <RescheduleComponent orderData={orderData} closeModal={closeModal}  navigation={navigation}/>
+            <RescheduleComponent orderData={orderData} closeModal={closeModal} />
           </View>
         </TouchableOpacity>
       </Modal>

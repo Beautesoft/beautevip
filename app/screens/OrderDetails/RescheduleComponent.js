@@ -11,8 +11,9 @@ import moment from 'moment';
 import { theme } from '../../redux/reducer/theme';
 import CButton from '../../components/CButton';
 import { Modal, Pressable } from 'react-native';//this is for android
+import { useNavigation } from '@react-navigation/native';
 
-const RescheduleComponent = ({ orderData, closeModal,navigation}) => {
+const RescheduleComponent = ({ orderData, closeModal }) => {
   const [dateList, setDateList] = useState([]);
   const BookingScreenStyles = styledFunc();
   const [selectedDateTime, setselectedDateTime] = useState();
@@ -26,6 +27,7 @@ const RescheduleComponent = ({ orderData, closeModal,navigation}) => {
     getAvailableDates();
   }, []);
 
+  const navigation = useNavigation();
 
 
   const getAvailableDates = async () => {
@@ -102,7 +104,7 @@ const RescheduleComponent = ({ orderData, closeModal,navigation}) => {
         else if (result?.success == 1) {
           Toast.show(result?.result);
           closeModal();
-         // navigation.navigate('OrderDetails');
+          navigation.navigate('BottomTabsNavigator', { screen: 'My Booking' });
         }
         else {
           setTimeout(() => {
