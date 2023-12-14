@@ -578,14 +578,15 @@ export default function BookingScreenNew({ navigation, route }) {
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
-            {orderData?.price && (
+            {orderData?.price !== undefined && (
               <CText
-                value={`S$ ${orderData?.price}`}
+                value={`S$ ${orderData?.price.toFixed(2)}`}  
                 color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
+
 
           </View>
         </View>
