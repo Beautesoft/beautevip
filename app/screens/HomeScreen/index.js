@@ -14,6 +14,7 @@ import {
   BackHandler,
   ScrollView,
   Alert,
+  Text,
 } from 'react-native';
 import { styledFunc } from './styles';
 import { Icons } from '../../config/icons';
@@ -29,6 +30,7 @@ import Toast from 'react-native-simple-toast';
 import { t } from 'i18next';
 import { LogBox } from 'react-native';
 import { theme } from '../../redux/reducer/theme';
+import { Modal, Pressable } from 'react-native';//this is for android
 export default function HomeScreen({ navigation }) {
   const styles = styledFunc();
   const { logout, setStoreData, addBookingData } = AuthAction;
@@ -41,6 +43,9 @@ export default function HomeScreen({ navigation }) {
   const [curIndex, setcurIndex] = useState(0);
   const [hStoreData, sethStoreData] = useState({});
   const [serviceList, setserviceList] = useState([]);
+  const [priceList, setPriceList] = useState([]);
+  const [termsAndConditions, setTermsAndConditions] = useState([]);
+  const [sallonDetail, setSallonDetail] = useState([]);
   const [productList, setproductList] = useState([]);
   const [filterArr, setfilterArr] = useState([]);
 
@@ -49,7 +54,12 @@ export default function HomeScreen({ navigation }) {
   const [refreshing, setrefreshing] = useState(false);
   const [banner, setBanner] = useState([]);
   const [isBannerUri, setIsBannerUri] = useState(false);
-
+  const [priceListImageModal, setPriceListImageModal] = useState(false);
+  const [priceListBannerImageURL, setPriceListBannerImageURL] = useState("");
+  const [IsRenderPriceList, SetIsRenderPriceList] = useState(false);
+  const [IsRenderTermsAndCondition, SetIsRenderTermsAndCondition] = useState(false);
+  const [IsRenderLocation, SetIsRenderLocation] = useState(false);
+  const [IsRenderButtonGroup, SetIsRenderButtonGroup] = useState(true);
   const bannerDefault = [
     {
       bannerImg: Images.sampleOne,
@@ -87,6 +97,8 @@ export default function HomeScreen({ navigation }) {
     title: t('forYou'),
   });
 
+
+
   let backPressed = 0;
 
   function handleBackButtonClick() {
@@ -104,6 +116,10 @@ export default function HomeScreen({ navigation }) {
     return true;
   }
 
+  function openPriceListModal(item) {
+    setPriceListImageModal(true);
+    setPriceListBannerImageURL(item?.bannerImg)
+  }
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -118,6 +134,7 @@ export default function HomeScreen({ navigation }) {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     StoreDetails(1);
     getDepartment();
+    getSallonDetail();
   }, []);
 
   const onRefresh = () => {
@@ -127,8 +144,10 @@ export default function HomeScreen({ navigation }) {
   };
 
   const serviceAction = (item) => {
-    dispatch(addBookingData('oldflow'));
-    navigation.navigate('RangeScreen', { serviceData: item });
+    if (clientDetails?.isEnableAddtoCart == "Yes") {
+      dispatch(addBookingData('oldflow'));
+      navigation.navigate('RangeScreen', { serviceData: item });
+    }
   };
   const StoreDetails = (sid) => {
     setloader(true);
@@ -140,9 +159,12 @@ export default function HomeScreen({ navigation }) {
         if (result?.success == 1) {
           console.log('result home page----->', userData, result);
           console.log("response_product_data", result?.product);
+          console.log("response_service", result?.service);
           console.log("response_product_data_images", result?.product[0].items);
           sethStoreData(result);
           setserviceList(result?.service);
+          setPriceList(result?.pricelist);
+          setTermsAndConditions(result?.termsAndConditions);
           // setproductList(result?.product);
           // setfilterArr(result?.product);
           if (result?.banners.length > 0) {
@@ -210,6 +232,37 @@ export default function HomeScreen({ navigation }) {
         console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
+  const getSallonDetail = () => {
+    const url = `/getSallonDetail?siteCode=${userData?.siteCode}&userID=&hq=`;
+
+    getApiData(url, 'get', {})
+      .then((result) => {
+        if (result?.success == 1) {
+          setSallonDetail(result?.result);
+          console.log("getSallonDetail", result?.result)
+        }
+        setrefreshing(false);
+      })
+      .catch((err) => {
+        setrefreshing(false);
+        console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
+      });
+  };
+
+  const handleNavigationPriceList = () => {
+    navigation.navigate('PriceList', { type: 'price', data: banner });
+  };
+
+  const handleNavigationTerms = () => {
+    navigation.navigate('PriceList', { type: 'terms', data: banner });
+  };
+
+  const handleNavigationLocation = () => {
+    navigation.navigate('PriceList', { type: 'location', data: banner });
+  };
+
+
+
   const handleLogout = () =>
     Alert.alert(
       'Log Out !',
@@ -245,6 +298,45 @@ export default function HomeScreen({ navigation }) {
           }
           title={item?.departmentName}
           onPress={() => serviceAction(item)}
+        />
+      </View>
+    );
+  };
+
+  const renderPriceList = ({ item, index }) => {
+    return (
+      <View
+        style={{
+          width: '25%',
+          alignItems: 'center',
+          marginTop: 6,
+        }}>
+        <CircularButton
+          iconSrouce={
+            item?.bannerIcon
+              ? { uri: item?.bannerIcon }
+              : item?.bannerIcon
+          }
+          onPress={() => openPriceListModal(item)}
+        />
+      </View>
+    );
+  };
+  const renderTermsAndCondition = ({ item, index }) => {
+    return (
+      <View
+        style={{
+          width: '25%',
+          alignItems: 'center',
+          marginTop: 6,
+        }}>
+        <CircularButton
+          iconSrouce={
+            item?.bannerIcon
+              ? { uri: item?.bannerIcon }
+              : item?.bannerIcon
+          }
+          onPress={() => openPriceListModal(item)}
         />
       </View>
     );
@@ -295,7 +387,7 @@ export default function HomeScreen({ navigation }) {
           // index: ++index,
           animated: true,
         });
-      }, 3000);
+      }, 2000);
 
       return () => {
         clearInterval(interval);
@@ -442,6 +534,7 @@ export default function HomeScreen({ navigation }) {
             })}
           </View>
         </View>
+
         {clientDetails?.isShowServices == "Yes" &&
           <View style={{ padding: 12 }}>
             <View style={styles.contHeader}>
@@ -453,20 +546,58 @@ export default function HomeScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <FlatList
-                numColumns={3}
-                data={serviceList}
-                renderItem={renderServiceBtn}
-                contentContainerStyle={{
-                  justifyContent: 'space-between',
-                  flexGrow: 1,
-                }}
-                keyExtractor={(item, index) => index}
-              />
+              <ScrollView
+                showsHorizontalScrollIndicator
+                style={{ height: 'auto' }}
+              >
+                <FlatList
+                  numColumns={3}
+                  data={serviceList}
+                  renderItem={renderServiceBtn}
+                  contentContainerStyle={{
+                    justifyContent: 'space-between',
+                    flexGrow: 1,
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+
+              </ScrollView>
             </View>
           </View>
         }
-        {clientDetails?.isShowProducts == "Yes" &&
+        {IsRenderPriceList &&
+          <ScrollView
+            showsHorizontalScrollIndicator
+            style={{ height: 'auto' }}>
+            <FlatList
+              data={priceList}
+              keyExtractor={(item, index) => index}
+              renderItem={renderPriceList}
+              contentContainerStyle={{
+                justifyContent: 'space-between',
+                flexGrow: 1,
+              }}
+              numColumns={4}
+            />
+          </ScrollView>
+        }
+        {IsRenderTermsAndCondition &&
+          <ScrollView
+            showsHorizontalScrollIndicator
+            style={{ height: 'auto' }}>
+            <FlatList
+              data={termsAndConditions}
+              keyExtractor={(item, index) => index}
+              renderItem={renderTermsAndCondition}
+              contentContainerStyle={{
+                justifyContent: 'space-between',
+                flexGrow: 1,
+              }}
+              numColumns={4}
+            />
+          </ScrollView>
+        }
+        {clientDetails?.isShowProducts == "Yes" ?
           <View style={{ padding: 12 }}>
             <View style={styles.contHeader}>
               <CText value="Products" size={20} color={theme().amberTxt} />
@@ -534,11 +665,96 @@ export default function HomeScreen({ navigation }) {
                 contentContainerStyle={{ marginTop: 16 }}
               />
             </View>
+          </View> :
+          null
+        }
+        {IsRenderLocation &&
+          <View style={{ flexDirection: "row", padding: 10 }}>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={{ uri: clientDetails?.clientLogo }}
+                style={{ justifyContent: 'flex-start', height: 100, width: '100%' }}
+                resizeMode="center"
+              />
+
+            </View>
+            <View style={{ flex: 1, paddingRight: 12 }}>
+              <CText value={sallonDetail[0]?.siteName} size={14} />
+              <CText value={sallonDetail[0]?.Location} size={14} />
+            </View>
+          </View>
+        }
+        {IsRenderButtonGroup &&
+          <View style={styles.container}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: 'orange' }]} onPress={handleNavigationPriceList}>
+              <Text style={styles.buttonText}>Price List</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#70ad47' }]} onPress={handleNavigationTerms}>
+              <Text style={styles.buttonText}>T & C</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { backgroundColor: 'grey' }]} onPress={handleNavigationLocation}>
+              <Text style={styles.buttonText}>Location</Text>
+            </TouchableOpacity>
           </View>
         }
       </ScrollView>
+
       {/* </View> */}
+
+
       <CLoader loader={loader} />
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={priceListImageModal}
+        animationType="slide">
+
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{
+            backgroundColor: '#ffffff40',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+          }}>
+
+          <View
+            style={{
+              padding: 8,
+              backgroundColor: theme().always_white,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '100%',
+            }}>
+            <View
+              style={{
+                position: 'absolute',
+                alignSelf: 'center',
+                top: 10,
+                padding: 10,
+
+              }}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setPriceListImageModal(false)}>
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+
+              <Image
+                style={{ height: 550, width: 300, borderRadius: 10 }}
+                source={{ uri: priceListBannerImageURL }}
+              />
+
+
+            </View>
+
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }

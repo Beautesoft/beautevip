@@ -27,6 +27,9 @@ const BaseSetting = {
     appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice
     changePasscode: '/changePasscode',
     availableSlots: '/AvailableSlots',
+    availableSlotsTnc: '/AvailableSlotsTnc',
+    availableDatesTnc: '/AvailableDatesTnc',
+    rescheduleAppointment:'/rescheduleAppointment',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',

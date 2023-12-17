@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  Dimensions,
+  StyleSheet
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
@@ -33,6 +35,9 @@ import {
   Cols,
   Cell,
 } from 'react-native-table-component';
+import OrderDataTableComponent from './OrderDataTableComponent';
+import RescheduleComponent from './RescheduleComponent';
+import { style } from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
 
 export default function OrderDetails({ navigation, route }) {
   const styles = styledFunc();
@@ -40,7 +45,8 @@ export default function OrderDetails({ navigation, route }) {
   const oid = route?.params?.oid;
   const tData = route?.params?.tData;
   const [rateService, setrateService] = useState(false);
-
+  const [Openreschedule, SetOpenreschedule] = useState(false);
+  console.log("OrderDetails", orderData);
   const state = {
     HeadTable: [
       'code',
@@ -52,6 +58,36 @@ export default function OrderDetails({ navigation, route }) {
     ],
     DataTable: tData,
   };
+  const modalHeight = Dimensions.get('window').height * 0.9; // Set modal height to 50% of the screen height
+  const closeModal = () => {
+    SetOpenreschedule(false);
+    // You can perform additional actions on modal close if needed
+  };
+  const refreshComponent = () => {
+    // Call forceUpdate to trigger a re-render
+    this.forceUpdate();
+  };
+
+
+  const RescheduleAppointmentConfirmationAlert = () =>
+    Alert.alert(
+      'Reschedule Appointment !',
+      'Are you Sure ? ',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => SetOpenreschedule(true),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
 
   const showAppointmentCancelAlert = () =>
     Alert.alert(
@@ -153,86 +189,8 @@ export default function OrderDetails({ navigation, route }) {
               />
             </View>
           </View>
-          <View
-            style={[
-              styles.rowStyle,
-              {
-                marginTop: 32,
-              },
-            ]}>
-            <View style={styles.lines} />
-            <CText
-              value={'Appointment Details'}
-              size={14}
-              color="#b1b1b1"
-              style={{ marginHorizontal: 24 }}
-            />
-            <View style={styles.lines} />
-          </View>
-          <View style={[styles.rowStyle, { marginTop: 8 }]}>
-            <View style={{}}>
-              <CText
-                value={t('dnt')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={oid == 6 ? 'Amount' : t('location')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={oid == 6 ? 'Staff' : t('beautician')}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={oid == 6 ? 'Transaction No.' : 'Id'}
-                size={16}
-                color="#b1b1b1"
-                style={{ marginTop: 8 }}
-              />
-            </View>
-            <View style={{ alignItems: 'flex-end', flex: 1, marginStart: 32 }}>
-              <CText
-                value={moment(
-                  oid == 6 ? orderData?.transactionDate : orderData?.startTime,
-                ).format('DD-MM-YYYY LT')}
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={
-                  oid == 6
-                    ? '$' + orderData?.depositAmount
-                    : orderData?.location
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8, textAlign: 'right' }}
-              />
-              <CText
-                value={
-                  oid == 6 ? orderData?.staffName : orderData?.employeeName
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-              <CText
-                value={
-                  oid == 6 ? orderData?.transactionNo : orderData?.appointmentID
-                }
-                size={16}
-                color={theme().amberTxt}
-                style={{ marginTop: 8 }}
-              />
-            </View>
-          </View>
+          <OrderDataTableComponent oid={oid} orderData={orderData} t={t} theme={theme} />
+
 
           {oid == 6 ? (
             <View style={styles.tcontainer}>
@@ -290,10 +248,20 @@ export default function OrderDetails({ navigation, route }) {
                 style={{ marginTop: 8 }}
               />
             ) : (
-              <CButton
-                title={t('cancelAppointment')}
-                onPress={() => showAppointmentCancelAlert()}
-              />
+              <>
+
+                <View>
+                  <CButton
+                    title={'Reschedule Appointment'}
+                    onPress={() => RescheduleAppointmentConfirmationAlert()}
+                    style={{ marginBottom: 10 }} // Add margin bottom for spacing
+                  />
+                  <CButton
+                    title={'Cancel Appointment'}
+                    onPress={() => showAppointmentCancelAlert()}
+                  />
+                </View>
+              </>
             )}
           </>
         )}
@@ -336,7 +304,7 @@ export default function OrderDetails({ navigation, route }) {
                 justifyContent: 'space-between',
               }}
               tintColor={theme().darkGrey}
-              imageSize={42}
+              imageSize={50}
               starContainerStyle={{ marginHorizontal: 8 }}
             />
             <TextInput
@@ -360,6 +328,70 @@ export default function OrderDetails({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </Modal>
+
+      <Modal
+        animationType="fade"
+        visible={false}
+        onRequestClose={() => SetOpenreschedule(!Openreschedule)}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => SetOpenreschedule(!Openreschedule)}
+          style={styles.modalContainer}>
+          <View style={[styles.modalContent, { height: modalHeight }]}>
+            <RescheduleComponent orderData={orderData} closeModal={closeModal} />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={Openreschedule}
+        animationType="slide"
+      >
+
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{
+            backgroundColor: '#ffffff40',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+          }}>
+
+          <View
+            style={{
+              padding: 8,
+              backgroundColor: theme().always_white,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '88%',
+            }}>
+
+            <RescheduleComponent orderData={orderData} closeModal={closeModal} />
+
+
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </>
   );
 }
+
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end', // This ensures that the modal content is at the bottom of the screen
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+});
