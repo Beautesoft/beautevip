@@ -41,6 +41,7 @@ import AuthAction from '../../redux/reducer/auth/actions';
 import { useIsFocused } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 import SelectDropdown from 'react-native-select-dropdown';
+import HitPay from '../HitPay';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
   const type = route?.params?.type;
@@ -158,6 +159,7 @@ export default function BookingScreenNew({ navigation, route }) {
     //GetAddress();
   }, []);
 
+
   const renderTimeSlots = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -272,7 +274,7 @@ export default function BookingScreenNew({ navigation, route }) {
       itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
       appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
       appointmentTime: selectedDateTime?.timeIn24Hrs,
-      appointmentDuration: packageType ? orderData?.packageList[0]?.duration :orderData?.duration,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
       siteCode: selectedLocation?.siteCode, //userData?.siteCode,
       itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
       treatmentId: '',
@@ -580,7 +582,7 @@ export default function BookingScreenNew({ navigation, route }) {
             )}
             {orderData?.price !== undefined && (
               <CText
-                value={`S$ ${orderData?.price.toFixed(2)}`}  
+                value={`S$ ${orderData?.price.toFixed(2)}`}
                 color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
@@ -811,6 +813,11 @@ export default function BookingScreenNew({ navigation, route }) {
           }}
         />
       </View>
+
+      <HitPay amount={localAppointmentAdvanceAmount} phoneNumber={userData?.customerPhone}
+        email={userData?.email} purpose={packageType ? orderData?.packageName : orderData?.itemDescription}
+
+      />
 
       <View>
         {localAppointmentAdvanceAmount > 0 &&
