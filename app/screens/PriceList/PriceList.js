@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image,Linking } from 'react-native';
 import CHeader from '../../components/CHeader';
 import BannerCarousel from '../Shared/Banner/BannerCarousel';
 import { Modal, Pressable } from 'react-native';//this is for android
 import { theme } from '../../redux/reducer/theme';
 import CText from '../../components/CText';
 import SocialMediaIcons from './SocialMediaIcons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Icon from 'react-native-vector-icons/FontAwesome'; // You can use icons from other libraries
+import { ScrollView } from 'react-native';
 const { width } = Dimensions.get('window');
 
 const PriceList = ({ route, navigation }) => {
@@ -83,13 +87,13 @@ const PriceList = ({ route, navigation }) => {
   const buttonWidth = 0.8 * width; // 80% of screen width
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={[styles.button, { backgroundColor: 'orange', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
+    <TouchableOpacity style={[styles.button, { backgroundColor: '#F5F5DC', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
       <Text style={styles.buttonText}>{item.bannerName}</Text>
     </TouchableOpacity>
   );
 
   const renderItemForTermsAndConditions = ({ item }) => (
-    <TouchableOpacity style={[styles.button, { backgroundColor: '#70ad47', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
+    <TouchableOpacity style={[styles.button, { backgroundColor: '#F5F5DC', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
       <Text style={styles.buttonText}>{item.bannerName}</Text>
     </TouchableOpacity>
   );
@@ -101,15 +105,19 @@ const PriceList = ({ route, navigation }) => {
     setPriceListBannerImageURL(buttonData?.bannerImg);
   };
 
+  const openUrl = (url) => {
+    Linking.openURL(url);
+  };
 
   return (
     <>
       <CHeader
-        title={type == 'price' ? 'Price List' : type == 'terms' ? 'Terms & Condition' : 'Location'}
+        title={type == 'price' ? 'Price List' : type == 'terms' ? 'Terms & Condition' : 'General Info'}
         showLeftIcon
         onLeftIconPress={() =>
           navigation.navigate("BottomTabsNavigator")}
       />
+        <ScrollView>
       <BannerCarousel bannerData={data} />
       {type == 'price' &&
         <View style={styles.container}>
@@ -132,8 +140,8 @@ const PriceList = ({ route, navigation }) => {
         </View>
       }
       {type == 'location' &&
-        <View style={{ padding: 10 }}>
-          <View style={{ flexDirection: "row" }}>
+        <View style={{ padding: 10,paddingLeft:20 }}>
+          <View style={{ flexDirection: "row", paddingLeft: 20 }}>
             <View style={{ flex: 0 }}>
               <Image
                 source={{ uri: clientDetails?.clientLogo }}
@@ -143,24 +151,58 @@ const PriceList = ({ route, navigation }) => {
                   width: 100,
                   overflow: 'hidden',
                   justifyContent: 'center',
+                  paddingLeft: 30,
                   alignItems: 'center',
                   backgroundColor: 'white',
                 }}
                 resizeMode="center"
               />
             </View>
-            <View style={{ flex: 1, paddingLeft: 12 }}>
+            <View style={{ flex: 1, paddingLeft: 24 }}>
               <CText value="Kirei Beauty" size={24} />
               <CText value="All Nett Price !" size={24} />
             </View>
 
           </View>
-          <View style={{paddingLeft:10}}>
+          <View>
+            <CText value="Contact Us +65 8699942" size={18} />
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center' }}>
+
+ 
+
+            <CText value="Whats App Me" size={18} />
+            <TouchableOpacity style={{ paddingLeft: 20 }}>
+              <Icon name="whatsapp" size={28} color="#25D366" onPress={() => openUrl('https://web.whatsapp.com')} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
             <CText value="Address : 2 Venture drive #02-26, Vision Exchange" size={18} />
           </View>
-          <SocialMediaIcons/>
+
+          <View style={{  flexDirection: 'row', alignItems: 'center' }}>
+            <CText value="Gogole  Link :" size={18} style={{ textDecorationLine: 'underline' }} />
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity style={{ paddingRight: 20 }}>
+              <Icon
+                name="map-marker"
+                size={30}
+                color="#34B7F1"
+                onPress={() => openUrl('https://www.google.com/maps/search/2+venture+drive+vision+exchange/@1.3299972,103.7423089,17z/data=!3m1!4b1?entry=ttu')}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{  flexDirection: 'row', alignItems: 'center' }}>
+            <CText value="Social Link :" size={18} style={{ textDecorationLine: 'underline' }} />
+          </View>
+
+          <SocialMediaIcons />
         </View>
       }
+      </ScrollView>
 
       <Modal
         style={{ flex: 1 }}
@@ -195,19 +237,31 @@ const PriceList = ({ route, navigation }) => {
                 alignSelf: 'center',
                 top: 10,
                 padding: 10,
-
               }}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setPriceListImageModal(false)}>
-                <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+
 
               <Image
                 style={{ height: 550, width: 300, borderRadius: 10 }}
                 source={{ uri: priceListBannerImageURL }}
               />
-
+              {/* Separate View for Back arrow icon */}
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 570, // Adjust the top value as needed
+                  right: 10,
+                  backgroundColor: '#F5F5DC', // Add your desired background color here
+                  borderRadius: 15, // Optional: Add borderRadius for a rounded background
+                  padding: 5,
+                }}
+              >
+                {/* Back arrow icon with increased size and red color */}
+                <TouchableOpacity
+                  onPress={() => setPriceListImageModal(false)}
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} size={30} color="black" />
+                </TouchableOpacity>
+              </View>
 
             </View>
 
@@ -235,8 +289,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 28,
+    color: 'black',
+    fontSize: 27,
   },
 
   buttonOpen: {

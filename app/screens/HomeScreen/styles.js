@@ -92,7 +92,7 @@ export const styledFunc = () => {
     },
     buttonText: {
       color: 'white',
-      fontSize: 22,
+      fontSize: 21,
     },
   });
 };
