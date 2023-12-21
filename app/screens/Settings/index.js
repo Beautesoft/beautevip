@@ -314,7 +314,7 @@ export default function Settings({ navigation }) {
   });
   listArr.push({
     title: 'Version',
-    value: '11.DEC.2023',
+    value: '20.DEC.2023',
     onPress: () => {
       //navigation.navigate('Language');
     },

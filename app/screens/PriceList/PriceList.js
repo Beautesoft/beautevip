@@ -7,8 +7,6 @@ import { Modal, Pressable } from 'react-native';//this is for android
 import { theme } from '../../redux/reducer/theme';
 import CText from '../../components/CText';
 import SocialMediaIcons from './SocialMediaIcons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Icon from 'react-native-vector-icons/FontAwesome'; // You can use icons from other libraries
 import { ScrollView } from 'react-native';
 const { width } = Dimensions.get('window');
@@ -259,7 +257,7 @@ const PriceList = ({ route, navigation }) => {
                 <TouchableOpacity
                   onPress={() => setPriceListImageModal(false)}
                 >
-                  <FontAwesomeIcon icon={faArrowLeft} size={30} color="black" />
+                  <Icon name="long-arrow-left" size={28} color="black" />
                 </TouchableOpacity>
               </View>
 

@@ -2,10 +2,31 @@ import React, { useState } from 'react';
 import { View, Text, Button, Linking } from 'react-native';
 import CButton from '../../components/CButton';
 import { theme } from '../../redux/reducer/theme';
-const HitPay = ({ amount, phoneNumber,email,purpose }) => {
+import Toast from 'react-native-simple-toast';
+const HitPay = ({ amount, phoneNumber, email, purpose, selectedLocation, orderData, beauty, selectedDate, selectedDateTime }) => {
   const [paymentUrl, setPaymentUrl] = useState('');
 
   const handlePaymentRequest = async () => {
+    if (!selectedLocation) {
+      Toast.show('Please Select Site');
+      return;
+    }
+    if (!orderData) {
+      Toast.show('Please Select Service');
+      return;
+    }
+    if (!beauty) {
+      Toast.show('Please Select  Staff');
+      return;
+    }
+    if (!selectedDate) {
+      Toast.show('Please Select Date');
+      return;
+    }
+    if (!selectedDateTime) {
+      Toast.show('Please Select  Time');
+      return;
+    }
     try {
       const response = await fetch('https://api.sandbox.hit-pay.com/v1/payment-requests', {
         method: 'POST',

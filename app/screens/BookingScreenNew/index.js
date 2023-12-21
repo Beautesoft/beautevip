@@ -816,7 +816,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
       <HitPay amount={localAppointmentAdvanceAmount} phoneNumber={userData?.customerPhone}
         email={userData?.email} purpose={packageType ? orderData?.packageName : orderData?.itemDescription}
-
+        selectedLocation={selectedLocation} orderData={orderData} beauty={beauty} selectedDate={selectedDate} selectedDateTime={selectedDateTime}
       />
 
       <View>
