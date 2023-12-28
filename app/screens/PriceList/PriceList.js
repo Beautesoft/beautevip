@@ -177,11 +177,11 @@ const PriceList = ({ route, navigation }) => {
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
-            <CText value="Address : 2 Venture drive #02-26, Vision Exchange" size={18} />
+            <CText value="Address : 2 Venture drive #02-26, Vision Exchange 608526" size={18} />
           </View>
 
           <View style={{  flexDirection: 'row', alignItems: 'center' }}>
-            <CText value="Gogole  Link :" size={18} style={{ textDecorationLine: 'underline' }} />
+            <CText value="Google  Link :" size={18} style={{ textDecorationLine: 'underline' }} />
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity style={{ paddingRight: 20 }}>

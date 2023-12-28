@@ -70,7 +70,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [customerStripeID, setcustomerStripeID] = useState('');
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
-
+const displayOldFlow=false;
   const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
@@ -87,8 +87,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [intentStripeID, setintentStripeID] = useState('');
   const [intentTransactionID, setintentTransactionID] = useState('');
   const [cardInputModal, setcardInputModal] = useState(false);
-  const [payNowInputModal, setpayNowInputModal] = useState(false);
-  const [isValidateForm, setIsValidateForm] = useState(false);
+    const [isValidateForm, setIsValidateForm] = useState(false);
 
   const [cardObj, setcardObj] = useState({});
 
@@ -307,7 +306,6 @@ export default function BookingScreenNew({ navigation, route }) {
       .catch((err) => {
         Toast.show('Something went wrong!');
         setloader(false);
-        setpayNowInputModal(false);
       });
   };
 
@@ -382,7 +380,7 @@ export default function BookingScreenNew({ navigation, route }) {
         const filterList = !isEmpty(result?.result)
           ? result?.result.filter((item) => item?.showInAppt === true)
           : [];
-        console.log("getApiData-AvailableStaffsTnc-Response", result?.result)
+        //console.log("getApiData-AvailableStaffsTnc-Response", result?.result)
         setstaffArr(result?.result);
       })
       .catch((err) => {
@@ -394,7 +392,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
     setloader(true);
     const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
-    console.log("GetSaloonList");
+    //console.log("GetSaloonList");
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -784,6 +782,7 @@ export default function BookingScreenNew({ navigation, route }) {
       </View>
       {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
+      {displayOldFlow &&
       <View
         style={{
           height: 60,
@@ -792,13 +791,11 @@ export default function BookingScreenNew({ navigation, route }) {
         }}>
 
         <CButton
-          //title={packageType ? 'Book Now' : 'Add to cart'}
           title={'Book Now'}
           onPress={() => {
             if (userData?.customerCode === 'CUSTAPP001') {
               navigation.navigate('Login');
             } else {
-              //if (packageType) {
               if (ValidateForm()) {
                 if (localAppointmentAdvanceAmount > 0) {
                   setcardInputModal(true);
@@ -808,16 +805,12 @@ export default function BookingScreenNew({ navigation, route }) {
                   BookAppointment("Cash");
                 }
               }
-              //}
             }
           }}
         />
       </View>
+      }
 
-      <HitPay amount={localAppointmentAdvanceAmount} phoneNumber={userData?.customerPhone}
-        email={userData?.email} purpose={packageType ? orderData?.packageName : orderData?.itemDescription}
-        selectedLocation={selectedLocation} orderData={orderData} beauty={beauty} selectedDate={selectedDate} selectedDateTime={selectedDateTime}
-      />
 
       <View>
         {localAppointmentAdvanceAmount > 0 &&
@@ -828,24 +821,52 @@ export default function BookingScreenNew({ navigation, route }) {
               paddingHorizontal: 20,
             }}>
             <CButton
-              title='Pay Now'
+              title='Book Now'
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
                   navigation.navigate('Login');
                 } else {
-                  //if (packageType) {
                   if (ValidateForm()) {
                     if (localAppointmentAdvanceAmount > 0) {
-                      setpayNowInputModal(true);
+                      const hitpayrequest = {
+                        amount: localAppointmentAdvanceAmount,
+                        email: userData?.email,
+                        phoneNumber: userData?.customerPhone,
+                        purpose: 'Payment for Book Appointment',
+                      };
+                      const customerCode = userData?.customerCode;
+
+                      const hitPayBookAppointmentRequest = {
+                        phoneNumber: userData?.customerPhone,
+                        customerCode: userData?.customerCode,
+                        itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
+                        appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
+                        appointmentTime: selectedDateTime?.timeIn24Hrs,
+                        appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
+                        siteCode: selectedLocation?.siteCode, //userData?.siteCode,
+                        itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
+                        treatmentId: '',
+                        appointmentRemark: "",
+                        staffCode: beauty?.staffCode,
+                        appointmentItemDetails: [
+                          {
+                            lineNumber: '1',
+                            itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
+                            itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
+                            unitPrice: packageType ? 0 : orderData?.price,
+                          },
+                        ],
+                        appointmentAdvanceAmount: 0,
+                        numberOfAppointments: orderData?.numberOfAppointments > 1 ? orderData?.numberOfAppointments : 1
+                      };
+                      navigation.navigate('HitPay', { hitpayrequest, customerCode,hitPayBookAppointmentRequest });
                     }
                   }
-                  //  }
                 }
               }}
             />
           </View>
         }
-
 
         {/* <CLoader loader={loader} /> */}
         <CLoader loader={timeAndStaffLoader} />
@@ -932,76 +953,6 @@ export default function BookingScreenNew({ navigation, route }) {
                 }}
                 titleStyle={{
                   color: theme().whiteColor,
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-        </Modal>
-        <Modal
-          style={{ flex: 1 }}
-          transparent
-          visible={payNowInputModal}
-          animationType="slide"
-          onRequestClose={() => {
-            if (!loader) {
-              setpayNowInputModal(false);
-            }
-          }}>
-
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              backgroundColor: '#ffffff40',
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              top: 0,
-            }}
-            onPress={() => {
-              if (!loader) {
-                setpayNowInputModal(false);
-              }
-            }}>
-
-            <View
-              style={{
-                padding: 8,
-                backgroundColor: theme().always_white,
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '88%',
-              }}>
-              <View
-                style={{
-                  position: 'absolute',
-                  alignSelf: 'center',
-                  top: 60,
-                  padding: 10,
-
-                }}>
-                <Image
-                  style={{ height: 200, width: 200, borderRadius: 10 }}
-                  source={Images.qrcode} />
-
-              </View>
-              <Text style={{ paddingHorizontal: 20, top: Platform.OS === 'ios' ? '55%' : '70%', color: 'red', fontSize: 20 }}> Booking Advance :  {orderData?.numberOfAppointments * localAppointmentAdvanceAmount} $</Text>
-              <CButton
-                loader={loader}
-                title='Complete Payment'
-                onPress={() => {
-                  BookAppointment("qr");
-                }}
-                style={{
-                  position: 'absolute',
-                  top: Platform.OS === 'ios' ? '55%' : '80%',
-                  width: '90%',
-                  marginBottom: 0,
-                  alignSelf: 'center',
-                  backgroundColor: theme().btnBlue,
-                  color: 'white'
                 }}
               />
             </View>

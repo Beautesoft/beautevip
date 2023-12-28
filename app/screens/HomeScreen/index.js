@@ -690,7 +690,7 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.buttonText}>Price List</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, { backgroundColor: 'black' }]} onPress={handleNavigationTerms}>
-              <Text style={styles.buttonText}>T & C</Text>
+              <Text style={styles.buttonText}>Terms & Conditions</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, { backgroundColor: 'black' }]} onPress={handleNavigationLocation}>
               <Text style={styles.buttonText}>General Info</Text>
