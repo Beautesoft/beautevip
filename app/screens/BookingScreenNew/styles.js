@@ -80,5 +80,14 @@ export const styledFunc = () => {
       borderBottomColor:'red',
       
     },
+
+      modalContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+
+    
   });
 };

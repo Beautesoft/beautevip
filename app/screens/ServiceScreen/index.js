@@ -38,7 +38,7 @@ export default function ServiceScreen({ navigation }) {
     return (
       <View
         style={{
-          width: '25%',
+          width: '33%',
           alignItems: 'center',
           marginTop: 12,
         }}>

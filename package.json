@@ -48,6 +48,7 @@
     "react-image-file-resizer": "^0.4.7",
     "react-native": "0.70.4",
     "react-native-asset": "^2.0.1",
+    "react-native-calendar-picker": "^7.1.4",
     "react-native-credit-card-input-view": "^0.0.7",
     "react-native-date-picker": "^4.2.6",
     "react-native-gesture-handler": "^1.10.3",

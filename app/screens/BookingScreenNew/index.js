@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { Modal } from 'react-native';//this is for android
 //import Modal from 'react-native-modals'; //this is for ios
@@ -42,6 +43,7 @@ import { useIsFocused } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 import SelectDropdown from 'react-native-select-dropdown';
 import HitPay from '../HitPay';
+import BookingDatePicker from './BookingDatePicker';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
   const type = route?.params?.type;
@@ -70,7 +72,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [customerStripeID, setcustomerStripeID] = useState('');
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
-const displayOldFlow=false;
+  const displayOldFlow = false;
   const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
@@ -87,7 +89,7 @@ const displayOldFlow=false;
   const [intentStripeID, setintentStripeID] = useState('');
   const [intentTransactionID, setintentTransactionID] = useState('');
   const [cardInputModal, setcardInputModal] = useState(false);
-    const [isValidateForm, setIsValidateForm] = useState(false);
+  const [isValidateForm, setIsValidateForm] = useState(false);
 
   const [cardObj, setcardObj] = useState({});
 
@@ -106,6 +108,13 @@ const displayOldFlow=false;
   else {
     localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
   }
+  const [openDateModal, setOpenDateModal] = useState(false);
+  const handleCloseDateModal = (date) => {
+    setOpenDateModal(false);
+    setselectedDate(date);
+    setexpandTime(true);
+    getAvailableSlots(date);
+  };
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
@@ -709,7 +718,7 @@ const displayOldFlow=false;
                 setexpandLocation(false);
                 setisDatePickerVisible(false);
                 setexpandBeaut(false);
-                setexpandDate(!expandDate)
+                setOpenDateModal(!expandDate)
               } else {
                 Toast.show('Please select staff');
               }
@@ -783,32 +792,32 @@ const displayOldFlow=false;
       {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {displayOldFlow &&
-      <View
-        style={{
-          height: 60,
-          backgroundColor: theme().darkGrey,
-          paddingHorizontal: 20,
-        }}>
+        <View
+          style={{
+            height: 60,
+            backgroundColor: theme().darkGrey,
+            paddingHorizontal: 20,
+          }}>
 
-        <CButton
-          title={'Book Now'}
-          onPress={() => {
-            if (userData?.customerCode === 'CUSTAPP001') {
-              navigation.navigate('Login');
-            } else {
-              if (ValidateForm()) {
-                if (localAppointmentAdvanceAmount > 0) {
-                  setcardInputModal(true);
-                  StripeCustomerCreate();
-                }
-                else {
-                  BookAppointment("Cash");
+          <CButton
+            title={'Book Now'}
+            onPress={() => {
+              if (userData?.customerCode === 'CUSTAPP001') {
+                navigation.navigate('Login');
+              } else {
+                if (ValidateForm()) {
+                  if (localAppointmentAdvanceAmount > 0) {
+                    setcardInputModal(true);
+                    StripeCustomerCreate();
+                  }
+                  else {
+                    BookAppointment("Cash");
+                  }
                 }
               }
-            }
-          }}
-        />
-      </View>
+            }}
+          />
+        </View>
       }
 
 
@@ -859,7 +868,7 @@ const displayOldFlow=false;
                         appointmentAdvanceAmount: 0,
                         numberOfAppointments: orderData?.numberOfAppointments > 1 ? orderData?.numberOfAppointments : 1
                       };
-                      navigation.navigate('HitPay', { hitpayrequest, customerCode,hitPayBookAppointmentRequest });
+                      navigation.navigate('HitPay', { hitpayrequest, customerCode, hitPayBookAppointmentRequest });
                     }
                   }
                 }
@@ -958,6 +967,21 @@ const displayOldFlow=false;
             </View>
           </TouchableOpacity>
         </Modal>
+
+        <Modal
+          style={{ flex: 1 }}
+          transparent
+          visible={openDateModal}
+          animationType="slide"
+          onRequestClose={() => {
+
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
+          </View>
+        </Modal>
+
       </View>
     </>
   );
