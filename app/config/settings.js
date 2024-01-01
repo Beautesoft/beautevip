@@ -56,6 +56,8 @@ const BaseSetting = {
     AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
     getClientDetails: '/getClientDetails',
+    appUpdatePaymentDetails:'/appUpdatePaymentDetails',
+    appHitpayCallback:'/appHitpayCallback',
   },
 };
 
