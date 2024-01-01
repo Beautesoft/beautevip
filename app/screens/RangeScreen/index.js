@@ -12,6 +12,7 @@ export default function RangeScreen({ navigation, route }) {
   const serviceData = route?.params?.serviceData;
   const { bookingData } = useSelector((state) => state.auth);
   const handleServiceSelect = (service) => {
+    console.log("handleServiceSelect", service);
     navigation.navigate(bookingData === 'oldflow' ? 'BookingScreen' : 'BookingScreenNew', { itemData: service })
   };
 

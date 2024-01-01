@@ -44,6 +44,7 @@ import { useDispatch } from 'react-redux';
 import SelectDropdown from 'react-native-select-dropdown';
 import HitPay from '../HitPay';
 import BookingDatePicker from './BookingDatePicker';
+import addToCart from './AddToCartService';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
   const type = route?.params?.type;
@@ -131,6 +132,20 @@ export default function BookingScreenNew({ navigation, route }) {
   const { addBookingData } = AuthAction;
   const dispatch = useDispatch();
   const { bookingData } = useSelector((state) => state.auth);
+
+
+  const handleAddToCart = () => {
+    const appointmentRequest = {
+      appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
+      appointmentTime: selectedDateTime?.timeIn24Hrs,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
+      appointmentRemark: "",
+      appointmentStaffCode: beauty?.staffCode,
+    }
+    addToCart(userData, orderData, navigation, appointmentRequest, Toast);
+  };
+
+
   let backPressed = 0;
 
   function handleBackButtonClick() {
@@ -817,6 +832,7 @@ export default function BookingScreenNew({ navigation, route }) {
               }
             }}
           />
+
         </View>
       }
 
@@ -825,55 +841,26 @@ export default function BookingScreenNew({ navigation, route }) {
         {localAppointmentAdvanceAmount > 0 &&
           <View
             style={{
-              height: 60,
+              height: 120,
               backgroundColor: theme().darkGrey,
               paddingHorizontal: 20,
             }}>
             <CButton
-              title='Book Now'
+              style={{ marginBottom: 10 }}
+              title={'Add to Cart'}
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
                   navigation.navigate('Login');
                 } else {
                   if (ValidateForm()) {
-                    if (localAppointmentAdvanceAmount > 0) {
-                      const hitpayrequest = {
-                        amount: localAppointmentAdvanceAmount,
-                        email: userData?.email,
-                        phoneNumber: userData?.customerPhone,
-                        purpose: 'Payment for Book Appointment',
-                      };
-                      const customerCode = userData?.customerCode;
-
-                      const hitPayBookAppointmentRequest = {
-                        phoneNumber: userData?.customerPhone,
-                        customerCode: userData?.customerCode,
-                        itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
-                        appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
-                        appointmentTime: selectedDateTime?.timeIn24Hrs,
-                        appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
-                        siteCode: selectedLocation?.siteCode, //userData?.siteCode,
-                        itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
-                        treatmentId: '',
-                        appointmentRemark: "",
-                        staffCode: beauty?.staffCode,
-                        appointmentItemDetails: [
-                          {
-                            lineNumber: '1',
-                            itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
-                            itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
-                            unitPrice: packageType ? 0 : orderData?.price,
-                          },
-                        ],
-                        appointmentAdvanceAmount: 0,
-                        numberOfAppointments: orderData?.numberOfAppointments > 1 ? orderData?.numberOfAppointments : 1
-                      };
-                      navigation.navigate('HitPay', { hitpayrequest, customerCode, hitPayBookAppointmentRequest });
-                    }
+                    handleAddToCart()
                   }
                 }
-              }}
+              }
+              }
             />
+
+
           </View>
         }
 

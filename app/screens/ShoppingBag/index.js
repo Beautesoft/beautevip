@@ -37,6 +37,8 @@ export default function ShoppingBag({ navigation }) {
   const [SummaryData, setSummaryData] = useState({});
 
   const [showQuantity, setshowQuantity] = useState(false);
+  const [isAppointmentCart, setIsAppointmentCart] = useState(false);
+
   const [selectedQuantity, setselectedQuantity] = useState(1);
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -84,18 +86,11 @@ export default function ShoppingBag({ navigation }) {
     const url =
       // BaseSetting.api +
       `${baseUrl}api/cartItemList?siteCode=${userData?.siteCode}&phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}`;
-    console.log(
-      '🚀 ~ file: index.js ~ line 39 ~ GetCartItemList ~ userData?.customerCode',
-      url,
-    );
+
 
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        console.log(
-          '🚀 ~ file: index.js ~ line 28 ~ .then ~ result GetCartItemList',
-          result,
-        );
         if (result?.success == 1) {
           if (result.result) {
             setitemList(result?.result);
@@ -173,9 +168,24 @@ export default function ShoppingBag({ navigation }) {
     //   });
   };
 
+  const payNow = () => {
+    const hitpayrequest = {
+      amount: 20,
+      email: userData?.email,
+      phoneNumber: userData?.customerPhone,
+      purpose: 'Payment for Book Appointment',
+    };
+    const customerCode = userData?.customerCode;
+
+    const hitPayBookAppointmentRequest = {
+      phoneNumber: userData?.customerPhone,
+      customerCode: userData?.customerCode
+    };
+    navigation.navigate('HitPay', { hitpayrequest, customerCode, hitPayBookAppointmentRequest });
+  }
   const onDeleteItem = (item) => {
     setloader(true);
-    const data = {
+    const request = {
       phoneNumber: userData?.customerPhone,
       customerCode: userData?.customerCode,
       itemCode: item?.itemCode,
@@ -184,8 +194,8 @@ export default function ShoppingBag({ navigation }) {
       itemPrice: item?.itemPrice,
       siteCode: userData?.siteCode,
     };
-
-    getApiData(BaseSetting?.endpoints?.cartItemDelete, 'post', data)
+    console.log("cartItemDelete : ", request)
+    getApiData(BaseSetting?.endpoints?.cartItemDelete, 'post', request)
       .then((result) => {
         console.log('🚀 ~ file: index.js ~ line 59 ~ .then ~ result', result);
         if (result?.success == 1) {
@@ -201,6 +211,9 @@ export default function ShoppingBag({ navigation }) {
   };
 
   const renderItem = ({ item, index }) => {
+    const hasApptDate = item && item.apptDate;
+    setIsAppointmentCart(hasApptDate);
+
     return (
       <View style={styles.itemCont}>
         <Image
@@ -226,6 +239,7 @@ export default function ShoppingBag({ navigation }) {
               justifyContent: 'space-between',
             }}>
             <View style={{ justifyContent: 'space-between' }}>
+
               <View>
                 <CText value="Quantity" size={10} />
                 {/* <CText
@@ -233,27 +247,34 @@ export default function ShoppingBag({ navigation }) {
                   size={14}
                   color={theme().amberTxt}
                 /> */}
+                {hasApptDate ? (
+                  <TouchableOpacity
+                    style={styles.dropCont}
+                    activeOpacity={0.7}>
+                    <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.dropCont}
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      // Alert.alert(`Item qty> ${item?.itemQuantity}`);
 
-                <TouchableOpacity
-                  style={styles.dropCont}
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    // Alert.alert(`Item qty> ${item?.itemQuantity}`);
-
-                    setmodifiedItem(item);
-                    setshowQuantity(true);
-                  }}>
-                  <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
-                  <Image
-                    style={{
-                      height: 16,
-                      width: 16,
-                      tintColor: theme().amberTxt,
-                    }}
-                    resizeMode="center"
-                    source={Icons.drop_icon}
-                  />
-                </TouchableOpacity>
+                      setmodifiedItem(item);
+                      setshowQuantity(true);
+                    }}>
+                    <Text style={styles.dropValue}>{item?.itemQuantity}</Text>
+                    <Image
+                      style={{
+                        height: 16,
+                        width: 16,
+                        tintColor: theme().amberTxt,
+                      }}
+                      resizeMode="center"
+                      source={Icons.drop_icon}
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
               {/* <Image
                 source={Icons.checked}
@@ -313,9 +334,9 @@ export default function ShoppingBag({ navigation }) {
           style={{ textAlign: 'center' }}
         />
         <FlatList data={itemList} renderItem={renderItem} />
-        {!!subTotal && (
+        {true && (
           <>
-          
+
             <View
               style={{
                 height: 1,
@@ -342,21 +363,38 @@ export default function ShoppingBag({ navigation }) {
                 color={theme().amberTxt}
               />
             </View>
-
-            <CButton
-              title={t('placeOrder')}
-              style={{ maringTop: 16 }}
-              onPress={() =>
-                navigation.navigate('Checkout', {
-                  data: itemList,
-                  subTotal,
-                  orderSummary: SummaryData,
-                })
-              }
-            />
+            {isAppointmentCart ? (
+              <View style={{
+                flexDirection: 'row', justifyContent: 'space-around',
+                padding: 16
+              }}>
+                < CButton
+                  title={t('Add More')}
+                  style={{ marginBottom: 6, flex: 1 }}
+                  onPress={() => navigation.goBack()}
+                />
+                <CButton
+                  title={t('Pay Now')}
+                  style={{ marginLeft: 6, flex: 1 }}
+                  onPress={() =>payNow()}
+                />
+              </View>
+            ) : (
+              <CButton
+                title={t('placeOrder')}
+                style={{ maringTop: 16 }}
+                onPress={() =>
+                  navigation.navigate('Checkout', {
+                    data: itemList,
+                    subTotal,
+                    orderSummary: SummaryData,
+                  })
+                }
+              />
+            )}
           </>
         )}
-      </View>
+      </View >
       <CLoader loader={loader} />
 
       <Modal style={{ flex: 1 }} transparent visible={showQuantity}>
