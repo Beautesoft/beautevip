@@ -44,6 +44,8 @@ import { useDispatch } from 'react-redux';
 import SelectDropdown from 'react-native-select-dropdown';
 import HitPay from '../HitPay';
 import BookingDatePicker from './BookingDatePicker';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Import your icon library
+
 import addToCart from './AddToCartService';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
@@ -378,7 +380,7 @@ export default function BookingScreenNew({ navigation, route }) {
     console.log("getAvailableDates - Request", data);
     await getApiData(BaseSetting.endpoints.availableDatesTnc, 'post', data)
       .then((result) => {
-        console.log("getAvailableDates - Response", result);
+        //console.log("getAvailableDates - Response", result);
         setavailableDates(result?.result);
       })
       .catch((err) => {
@@ -955,21 +957,28 @@ export default function BookingScreenNew({ navigation, route }) {
           </TouchableOpacity>
         </Modal>
 
-        <Modal
-          style={{ flex: 1 }}
-          transparent
-          visible={openDateModal}
-          animationType="slide"
-          onRequestClose={() => {
 
-          }}
-        >
-          <View style={styles.modalContainer}>
-            <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
-          </View>
-        </Modal>
 
       </View>
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={openDateModal}
+        animationType="slide"
+        onRequestClose={() => {
+
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeIcon}
+            onPress={() => setOpenDateModal(false)}
+          >
+            <FontAwesomeIcon name="close" size={30} color="black" />
+          </TouchableOpacity>
+          <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
+        </View>
+      </Modal>
     </>
   );
 }

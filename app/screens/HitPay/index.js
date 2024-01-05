@@ -17,7 +17,7 @@ const HitPay = ({ navigation, route }) => {
   console.log(hitPayBookAppointmentRequest);
   useEffect(() => {
     try {
-       handlePaymentRequest();
+      handlePaymentRequest();
     } catch (error) {
       // console.error('Error in useEffect:', error);
     }
@@ -39,7 +39,8 @@ const HitPay = ({ navigation, route }) => {
         if (result?.status === "Success") {
           Toast.show(result?.status);
           setPaymentInProgress(!paymentInProgress);
-          BookAppointment();
+          navigation.navigate('BottomTabsNavigator');
+          //BookAppointment();
         } else {
           Toast.show(result?.status);
         }
@@ -52,10 +53,10 @@ const HitPay = ({ navigation, route }) => {
   function getSingaporeDateTime() {
     const singaporeTime = moment().tz('Asia/Singapore');
     singaporeTime.add(5, 'minutes'); // Add 5 minutes
-  
+
     return singaporeTime.format('YYYY-MM-DD HH:mm:ss');
   }
-  
+
   const expiryDate = getSingaporeDateTime();
   console.log(expiryDate);
   const handlePaymentRequest = async () => {

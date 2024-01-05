@@ -85,13 +85,13 @@ const PriceList = ({ route, navigation }) => {
   const buttonWidth = 0.8 * width; // 80% of screen width
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={[styles.button, { backgroundColor: '#F5F5DC', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
+    <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
       <Text style={styles.buttonText}>{item.bannerName}</Text>
     </TouchableOpacity>
   );
 
   const renderItemForTermsAndConditions = ({ item }) => (
-    <TouchableOpacity style={[styles.button, { backgroundColor: '#F5F5DC', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
+    <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF', width: buttonWidth, height: 60 }]} onPress={() => handleButtonPress(item)}>
       <Text style={styles.buttonText}>{item.bannerName}</Text>
     </TouchableOpacity>
   );

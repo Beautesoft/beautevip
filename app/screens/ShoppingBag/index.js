@@ -24,6 +24,9 @@ import BaseSetting, { baseUrl } from '../../config/settings';
 import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
 import { useIsFocused } from '@react-navigation/core';
+import moment from 'moment';
+import Toast from 'react-native-simple-toast';
+
 export default function ShoppingBag({ navigation }) {
   const isFocused = useIsFocused();
   const styles = styledFunc();
@@ -44,6 +47,7 @@ export default function ShoppingBag({ navigation }) {
 
   const [modifiedItem, setmodifiedItem] = useState({});
   const { clientDetails } = useSelector((state) => state.auth);
+  const [cardId, setCardID] = useState(0);
   const AddToCart = (item, iQty) => {
     console.log('Item>>>Line>>46>>', '' + item);
 
@@ -94,6 +98,7 @@ export default function ShoppingBag({ navigation }) {
         if (result?.success == 1) {
           if (result.result) {
             setitemList(result?.result);
+            setCardID(result?.result[0].cardId);
           } else {
             setitemList([]);
           }
@@ -130,7 +135,6 @@ export default function ShoppingBag({ navigation }) {
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        console.log('🚀 ~ file: shopping bag.js ~ line 134 ~ result', result);
         if (result?.success == 1) {
           if (result?.result) {
             setSummaryData(result?.result[0]);
@@ -168,9 +172,34 @@ export default function ShoppingBag({ navigation }) {
     //   });
   };
 
+
+  const appCartItemSlotValidation = () => {
+    const request = {
+      cartId: cardId
+    };
+    console.log('appCartItemSlotValidation - Request Section', request);
+
+    getApiData(BaseSetting.endpoints.appCartItemSlotValidation, 'post', request)
+      .then((result) => {
+        console.log('appCartItemSlotValidation - Response Section', result);
+        if (result?.success == 1) {
+          payNow();
+        }
+        if (result?.success == 0) {
+          Toast.show(result?.error);
+        }
+      })
+      .catch((err) => {
+        console.log('appCartItemSlotValidation - Error Section', err);
+      });
+  };
+
+
+
   const payNow = () => {
+
     const hitpayrequest = {
-      amount: 20,
+      amount: subTotal,
       email: userData?.email,
       phoneNumber: userData?.customerPhone,
       purpose: 'Payment for Book Appointment',
@@ -222,7 +251,7 @@ export default function ShoppingBag({ navigation }) {
               ? { uri: item?.imageUrl }
               : clientDetails?.clientLogo
           }
-          style={{ height: 90, width: 90, borderRadius: 8 }}
+          style={{ height: 110, width: 90, borderRadius: 8 }}
           resizeMode="cover"
         />
         <View style={{ flex: 1, marginStart: 12 }}>
@@ -232,6 +261,13 @@ export default function ShoppingBag({ navigation }) {
             fontFamily={FontFamily.Poppins_Medium}
             color={theme().amberTxt}
           />
+          <CText
+            value={moment((item?.apptDate), 'DD/MM/YYYY hh:mm:ss A').format('DD/MMM/YYYY') + " " + item?.apptFrTime}
+            size={14}
+            fontFamily={FontFamily.Poppins_Medium}
+            color={theme().amberTxt}
+          />
+
           <View
             style={{
               flex: 1,
@@ -334,7 +370,7 @@ export default function ShoppingBag({ navigation }) {
           style={{ textAlign: 'center' }}
         />
         <FlatList data={itemList} renderItem={renderItem} />
-        {true && (
+        {!!subTotal && (
           <>
 
             <View
@@ -371,12 +407,12 @@ export default function ShoppingBag({ navigation }) {
                 < CButton
                   title={t('Add More')}
                   style={{ marginBottom: 6, flex: 1 }}
-                  onPress={() => navigation.goBack()}
+                  onPress={() => navigation?.navigate('BookingScreenNew', {})}
                 />
                 <CButton
                   title={t('Pay Now')}
                   style={{ marginLeft: 6, flex: 1 }}
-                  onPress={() =>payNow()}
+                  onPress={() => appCartItemSlotValidation()}
                 />
               </View>
             ) : (
