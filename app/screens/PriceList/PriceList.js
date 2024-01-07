@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image,Linking } from 'react-native';
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image, Linking } from 'react-native';
 import CHeader from '../../components/CHeader';
 import BannerCarousel from '../Shared/Banner/BannerCarousel';
 import { Modal, Pressable } from 'react-native';//this is for android
@@ -115,91 +115,91 @@ const PriceList = ({ route, navigation }) => {
         onLeftIconPress={() =>
           navigation.navigate("BottomTabsNavigator")}
       />
-        <ScrollView>
-      <BannerCarousel bannerData={data} />
-      {type == 'price' &&
-        <View style={styles.container}>
-          <FlatList
-            data={apiResponse}
-            keyExtractor={(item) => item.bannerID.toString()}
-            renderItem={renderItem}
-            numColumns={1} // Use 1 column to display buttons vertically
-          />
-        </View>
-      }
-      {type == 'terms' &&
-        <View style={styles.container}>
-          <FlatList
-            data={apiResponseForTermsAndCondition}
-            keyExtractor={(item) => item.bannerID.toString()}
-            renderItem={renderItemForTermsAndConditions}
-            numColumns={1} // Use 1 column to display buttons vertically
-          />
-        </View>
-      }
-      {type == 'location' &&
-        <View style={{ padding: 10,paddingLeft:20 }}>
-          <View style={{ flexDirection: "row", paddingLeft: 20 }}>
-            <View style={{ flex: 0 }}>
-              <Image
-                source={{ uri: clientDetails?.clientLogo }}
-                style={{
-                  borderRadius: 50,
-                  height: 100,
-                  width: 100,
-                  overflow: 'hidden',
-                  justifyContent: 'center',
-                  paddingLeft: 30,
-                  alignItems: 'center',
-                  backgroundColor: 'white',
-                }}
-                resizeMode="center"
-              />
+      <ScrollView>
+        <BannerCarousel bannerData={data} />
+        {type == 'price' &&
+          <View style={styles.container}>
+            <FlatList
+              data={apiResponse}
+              keyExtractor={(item) => item.bannerID.toString()}
+              renderItem={renderItem}
+              numColumns={1} // Use 1 column to display buttons vertically
+            />
+          </View>
+        }
+        {type == 'terms' &&
+          <View style={styles.container}>
+            <FlatList
+              data={apiResponseForTermsAndCondition}
+              keyExtractor={(item) => item.bannerID.toString()}
+              renderItem={renderItemForTermsAndConditions}
+              numColumns={1} // Use 1 column to display buttons vertically
+            />
+          </View>
+        }
+        {type == 'location' &&
+          <View style={{ padding: 10, paddingLeft: 20 }}>
+            <View style={{ flexDirection: "row", paddingLeft: 20 }}>
+              <View style={{ flex: 0 }}>
+                <Image
+                  source={{ uri: clientDetails?.clientLogo }}
+                  style={{
+                    borderRadius: 50,
+                    height: 100,
+                    width: 100,
+                    overflow: 'hidden',
+                    justifyContent: 'center',
+                    paddingLeft: 30,
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                  }}
+                  resizeMode="center"
+                />
+              </View>
+              <View style={{ flex: 1, paddingLeft: 24 }}>
+                <CText value="Kirei Beauty" size={24} />
+                <CText value="All Nett Price !" size={24} />
+              </View>
+
             </View>
-            <View style={{ flex: 1, paddingLeft: 24 }}>
-              <CText value="Kirei Beauty" size={24} />
-              <CText value="All Nett Price !" size={24} />
+            <View>
+              <CText value="Contact Us +65 8699942" size={18} />
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+
+
+              <CText value="Whats App Me" size={18} />
+              <TouchableOpacity style={{ paddingLeft: 20 }}>
+                <Icon name="whatsapp" size={28} color="#25D366" onPress={() => openUrl('https://web.whatsapp.com')} />
+              </TouchableOpacity>
             </View>
 
-          </View>
-          <View>
-            <CText value="Contact Us +65 8699942" size={18} />
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
- 
+              <CText value="Address : 2 Venture drive #02-26, Vision Exchange 608526" size={18} />
+            </View>
 
-            <CText value="Whats App Me" size={18} />
-            <TouchableOpacity style={{ paddingLeft: 20 }}>
-              <Icon name="whatsapp" size={28} color="#25D366" onPress={() => openUrl('https://web.whatsapp.com')} />
-            </TouchableOpacity>
-          </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <CText value="Google  Link :" size={18} style={{ textDecorationLine: 'underline' }} />
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity style={{ paddingRight: 20 }}>
+                <Icon
+                  name="map-marker"
+                  size={30}
+                  color="#34B7F1"
+                  onPress={() => openUrl('https://www.google.com/maps/search/2+venture+drive+vision+exchange/@1.3299972,103.7423089,17z/data=!3m1!4b1?entry=ttu')}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <CText value="Social Link :" size={18} style={{ textDecorationLine: 'underline' }} />
+            </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
-            <CText value="Address : 2 Venture drive #02-26, Vision Exchange 608526" size={18} />
+            <SocialMediaIcons />
           </View>
-
-          <View style={{  flexDirection: 'row', alignItems: 'center' }}>
-            <CText value="Google  Link :" size={18} style={{ textDecorationLine: 'underline' }} />
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity style={{ paddingRight: 20 }}>
-              <Icon
-                name="map-marker"
-                size={30}
-                color="#34B7F1"
-                onPress={() => openUrl('https://www.google.com/maps/search/2+venture+drive+vision+exchange/@1.3299972,103.7423089,17z/data=!3m1!4b1?entry=ttu')}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={{  flexDirection: 'row', alignItems: 'center' }}>
-            <CText value="Social Link :" size={18} style={{ textDecorationLine: 'underline' }} />
-          </View>
-
-          <SocialMediaIcons />
-        </View>
-      }
+        }
       </ScrollView>
 
       <Modal
@@ -288,7 +288,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
-    fontSize: 27,
+    fontSize: 32,
+    fontFamily: 'BebasNeue-Regular',
   },
 
   buttonOpen: {

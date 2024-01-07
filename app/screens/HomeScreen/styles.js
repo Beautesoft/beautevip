@@ -92,7 +92,8 @@ export const styledFunc = () => {
     },
     buttonText: {
       color: 'black',
-      fontSize: 27,
+      fontSize: 32,
+      fontFamily: 'BebasNeue-Regular', 
     },
   });
 };
