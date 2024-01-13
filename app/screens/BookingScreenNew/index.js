@@ -390,18 +390,19 @@ export default function BookingScreenNew({ navigation, route }) {
   };
 
   const GetStaffMemberList = (siteCodeSelected) => {
-    const data = {
+    const request = {
       siteCode: siteCodeSelected?.siteCode,
       apptDate: "",
       slotTimeIn24Hrs: "",
-      itemCode: ""
+      itemCode: orderData.itemCode
       //apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
     };
-
-    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', data)
+    console.log("AvailableStaffsTnc-Request", request);
+    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', request)
       .then((result) => {
+        console.log("AvailableStaffsTnc-Response", result);
         setTimeAndStaffLoader(false);
         const filterList = !isEmpty(result?.result)
           ? result?.result.filter((item) => item?.showInAppt === true)

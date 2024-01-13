@@ -6,9 +6,11 @@ import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment-timezone';
+import { useSelector } from 'react-redux';
 
 
 const HitPay = ({ navigation, route }) => {
+  const { clientDetails } = useSelector((state) => state.auth);
   const [paymentInProgress, setPaymentInProgress] = useState(true);
   const [paymentUrl, setPaymentUrl] = useState('');
   const [hitPayRequestId, setHitPayRequestId] = useState('');
@@ -30,7 +32,7 @@ const HitPay = ({ navigation, route }) => {
 
   const getHitPayPaymentStatus = () => {
     const request = {
-      reference: hitPayRequestId
+      custCode: customerCode
     };
     console.log("getHitPayPaymentStatus-Request", request);
     getApiData(BaseSetting.endpoints.appHitpayCallback, 'get', request)
@@ -56,9 +58,6 @@ const HitPay = ({ navigation, route }) => {
 
     return singaporeTime.format('YYYY-MM-DD HH:mm:ss');
   }
-
-  const expiryDate = getSingaporeDateTime();
-  console.log(expiryDate);
   const handlePaymentRequest = async () => {
     console.log("handlePaymentRequest");
     try {
@@ -66,7 +65,7 @@ const HitPay = ({ navigation, route }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-BUSINESS-API-KEY': 'c3e8ac834af59f0cf54d85e588735fb16feed9c0047c8d28a9b19a71f9f3c813',
+          'X-BUSINESS-API-KEY': clientDetails.apiKey,
         },
         body: JSON.stringify({
           "allow_repeated_payments": "true",
@@ -101,6 +100,8 @@ const HitPay = ({ navigation, route }) => {
         throw new Error('Payment URL is undefined');
       }
       const { url, id, redirect_url } = responseData;
+      console.log("Payment Request Id: ", id);
+      console.log("Payment Request URL: ", url);
       setHitPayRequestId(id);
       setPaymentUrl(url);
       Linking.openURL(url);
