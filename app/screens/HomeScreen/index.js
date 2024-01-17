@@ -686,14 +686,14 @@ export default function HomeScreen({ navigation }) {
         }
         {IsRenderButtonGroup &&
           <View style={styles.container}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'orange' }]} onPress={handleNavigationPriceList}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationPriceList}>
               <Text style={styles.buttonText}>Price List</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: '#70ad47' }]} onPress={handleNavigationTerms}>
-              <Text style={styles.buttonText}>T & C</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationTerms}>
+              <Text style={styles.buttonText}>Terms & Conditions</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'grey' }]} onPress={handleNavigationLocation}>
-              <Text style={styles.buttonText}>Location</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationLocation}>
+              <Text style={styles.buttonText}>General Info</Text>
             </TouchableOpacity>
           </View>
         }

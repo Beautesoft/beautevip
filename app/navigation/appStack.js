@@ -34,6 +34,7 @@ import BookingScreenNew from '../screens/BookingScreenNew';
 import ServiceScreen from '../screens/ServiceScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
 import PriceList from '../screens/PriceList/PriceList';
+import HitPay from '../screens/HitPay';
 
 export const AppStackNavigator = () => {
   const AppStack = createNativeStackNavigator();
@@ -87,6 +88,7 @@ export const AppStackNavigator = () => {
       <AppStack.Screen name="MyProducts" component={MyProducts} />
       <AppStack.Screen name="PriceList" component={PriceList} />
       <AppStack.Screen name="ServiceScreen" component={ServiceScreen} />
+      <AppStack.Screen name="HitPay" component={HitPay} />
     </AppStack.Navigator>
   );
 };

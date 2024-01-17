@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { Modal } from 'react-native';//this is for android
 //import Modal from 'react-native-modals'; //this is for ios
@@ -41,6 +42,11 @@ import AuthAction from '../../redux/reducer/auth/actions';
 import { useIsFocused } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 import SelectDropdown from 'react-native-select-dropdown';
+import HitPay from '../HitPay';
+import BookingDatePicker from './BookingDatePicker';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Import your icon library
+
+import addToCart from './AddToCartService';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
   const type = route?.params?.type;
@@ -69,7 +75,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [customerStripeID, setcustomerStripeID] = useState('');
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
-
+  const displayOldFlow = false;
   const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
@@ -86,7 +92,6 @@ export default function BookingScreenNew({ navigation, route }) {
   const [intentStripeID, setintentStripeID] = useState('');
   const [intentTransactionID, setintentTransactionID] = useState('');
   const [cardInputModal, setcardInputModal] = useState(false);
-  const [payNowInputModal, setpayNowInputModal] = useState(false);
   const [isValidateForm, setIsValidateForm] = useState(false);
 
   const [cardObj, setcardObj] = useState({});
@@ -106,6 +111,13 @@ export default function BookingScreenNew({ navigation, route }) {
   else {
     localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
   }
+  const [openDateModal, setOpenDateModal] = useState(false);
+  const handleCloseDateModal = (date) => {
+    setOpenDateModal(false);
+    setselectedDate(date);
+    setexpandTime(true);
+    getAvailableSlots(date);
+  };
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
@@ -122,6 +134,20 @@ export default function BookingScreenNew({ navigation, route }) {
   const { addBookingData } = AuthAction;
   const dispatch = useDispatch();
   const { bookingData } = useSelector((state) => state.auth);
+
+
+  const handleAddToCart = () => {
+    const appointmentRequest = {
+      appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
+      appointmentTime: selectedDateTime?.timeIn24Hrs,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
+      appointmentRemark: "",
+      appointmentStaffCode: beauty?.staffCode,
+    }
+    addToCart(userData, orderData, navigation, appointmentRequest, Toast);
+  };
+
+
   let backPressed = 0;
 
   function handleBackButtonClick() {
@@ -157,6 +183,7 @@ export default function BookingScreenNew({ navigation, route }) {
     // AvailableSlots();
     //GetAddress();
   }, []);
+
 
   const renderTimeSlots = ({ item, index }) => {
     return (
@@ -272,7 +299,7 @@ export default function BookingScreenNew({ navigation, route }) {
       itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
       appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
       appointmentTime: selectedDateTime?.timeIn24Hrs,
-      appointmentDuration: packageType ? orderData?.packageList[0]?.duration :orderData?.duration,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
       siteCode: selectedLocation?.siteCode, //userData?.siteCode,
       itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
       treatmentId: '',
@@ -305,7 +332,6 @@ export default function BookingScreenNew({ navigation, route }) {
       .catch((err) => {
         Toast.show('Something went wrong!');
         setloader(false);
-        setpayNowInputModal(false);
       });
   };
 
@@ -354,7 +380,7 @@ export default function BookingScreenNew({ navigation, route }) {
     console.log("getAvailableDates - Request", data);
     await getApiData(BaseSetting.endpoints.availableDatesTnc, 'post', data)
       .then((result) => {
-        console.log("getAvailableDates - Response", result);
+        //console.log("getAvailableDates - Response", result);
         setavailableDates(result?.result);
       })
       .catch((err) => {
@@ -364,23 +390,24 @@ export default function BookingScreenNew({ navigation, route }) {
   };
 
   const GetStaffMemberList = (siteCodeSelected) => {
-    const data = {
+    const request = {
       siteCode: siteCodeSelected?.siteCode,
       apptDate: "",
       slotTimeIn24Hrs: "",
-      itemCode: ""
+      itemCode: orderData.itemCode
       //apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
     };
-
-    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', data)
+    console.log("AvailableStaffsTnc-Request", request);
+    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', request)
       .then((result) => {
+        console.log("AvailableStaffsTnc-Response", result);
         setTimeAndStaffLoader(false);
         const filterList = !isEmpty(result?.result)
           ? result?.result.filter((item) => item?.showInAppt === true)
           : [];
-        console.log("getApiData-AvailableStaffsTnc-Response", result?.result)
+        //console.log("getApiData-AvailableStaffsTnc-Response", result?.result)
         setstaffArr(result?.result);
       })
       .catch((err) => {
@@ -392,7 +419,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
     setloader(true);
     const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
-    console.log("GetSaloonList");
+    //console.log("GetSaloonList");
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
@@ -578,14 +605,15 @@ export default function BookingScreenNew({ navigation, route }) {
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
-            {orderData?.price && (
+            {orderData?.price !== undefined && (
               <CText
-                value={`S$ ${orderData?.price}`}
+                value={`S$ ${orderData?.price.toFixed(2)}`}
                 color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
+
 
           </View>
         </View>
@@ -672,7 +700,7 @@ export default function BookingScreenNew({ navigation, route }) {
             }}>
             <Text style={styles.btnTxt}>
               {beauty
-                ? `${beauty?.firstName} ${beauty?.lastName}`
+                ? `${beauty?.displayName} `
                 : t('selectAvail')}
             </Text>
 
@@ -708,7 +736,7 @@ export default function BookingScreenNew({ navigation, route }) {
                 setexpandLocation(false);
                 setisDatePickerVisible(false);
                 setexpandBeaut(false);
-                setexpandDate(!expandDate)
+                setOpenDateModal(!expandDate)
               } else {
                 Toast.show('Please select staff');
               }
@@ -781,63 +809,63 @@ export default function BookingScreenNew({ navigation, route }) {
       </View>
       {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
-      <View
-        style={{
-          height: 60,
-          backgroundColor: theme().darkGrey,
-          paddingHorizontal: 20,
-        }}>
+      {displayOldFlow &&
+        <View
+          style={{
+            height: 60,
+            backgroundColor: theme().darkGrey,
+            paddingHorizontal: 20,
+          }}>
 
-        <CButton
-          //title={packageType ? 'Book Now' : 'Add to cart'}
-          title={'Book Now'}
-          onPress={() => {
-            if (userData?.customerCode === 'CUSTAPP001') {
-              navigation.navigate('Login');
-            } else {
-              //if (packageType) {
-              if (ValidateForm()) {
-                if (localAppointmentAdvanceAmount > 0) {
-                  setcardInputModal(true);
-                  StripeCustomerCreate();
-                }
-                else {
-                  BookAppointment("Cash");
+          <CButton
+            title={'Book Now'}
+            onPress={() => {
+              if (userData?.customerCode === 'CUSTAPP001') {
+                navigation.navigate('Login');
+              } else {
+                if (ValidateForm()) {
+                  if (localAppointmentAdvanceAmount > 0) {
+                    setcardInputModal(true);
+                    StripeCustomerCreate();
+                  }
+                  else {
+                    BookAppointment("Cash");
+                  }
                 }
               }
-              //}
-            }
-          }}
-        />
-      </View>
+            }}
+          />
+
+        </View>
+      }
+
 
       <View>
         {localAppointmentAdvanceAmount > 0 &&
           <View
             style={{
-              height: 60,
+              height: 120,
               backgroundColor: theme().darkGrey,
               paddingHorizontal: 20,
             }}>
             <CButton
-              title='Pay Now'
+              style={{ marginBottom: 10 }}
+              title={'Add to Cart'}
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
                   navigation.navigate('Login');
                 } else {
-                  //if (packageType) {
                   if (ValidateForm()) {
-                    if (localAppointmentAdvanceAmount > 0) {
-                      setpayNowInputModal(true);
-                    }
+                    handleAddToCart()
                   }
-                  //  }
                 }
-              }}
+              }
+              }
             />
+
+
           </View>
         }
-
 
         {/* <CLoader loader={loader} /> */}
         <CLoader loader={timeAndStaffLoader} />
@@ -929,77 +957,29 @@ export default function BookingScreenNew({ navigation, route }) {
             </View>
           </TouchableOpacity>
         </Modal>
-        <Modal
-          style={{ flex: 1 }}
-          transparent
-          visible={payNowInputModal}
-          animationType="slide"
-          onRequestClose={() => {
-            if (!loader) {
-              setpayNowInputModal(false);
-            }
-          }}>
 
-          <TouchableOpacity
-            activeOpacity={1}
-            style={{
-              backgroundColor: '#ffffff40',
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              top: 0,
-            }}
-            onPress={() => {
-              if (!loader) {
-                setpayNowInputModal(false);
-              }
-            }}>
 
-            <View
-              style={{
-                padding: 8,
-                backgroundColor: theme().always_white,
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '88%',
-              }}>
-              <View
-                style={{
-                  position: 'absolute',
-                  alignSelf: 'center',
-                  top: 60,
-                  padding: 10,
 
-                }}>
-                <Image
-                  style={{ height: 200, width: 200, borderRadius: 10 }}
-                  source={Images.qrcode} />
-
-              </View>
-              <Text style={{ paddingHorizontal: 20, top: Platform.OS === 'ios' ? '55%' : '70%', color: 'red', fontSize: 20 }}> Booking Advance :  {orderData?.numberOfAppointments * localAppointmentAdvanceAmount} $</Text>
-              <CButton
-                loader={loader}
-                title='Complete Payment'
-                onPress={() => {
-                  BookAppointment("qr");
-                }}
-                style={{
-                  position: 'absolute',
-                  top: Platform.OS === 'ios' ? '55%' : '80%',
-                  width: '90%',
-                  marginBottom: 0,
-                  alignSelf: 'center',
-                  backgroundColor: theme().btnBlue,
-                  color: 'white'
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-        </Modal>
       </View>
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={openDateModal}
+        animationType="slide"
+        onRequestClose={() => {
+
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeIcon}
+            onPress={() => setOpenDateModal(false)}
+          >
+            <FontAwesomeIcon name="close" size={30} color="black" />
+          </TouchableOpacity>
+          <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
+        </View>
+      </Modal>
     </>
   );
 }

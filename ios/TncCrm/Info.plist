@@ -24,7 +24,7 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
+	
 <dict>
     <key>NSExceptionDomains</key>
     <dict>
@@ -40,6 +40,11 @@
             <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
             <true/>
         </dict>
+		<key>NSAppTransportSecurity</key>
+	<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
     </dict>
 </dict>
 
@@ -70,6 +75,8 @@
 		<string>Poppins-SemiBoldItalic.ttf</string>
 		<string>Poppins-Thin.ttf</string>
 		<string>Poppins-ThinItalic.ttf</string>
+		<string>BebasNeue-Regular.ttf</string>
+		<string>FontAwesome.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

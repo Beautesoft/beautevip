@@ -28,6 +28,7 @@
 		916EFE2911704B49AD2F4D2A /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11A06722E1DD4B9294CC6ACA /* Poppins-ExtraLight.ttf */; };
 		A873AA5EEB94412D93C0F828 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE30C63CF79F4938A4E592B9 /* Poppins-SemiBoldItalic.ttf */; };
 		B7ACAA21548DADCC6B1A2388 /* libPods-TncCrm-TncCrmTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B95DF7034BD9D8CA6FB3D14B /* libPods-TncCrm-TncCrmTests.a */; };
+		CEB2432C2B543DD500E1D658 /* BebasNeue-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEB2432B2B543DD400E1D658 /* BebasNeue-Regular.ttf */; };
 		D3D4FD9C9D4248CC84020F40 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23FC9946948145AA8A23FA83 /* Poppins-MediumItalic.ttf */; };
 		D94E53DE78B74CD3B3C63157 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B67ECD281D040BA83C48BAC /* Poppins-ExtraBold.ttf */; };
 		E3EBBBAE10B64A91B3B0F04F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4014AFA3356647009950D2C9 /* Poppins-Black.ttf */; };
@@ -77,6 +78,9 @@
 		C3CF260CB947490B8205585A /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../app/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		CA3B4894E760480AA5CA167C /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../app/assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
 		CE30C63CF79F4938A4E592B9 /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBoldItalic.ttf"; path = "../app/assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		CEB2432B2B543DD400E1D658 /* BebasNeue-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeue-Regular.ttf"; path = "../app/assets/fonts/BebasNeue-Regular.ttf"; sourceTree = "<group>"; };
+		CEB2432D2B544B4300E1D658 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		CEB2432F2B5505E000E1D658 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../app/assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
 		D1360503644244AB993945D0 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../app/assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		D8A0AC0EBEA6FC6BB343F6E0 /* Pods-TncCrm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TncCrm.debug.xcconfig"; path = "Target Support Files/Pods-TncCrm/Pods-TncCrm.debug.xcconfig"; sourceTree = "<group>"; };
 		DE8B5C72D67B4FDB8128BB31 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../app/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -183,6 +187,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CEB2432D2B544B4300E1D658 /* FontAwesome.ttf */,
+				CEB2432F2B5505E000E1D658 /* FontAwesome.ttf */,
+				CEB2432B2B543DD400E1D658 /* BebasNeue-Regular.ttf */,
 				741DFC84296C51C700AB359B /* MaterialIcons.ttf */,
 				13B07FAE1A68108700A75B9A /* TncCrm */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -312,6 +319,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEB2432C2B543DD500E1D658 /* BebasNeue-Regular.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E3EBBBAE10B64A91B3B0F04F /* Poppins-Black.ttf in Resources */,
