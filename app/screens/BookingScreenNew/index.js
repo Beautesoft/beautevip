@@ -700,7 +700,7 @@ export default function BookingScreenNew({ navigation, route }) {
             }}>
             <Text style={styles.btnTxt}>
               {beauty
-                ? `${beauty?.firstName} ${beauty?.lastName}`
+                ? `${beauty?.displayName} `
                 : t('selectAvail')}
             </Text>
 
