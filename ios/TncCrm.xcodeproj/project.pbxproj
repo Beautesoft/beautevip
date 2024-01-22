@@ -604,7 +604,7 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.3.1;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TncCrm/Info.plist;
@@ -615,7 +615,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -643,7 +643,7 @@
 				CODE_SIGN_ENTITLEMENTS = TncCrm/TncCrm.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.3.1;
 				DEVELOPMENT_TEAM = WKVWWJ792U;
 				INFOPLIST_FILE = TncCrm/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Beautesoft Kirei";
@@ -653,7 +653,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
