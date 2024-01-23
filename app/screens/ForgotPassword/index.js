@@ -41,7 +41,7 @@ export default function ForgotPassword({ navigation }) {
     }
   };
   const mobilevalidate = (text) => {
-    const reg = /^[0]?[789]\d{5,13}$/;
+    const reg = /^[+0]?[56789]\d{5,20}$/;
     if (reg.test(text) === false) {
       return false;
     } else {
@@ -53,12 +53,13 @@ export default function ForgotPassword({ navigation }) {
     setloader(true);
     const data = {
       phoneNumber: moNumber,
-      storeCode: 'TNC',
+      storeCode: clientDetails?.clientCode,
       passcode: password,
     };
-    console.log('🚀 ~ file: index.js ~ line 24 ~ login ~ data', data);
+    console.log('sendOtp-Request', data);
     getApiData(BaseSetting.endpoints.sendOtp, 'post', data)
       .then((result) => {
+        console.log('sendOtp-Response', result);
         if (result?.success == 1) {
           navigation.navigate('ResetPassword', { data });
           //Alert.alert("Otp!",`${result?.result}`)
@@ -78,43 +79,43 @@ export default function ForgotPassword({ navigation }) {
 
   return (
     <>
-       <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
+      <BackgroundImage image={currentTheme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
 
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}>
-          <Image
-            source={{ uri: clientDetails?.clientLogo }}
-            style={{
-              height: 180,
-              width: 180,
-              marginTop: 102,
-              alignSelf: 'center',
-            }}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}>
+        <Image
+          source={{ uri: clientDetails?.clientLogo }}
+          style={{
+            height: 180,
+            width: 180,
+            marginTop: 102,
+            alignSelf: 'center',
+          }}
+        />
+        <View style={styles.container}>
+          <CText
+            value={t('forgotPassword')}
+            color={theme().amberTxt}
+            size={24}
+            fontFamily={FontFamily.Poppins_SemiBold}
           />
-          <View style={styles.container}>
-            <CText
-              value={t('forgotPassword')}
-              color={theme().amberTxt}
-              size={24}
-              fontFamily={FontFamily.Poppins_SemiBold}
-            />
-            {/* <CText
+          {/* <CText
             value={t('pleaseLogin')}
             color={theme().yellow}
             size={14}
             fontFamily={FontFamily.Poppins_Regular}
           /> */}
-            <CInput
-              placeholder={t('phMobileNumber')}
-              showLeftIcon
-              value={moNumber}
-              onChangeText={setmoNumber}
-              keyboardType="phone-pad"
-              contStyle={styles.cInput}
-            />
-            {/* <CInput
+          <CInput
+            placeholder={t('phMobileNumber')}
+            showLeftIcon
+            value={moNumber}
+            onChangeText={setmoNumber}
+            keyboardType="phone-pad"
+            contStyle={styles.cInput}
+          />
+          {/* <CInput
             placeholder={t('phPassword')}
             showLeftIcon
             onRightIconPress={() => {
@@ -127,27 +128,27 @@ export default function ForgotPassword({ navigation }) {
             showRightIcon
             contStyle={styles.cInput}
           /> */}
-            <View style={styles.rowStyle}>
-              <CButton
-                title={t('forgotPassword')}
-                style={styles.btnStyle}
-                onPress={() => {
-                  Validate();
-                  // navigation.navigate('BottomTabsNavigator');
-                }}
-              />
-              <View style={styles.forgotStyle}>
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => navigation.goBack()}>
-                  <CText
-                    value={t('login')}
-                    color={theme().yellow}
-                    size={14}
-                    fontFamily={FontFamily.Poppins_Regular}
-                  />
-                </TouchableOpacity>
-                {/* <TouchableOpacity
+          <View style={styles.rowStyle}>
+            <CButton
+              title={t('forgotPassword')}
+              style={styles.btnStyle}
+              onPress={() => {
+                Validate();
+                // navigation.navigate('BottomTabsNavigator');
+              }}
+            />
+            <View style={styles.forgotStyle}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.goBack()}>
+                <CText
+                  value={t('login')}
+                  color={theme().yellow}
+                  size={14}
+                  fontFamily={FontFamily.Poppins_Regular}
+                />
+              </TouchableOpacity>
+              {/* <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
@@ -157,10 +158,10 @@ export default function ForgotPassword({ navigation }) {
                   fontFamily={FontFamily.Poppins_Regular}
                 />
               </TouchableOpacity> */}
-              </View>
             </View>
           </View>
-        </KeyboardAwareScrollView>
+        </View>
+      </KeyboardAwareScrollView>
       <CLoader loader={loader} />
     </>
   );

@@ -27,9 +27,13 @@ const BaseSetting = {
     appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice
     changePasscode: '/changePasscode',
     availableSlots: '/AvailableSlots',
+    availableSlotsTnc: '/AvailableSlotsTnc',
+    availableDatesTnc: '/AvailableDatesTnc',
+    rescheduleAppointment:'/rescheduleAppointment',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',
+    appCartItemSlotValidation:'/appCartItemSlotValidation',
     customerReferalCode: '/customerReferalCode',
     sendOtp: '/sendOtp',
     updateCustomerProfile: '/updateCustomerProfile',
@@ -53,6 +57,8 @@ const BaseSetting = {
     AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
     getClientDetails: '/getClientDetails',
+    appUpdatePaymentDetails:'/appUpdatePaymentDetails',
+    appHitpayCallback:'/appHitpayCallback',
   },
 };
 
