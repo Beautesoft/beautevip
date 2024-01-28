@@ -76,6 +76,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
   const displayOldFlow = false;
+  const { logout } = AuthAction;
   const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
@@ -853,7 +854,7 @@ export default function BookingScreenNew({ navigation, route }) {
               title={'Add to Cart'}
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
-                  navigation.navigate('Login');
+                   dispatch(logout());
                 } else {
                   if (ValidateForm()) {
                     handleAddToCart()

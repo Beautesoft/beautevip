@@ -89,7 +89,7 @@ export default function SplashScreen({ navigation }) {
           }
         />
         <CButton
-          title={t('GetStartedWithoutLogin')}
+          title={t('Get Started Without Login')}
           style={styles.btnStyle}
           onPress={
             () => 

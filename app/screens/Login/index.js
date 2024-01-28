@@ -250,7 +250,7 @@ export default function Login({ navigation }) {
                 activeOpacity={0.7}
                 onPress={() => navigation.navigate('Splash')}>
                 <CText
-                  value={t('Go Back')}
+                  value={t('Welcome Page')}
                   color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}
