@@ -81,11 +81,11 @@ const HitPay = ({ navigation, route }) => {
           ],
           "phone": phoneNumber,
           "purpose": purpose,
-          "redirect_url": "http://sequoiasg.ddns.net:7049/Main_API_Train/api/appHitpayCallback",
+          "redirect_url": "http://sequoiasg.ddns.net:7043/Main_API_Train/api/appHitpayCallback",
           "reference_number": "true",
           "send_email": "false",
           "send_sms": "false",
-          "webhook": "http://sequoiasg.ddns.net:7049/Main_API_Train/"
+          "webhook": "http://sequoiasg.ddns.net:7043/Main_API_Train/"
         }),
       });
 
