@@ -169,7 +169,7 @@ const PriceList = ({ route, navigation }) => {
 
 
 
-              <CText value="Whats App Me" size={18} />
+              <CText value="Whatsapp us" size={18} />
               <TouchableOpacity style={{ paddingLeft: 20 }}>
                 <Icon name="whatsapp" size={28} color="#25D366" onPress={() => openUrl('https://web.whatsapp.com')} />
               </TouchableOpacity>

@@ -145,17 +145,25 @@ export default function Otp({ navigation, route }) {
               console.log(`Code is ${code}, you are good to go!`);
             }}
           />
-          <CButton
-            title={t('next')}
-            style={styles.btnStyle}
-            onPress={() => {
-              if (type == 'update') {
-                updateProfile();
-              } else {
-                VerifyOtp();
-              }
-            }}
-          />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <CButton
+        title={t('next')}
+        style={styles.btnStyle}
+        onPress={() => {
+          if (type === 'update') {
+            updateProfile();
+          } else {
+            VerifyOtp();
+          }
+        }}     />
+      <CButton
+        title={t('Go Back')}
+        style={styles.btnStyle}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
+    </View>
         </View>
       </KeyboardAwareScrollView>
       <CLoader loader={loader} />

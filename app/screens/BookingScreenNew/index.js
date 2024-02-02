@@ -76,6 +76,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
   const displayOldFlow = false;
+  const { logout } = AuthAction;
   const Item = ({ title }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
@@ -394,7 +395,7 @@ export default function BookingScreenNew({ navigation, route }) {
       siteCode: siteCodeSelected?.siteCode,
       apptDate: "",
       slotTimeIn24Hrs: "",
-      itemCode: orderData.itemCode
+      itemCode: orderData?orderData.itemCode:""
       //apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
@@ -426,6 +427,7 @@ export default function BookingScreenNew({ navigation, route }) {
         const filtered = json?.result?.filter((response) => {
           return response.siteCode === userData.siteCode;
         });
+        console.log("GetSaloonList-Response : ", json.result[0]);
         setsaloonList(json?.result);
         setSelectedLoation(json?.result[0]);
         GetStaffMemberList(json?.result[0]);
@@ -853,7 +855,12 @@ export default function BookingScreenNew({ navigation, route }) {
               title={'Add to Cart'}
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
-                  navigation.navigate('Login');
+                  dispatch(logout());
+
+                  // Add a timeout before navigating to 'Login'
+                  setTimeout(() => {
+                    navigation.navigate('Login');
+                  }, 300); 
                 } else {
                   if (ValidateForm()) {
                     handleAddToCart()

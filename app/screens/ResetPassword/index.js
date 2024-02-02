@@ -18,7 +18,7 @@ import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
-
+import {  Text } from 'react-native';
 export default function ResetPassword({ navigation, route }) {
   const styles = styledFunc();
   const { setUserData, setStoreData } = AuthAction;
@@ -46,7 +46,7 @@ export default function ResetPassword({ navigation, route }) {
     } else if (!validatePassword(password)) {
       Alert.alert(
         'Error!',
-        'Password must contains uppercase, lowercase,number,special character and minimium length should be 6.',
+        'Password must contains uppercase, lowercase,number,special character and minimium length should be 8.',
       );
     } else if (password !== cpassword) {
       Alert.alert('Error!', 'Password and Confirm Password must be same.');
@@ -58,7 +58,7 @@ export default function ResetPassword({ navigation, route }) {
   const validatePassword = (value) => {
     if (
       validator.isStrongPassword(value, {
-        minLength: 4,
+        minLength: 8,
         minLowercase: 1,
         minUppercase: 1,
         minNumbers: 1,
@@ -150,6 +150,9 @@ export default function ResetPassword({ navigation, route }) {
             showRightIcon
             contStyle={styles.cInput}
           />
+           <View style={{ marginTop: 5, paddingHorizontal: 10 }}>
+        <Text style={{ fontSize: 12, color: 'gray' }}>Min: 8 & Max: 15 characters</Text>
+      </View>
           <CInput
             placeholder={t('phConfirmPassword')}
             showLeftIcon
@@ -163,6 +166,9 @@ export default function ResetPassword({ navigation, route }) {
             showRightIcon
             contStyle={styles.cInput}
           />
+           <View style={{ marginTop: 5, paddingHorizontal: 10 }}>
+        <Text style={{ fontSize: 12, color: 'gray' }}>Min: 8 & Max: 15 characters</Text>
+      </View>
           <View style={styles.rowStyle}>
             <CButton
               title={t('resetPassword')}
