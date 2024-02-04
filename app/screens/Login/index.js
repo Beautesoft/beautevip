@@ -246,6 +246,16 @@ export default function Login({ navigation }) {
                   fontFamily={FontFamily.Poppins_Regular}
                 />
               </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Splash')}>
+                <CText
+                  value={t('Welcome Page')}
+                  color={theme().yellow}
+                  size={14}
+                  fontFamily={FontFamily.Poppins_Regular}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>

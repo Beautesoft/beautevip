@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Linking, Platform ,TouchableOpacity } from 'react-native';
 import CHeader from '../../components/CHeader';
 import { t } from 'i18next';
 import { getApiData } from '../../config/apiHelper';
@@ -17,6 +17,28 @@ const HitPay = ({ navigation, route }) => {
   const { hitpayrequest, customerCode, hitPayBookAppointmentRequest } = route.params;
   const { amount, email, phoneNumber, purpose } = hitpayrequest;
   console.log(hitPayBookAppointmentRequest);
+
+  // Function to open a custom URL scheme
+const openCustomUrlScheme = async (scheme,url) => {
+
+  try {
+    if (Platform.OS === 'ios') {
+      // Check if the app is installed before opening the URL
+      const canOpen = await Linking.canOpenURL(url);
+
+      if (canOpen) {
+        await Linking.openURL(url);
+      } else {
+        console.warn(`App with scheme ${scheme} is not installed.`);
+      }
+    } else {
+      // For Android, open the URL directly
+      await Linking.openURL(url);
+    }
+  } catch (error) {
+    console.error('Error opening URL:', error);
+  }
+};
   useEffect(() => {
     try {
       handlePaymentRequest();
@@ -104,7 +126,10 @@ const HitPay = ({ navigation, route }) => {
       console.log("Payment Request URL: ", url);
       setHitPayRequestId(id);
       setPaymentUrl(url);
-      Linking.openURL(url);
+      const customSchemeToOpen = 'kirei';
+openCustomUrlScheme(customSchemeToOpen,url);
+      //Linking.openURL("https://www.google.com/").catch((err) => console.error('Error opening URL:', err));
+      //Linking.openURL(encodedUrl);
       appUpdatePaymentDetails(id);
     } catch (error) {
       console.error('Error making payment request:', error.message);
