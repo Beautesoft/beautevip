@@ -87,7 +87,7 @@ const openCustomUrlScheme = async (scheme,url) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-BUSINESS-API-KEY': clientDetails.apiKey,
+          'X-BUSINESS-API-KEY': clientDetails.hitpayApiKey,
         },
         body: JSON.stringify({
           "allow_repeated_payments": "true",
