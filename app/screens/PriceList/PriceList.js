@@ -130,7 +130,7 @@ const PriceList = ({ route, navigation }) => {
             />
           </View>
         }
-        {(type === 'location' && isGetSaloonListEndpointSuccess) &&
+        {(type === 'location' && pricelist.length>0) &&
           <View style={{ padding: 10, paddingLeft: 20 }}>
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
               <View style={{ flex: 0 }}>

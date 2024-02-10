@@ -157,10 +157,10 @@ export default function HomeScreen({ navigation }) {
     getApiData(url, 'get', {})
       .then((result) => {
         if (result?.success == 1) {
-          console.log('result home page----->', userData, result);
-          console.log("response_product_data", result?.product);
-          console.log("response_service", result?.service);
-          console.log("response_product_data_images", result?.product[0].items);
+          //console.log('result home page----->', userData, result);
+          //console.log("response_product_data", result?.product);
+          //console.log("response_service", result?.service);
+          //console.log("response_product_data_images", result?.product[0].items);
           sethStoreData(result);
           setserviceList(result?.service);
           setPriceList(result?.pricelist);
@@ -239,13 +239,13 @@ export default function HomeScreen({ navigation }) {
       .then((result) => {
         if (result?.success == 1) {
           setSallonDetail(result?.result);
-          console.log("getSallonDetail", result?.result)
+          //console.log("getSallonDetail", result?.result)
         }
         setrefreshing(false);
       })
       .catch((err) => {
         setrefreshing(false);
-        console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
+        //console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
 
