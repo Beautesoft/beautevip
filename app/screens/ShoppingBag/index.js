@@ -189,7 +189,7 @@ export default function ShoppingBag({ navigation }) {
             payNow();
           }
           else {
-            Toast.show(result?.status);
+            Toast.show(result?.result);
             navigation.navigate('BottomTabsNavigator');
           }
         }
