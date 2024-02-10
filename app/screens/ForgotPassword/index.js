@@ -65,14 +65,14 @@ export default function ForgotPassword({ navigation }) {
           //Alert.alert("Otp!",`${result?.result}`)
           dispatch(setSignupData(data));
         } else {
-          Toast.show(result?.error);
+          Alert.alert(result?.error);
         }
 
         setloader(false);
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
-        Toast.show('Something went wrong!');
+        Alert.alert("Something went wrong!");
         setloader(false);
       });
   };
