@@ -33,7 +33,7 @@ const BaseSetting = {
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',
-    appCartItemSlotValidation:'/appCartItemSlotValidation',
+    appAppointmentBookingFromCart:'/appAppointmentBookingFromCart',
     customerReferalCode: '/customerReferalCode',
     sendOtp: '/sendOtp',
     updateCustomerProfile: '/updateCustomerProfile',
