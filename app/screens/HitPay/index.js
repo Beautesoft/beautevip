@@ -128,7 +128,7 @@ const openCustomUrlScheme = async (scheme,url) => {
       console.log("Payment Request redirect_url: ", redirect_url);
       setHitPayRequestId(id);
       setPaymentUrl(url);
-      const customSchemeToOpen = 'kirei';
+      const customSchemeToOpen = 'VIP';
       openCustomUrlScheme(customSchemeToOpen,url);
       //Linking.openURL("https://www.google.com/").catch((err) => console.error('Error opening URL:', err));
       //Linking.openURL(encodedUrl);

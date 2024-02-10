@@ -130,7 +130,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.beautesoft.kirei"
+        applicationId "com.beautesoft.vip"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 5
@@ -154,7 +154,7 @@ android {
             keyPassword 'android'
         }
          release {
-            storeFile file('kirei_release.keystore')
+            storeFile file('VIP_release.keystore')
             storePassword 'android'
             keyAlias 'androidreleasekey'
             keyPassword 'android'
