@@ -342,7 +342,7 @@ export default function ShoppingScreen({ navigation }) {
                   onPress={() => {
                     setselectedTab(item);
                     StoreDetails(item.id);
-                    console.log('SelectedTab::', selectedTab.id, item);
+                    //console.log('SelectedTab::', selectedTab.id, item);
                   }}
                   activeOpacity={0.7}
                   key={index}>

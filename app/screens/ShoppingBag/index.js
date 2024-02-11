@@ -48,6 +48,7 @@ export default function ShoppingBag({ navigation }) {
   const [modifiedItem, setmodifiedItem] = useState({});
   const { clientDetails } = useSelector((state) => state.auth);
   const [cardId, setCardID] = useState(0);
+  let isHitPayPayment = clientDetails.hitpayApiKey.length > 1 ? true : false;
   const AddToCart = (item, iQty) => {
     console.log('Item>>>Line>>46>>', '' + item);
 
@@ -173,24 +174,31 @@ export default function ShoppingBag({ navigation }) {
   };
 
 
-  const appCartItemSlotValidation = () => {
+  const appAppointmentBookingFromCart = () => {
     const request = {
-      cartId: cardId
+      cartId: cardId,
+      paymentMethod: isHitPayPayment ? "HitPay" : "PayAtOutlet"
     };
-    console.log('appCartItemSlotValidation - Request Section', request);
+    console.log('appAppointmentBookingFromCart - Request Section', request);
 
-    getApiData(BaseSetting.endpoints.appCartItemSlotValidation, 'post', request)
+    getApiData(BaseSetting.endpoints.appAppointmentBookingFromCart, 'post', request)
       .then((result) => {
-        console.log('appCartItemSlotValidation - Response Section', result);
+        console.log('appAppointmentBookingFromCart - Response Section', result);
         if (result?.success == 1) {
-          payNow();
+          if (isHitPayPayment) {
+            payNow();
+          }
+          else {
+            Toast.show(result?.result);
+            navigation.navigate('BottomTabsNavigator');
+          }
         }
         if (result?.success == 0) {
           Toast.show(result?.error);
         }
       })
       .catch((err) => {
-        console.log('appCartItemSlotValidation - Error Section', err);
+        console.log('appAppointmentBookingFromCart - Error Section', err);
       });
   };
 
@@ -402,17 +410,17 @@ export default function ShoppingBag({ navigation }) {
             {isAppointmentCart ? (
               <View style={{
                 flexDirection: 'row', justifyContent: 'space-around',
-                padding: 16
+                padding: 4
               }}>
                 < CButton
                   title={t('Add More')}
-                  style={{ marginBottom: 6, flex: 1 }}
+                  style={{ marginBottom: 2, flex: 1 }}
                   onPress={() => navigation?.navigate('BookingScreenNew', {})}
                 />
                 <CButton
-                  title={t('Pay Now')}
-                  style={{ marginLeft: 6, flex: 1 }}
-                  onPress={() => appCartItemSlotValidation()}
+                  title={isHitPayPayment ? t('Pay Now') : t('Pay At Outlet')}
+                  style={{ marginLeft: 2, flex: 1 }}
+                  onPress={() => appAppointmentBookingFromCart()}
                 />
               </View>
             ) : (

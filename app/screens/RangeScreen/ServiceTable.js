@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 5,
+    color: '#B78D05',
   },
   selectButton: {
     backgroundColor: '#B78D05',

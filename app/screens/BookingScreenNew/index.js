@@ -106,6 +106,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const { clientDetails } = useSelector((state) => state.auth);
   let localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
   let isHitPayPayment = clientDetails.hitpayApiKey.length>1 ? true : false;
+  let isStripeAndCashPayment =false;
   if (packageType) {
     localAppointmentAdvanceAmount = 0;
   }
@@ -400,15 +401,14 @@ export default function BookingScreenNew({ navigation, route }) {
       //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
     };
-    console.log("AvailableStaffsTnc-Request", request);
+    //console.log("AvailableStaffsTnc-Request", request);
     getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', request)
       .then((result) => {
-        console.log("AvailableStaffsTnc-Response", result);
+        //console.log("AvailableStaffsTnc-Response", result);
         setTimeAndStaffLoader(false);
         const filterList = !isEmpty(result?.result)
           ? result?.result.filter((item) => item?.showInAppt === true)
           : [];
-        //console.log("getApiData-AvailableStaffsTnc-Response", result?.result)
         setstaffArr(result?.result);
       })
       .catch((err) => {
@@ -427,7 +427,7 @@ export default function BookingScreenNew({ navigation, route }) {
         const filtered = json?.result?.filter((response) => {
           return response.siteCode === userData.siteCode;
         });
-        console.log("GetSaloonList-Response : ", json.result[0]);
+        //console.log("GetSaloonList-Response : ", json.result[0]);
         setsaloonList(json?.result);
         setSelectedLoation(json?.result[0]);
         GetStaffMemberList(json?.result[0]);
@@ -502,10 +502,8 @@ export default function BookingScreenNew({ navigation, route }) {
         console.log('StripePaymentIntentCreate - Error Section', err);
         setloader(false);
       });
-  };
-
-
-  const StripePaymentIntentConfirm = () => {
+    };
+    const StripePaymentIntentConfirm = () => {
     setloader(true);
 
     const data = {
@@ -811,7 +809,7 @@ export default function BookingScreenNew({ navigation, route }) {
       </View>
       {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
-      {!isHitPayPayment &&
+      {isStripeAndCashPayment &&
         <View
           style={{
             height: 60,
@@ -843,7 +841,6 @@ export default function BookingScreenNew({ navigation, route }) {
 
 
       <View>
-        {(localAppointmentAdvanceAmount > 0 && isHitPayPayment) &&
           <View
             style={{
               height: 120,
@@ -856,8 +853,6 @@ export default function BookingScreenNew({ navigation, route }) {
               onPress={() => {
                 if (userData?.customerCode === 'CUSTAPP001') {
                   dispatch(logout());
-
-                  // Add a timeout before navigating to 'Login'
                   setTimeout(() => {
                     navigation.navigate('Login');
                   }, 300);
@@ -872,7 +867,6 @@ export default function BookingScreenNew({ navigation, route }) {
 
 
           </View>
-        }
 
         {/* <CLoader loader={loader} /> */}
         <CLoader loader={timeAndStaffLoader} />
