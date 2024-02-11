@@ -10,7 +10,7 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <!-- Add your custom URL scheme(s) here -->
-                <string>kirei</string>
+                <string>vip</string>
                 <!-- Add more schemes if needed -->
             </array>
         </dict>
@@ -18,7 +18,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Beautesoft Kirei</string>
+	<string>Beautesoft vip</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

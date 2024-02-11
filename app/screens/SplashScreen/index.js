@@ -75,7 +75,7 @@ export default function SplashScreen({ navigation }) {
           size={20}
         />
         <CText
-          value={t('beautisoftKirei')}
+          value={t('Beautesoft VIP')}
           style={styles.heading}
           fontFamily={FontFamily.Poppins_SemiBold}
           size={20}
