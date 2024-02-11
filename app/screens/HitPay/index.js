@@ -87,7 +87,7 @@ const openCustomUrlScheme = async (scheme,url) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-BUSINESS-API-KEY': clientDetails.apiKey,
+          'X-BUSINESS-API-KEY': clientDetails.hitpayApiKey,
         },
         body: JSON.stringify({
           "allow_repeated_payments": "true",
@@ -103,14 +103,15 @@ const openCustomUrlScheme = async (scheme,url) => {
           ],
           "phone": phoneNumber,
           "purpose": purpose,
-          "redirect_url": "http://sequoiasg.ddns.net:7049/Main_API_Train/api/appHitpayCallback",
+          "redirect_url":BaseSetting.api+BaseSetting.endpoints.appHitpayCallback,
           "reference_number": "true",
           "send_email": "false",
           "send_sms": "false",
-          "webhook": "http://sequoiasg.ddns.net:7049/Main_API_Train/"
+          "webhook": BaseSetting.baseUrl
         }),
       });
-
+      console.log(BaseSetting.api+BaseSetting.endpoints.appHitpayCallback);
+      console.log(BaseSetting.baseUrl);
       if (!response.ok) {
         const responseText = await response.text();
         Toast.show(responseText);
@@ -124,10 +125,11 @@ const openCustomUrlScheme = async (scheme,url) => {
       const { url, id, redirect_url } = responseData;
       console.log("Payment Request Id: ", id);
       console.log("Payment Request URL: ", url);
+      console.log("Payment Request redirect_url: ", redirect_url);
       setHitPayRequestId(id);
       setPaymentUrl(url);
       const customSchemeToOpen = 'kirei';
-openCustomUrlScheme(customSchemeToOpen,url);
+      openCustomUrlScheme(customSchemeToOpen,url);
       //Linking.openURL("https://www.google.com/").catch((err) => console.error('Error opening URL:', err));
       //Linking.openURL(encodedUrl);
       appUpdatePaymentDetails(id);

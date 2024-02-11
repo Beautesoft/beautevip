@@ -75,7 +75,6 @@ export default function BookingScreenNew({ navigation, route }) {
   const [customerStripeID, setcustomerStripeID] = useState('');
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
-  const displayOldFlow = false;
   const { logout } = AuthAction;
   const Item = ({ title }) => (
     <View style={styles.item}>
@@ -106,6 +105,7 @@ export default function BookingScreenNew({ navigation, route }) {
   const [timeAndStaffLoader, setTimeAndStaffLoader] = useState(false);
   const { clientDetails } = useSelector((state) => state.auth);
   let localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
+  let isHitPayPayment = clientDetails.hitpayApiKey.length>1 ? true : false;
   if (packageType) {
     localAppointmentAdvanceAmount = 0;
   }
@@ -395,7 +395,7 @@ export default function BookingScreenNew({ navigation, route }) {
       siteCode: siteCodeSelected?.siteCode,
       apptDate: "",
       slotTimeIn24Hrs: "",
-      itemCode: orderData?orderData.itemCode:""
+      itemCode: orderData ? orderData.itemCode : ""
       //apptDate: moment(selectedDate).format('YYYY-MM-DD'),
       //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
@@ -811,7 +811,7 @@ export default function BookingScreenNew({ navigation, route }) {
       </View>
       {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
       {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
-      {displayOldFlow &&
+      {!isHitPayPayment &&
         <View
           style={{
             height: 60,
@@ -843,7 +843,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
 
       <View>
-        {localAppointmentAdvanceAmount > 0 &&
+        {(localAppointmentAdvanceAmount > 0 && isHitPayPayment) &&
           <View
             style={{
               height: 120,
@@ -860,7 +860,7 @@ export default function BookingScreenNew({ navigation, route }) {
                   // Add a timeout before navigating to 'Login'
                   setTimeout(() => {
                     navigation.navigate('Login');
-                  }, 300); 
+                  }, 300);
                 } else {
                   if (ValidateForm()) {
                     handleAddToCart()
