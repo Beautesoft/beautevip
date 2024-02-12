@@ -189,12 +189,12 @@ export default function ShoppingBag({ navigation }) {
             payNow();
           }
           else {
-            Toast.show(result?.status);
+            Toast.show(result?.result);
             navigation.navigate('BottomTabsNavigator');
           }
         }
         if (result?.success == 0) {
-          Toast.show(result?.error);
+          Alert.alert('Error', result?.error);
         }
       })
       .catch((err) => {

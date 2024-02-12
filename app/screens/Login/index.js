@@ -92,9 +92,12 @@ export default function Login({ navigation }) {
               data: result?.result,
             });
           }
+          Toast.show(result?.error);
+        }
+        if (result?.success == 0) {
+          Alert.alert('Error', result?.error);
         }
         setFcmToken(result?.result);
-        Toast.show(result?.error);
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
