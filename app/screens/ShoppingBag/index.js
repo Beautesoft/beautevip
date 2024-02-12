@@ -194,7 +194,7 @@ export default function ShoppingBag({ navigation }) {
           }
         }
         if (result?.success == 0) {
-          Toast.show(result?.error);
+          Alert.alert('Error', result?.error);
         }
       })
       .catch((err) => {
