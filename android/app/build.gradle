@@ -154,7 +154,7 @@ android {
             keyPassword 'android'
         }
          release {
-            storeFile file('VIP_release.keystore')
+            storeFile file('vip_release.keystore')
             storePassword 'android'
             keyAlias 'androidreleasekey'
             keyPassword 'android'
