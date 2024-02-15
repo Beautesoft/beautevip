@@ -153,11 +153,11 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-         release {
-            storeFile file('vip_release.keystore')
-            storePassword 'android'
-            keyAlias 'androidreleasekey'
-            keyPassword 'android'
+            release {
+            storeFile file('release.keystore')
+            storePassword 'Bigtree33!'
+            keyAlias 'releasekey'
+            keyPassword 'Bigtree33!'
         }
     }
     buildTypes {

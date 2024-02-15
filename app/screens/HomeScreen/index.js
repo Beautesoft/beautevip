@@ -400,63 +400,61 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.headerCont}>
 
         <Image
-          style={{ height: 48, width: 40 }}
+          style={{  height: 48, width: 40 }}
           source={{ uri: clientDetails?.clientLogo }}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-
+     
           <View style={styles.searchCont}>
+          {clientDetails?.isShowProducts == "Yes" &&
             <Image
               source={Icons.search}
               style={{ height: 18, width: 18 }}
               resizeMode="center"
             />
-            <TextInput
-              placeholder={t('searchProducts')}
-              style={{
-                marginStart: 12,
-                marginEnd: 8,
-                color: theme().yellow,
-                fontSize: 14,
-              }}
-              value={searchTxt}
-              placeholderTextColor={theme().amber}
-              onChangeText={setsearchTxt}
-              onChange={() => {
-                const tempArr = productList.filter((item) =>
-                  item?.itemName
-                    .toLowerCase()
-                    .replace(/\s+/g, '')
-                    .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
-                );
-                // const tempArr = productList.filter((item) => {
+  }
+     {clientDetails?.isShowProducts == "Yes" &&
+              <TextInput
+                placeholder={t('searchProducts')}
+                style={{
+                  marginStart: 12,
+                  marginEnd: 8,
+                  color: theme().yellow,
+                  fontSize: 14,
+                }}
+                value={searchTxt}
+                placeholderTextColor={theme().amber}
+                onChangeText={setsearchTxt}
+                onChange={() => {
+                  const tempArr = productList.filter((item) =>
+                    item?.itemName
+                      .toLowerCase()
+                      .replace(/\s+/g, '')
+                      .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
+                  );
+                  // const tempArr = productList.filter((item) => {
 
-                //   const name =
-                //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
-                //   return name.includes(searchTxt.toLowerCase());
-                // });
-                if (!!searchTxt) {
-                  setfilterArr(tempArr);
-                } else {
-                  setfilterArr(productList);
-                }
-              }}
-              resizeMode="center"
-            />
+                  //   const name =
+                  //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
+                  //   return name.includes(searchTxt.toLowerCase());
+                  // });
+                  if (!!searchTxt) {
+                    setfilterArr(tempArr);
+                  } else {
+                    setfilterArr(productList);
+                  }
+                }}
+                resizeMode="center"
+              /> }
           </View>
-
+        
           <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => navigation.navigate('Notification')}>
             <Image
               source={Icons.notification_o}
-              style={{
-                marginHorizontal: 8,
-                marginEnd: 8,
-                height: 22,
-                width: 22,
-              }}
+              style={{ height: 48, width: 40 }}
               resizeMode="center"
             />
           </TouchableOpacity>
@@ -465,12 +463,7 @@ export default function HomeScreen({ navigation }) {
             onPress={() => handleLogout()}>
             <Image
               source={Icons.exit_o}
-              style={{
-                height: 22,
-                width: 22,
-                marginHorizontal: 8,
-                marginStart: 8,
-              }}
+              style={{ height: 48, width: 40 }}
               resizeMode="center"
             />
           </TouchableOpacity>
