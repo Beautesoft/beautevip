@@ -57,7 +57,7 @@ export const BottomTabsNavigator = () => {
         },
         tabBarStyle: {
           backgroundColor: theme().darkGrey,
-          height: 70,
+          height: 80,
           paddingTop: 10,
           justifyContent: 'center',
         },
