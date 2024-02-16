@@ -48,7 +48,7 @@ export default function ChangePassword({ navigation }) {
           Toast.show('Paasword is Updated!');
           navigation.goBack();
         } else if (result?.success == 0) {
-          Toast.show(result?.error);
+          Alert.alert('Error', result?.error);
         }
         setloader(false);
         console.log('🚀 ~ file: index.js ~ line 30 ~ .then ~ result', result);
