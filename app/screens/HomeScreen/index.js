@@ -454,7 +454,12 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate('Notification')}>
             <Image
               source={Icons.notification_o}
-              style={{ height: 48, width: 40 }}
+              style={{
+                marginHorizontal: 8,
+                marginEnd: 8,
+                height: 22,
+                width: 22,
+              }}
               resizeMode="center"
             />
           </TouchableOpacity>
@@ -463,7 +468,12 @@ export default function HomeScreen({ navigation }) {
             onPress={() => handleLogout()}>
             <Image
               source={Icons.exit_o}
-              style={{ height: 48, width: 40 }}
+              style={{
+                marginHorizontal: 8,
+                marginEnd: 8,
+                height: 22,
+                width: 22,
+              }}
               resizeMode="center"
             />
           </TouchableOpacity>

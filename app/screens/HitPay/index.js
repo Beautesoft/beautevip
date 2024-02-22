@@ -83,7 +83,7 @@ const openCustomUrlScheme = async (scheme,url) => {
   const handlePaymentRequest = async () => {
     console.log("handlePaymentRequest");
     try {
-      const response = await fetch('https://api.sandbox.hit-pay.com/v1/payment-requests', {
+      const response = await fetch(clientDetails.hitpayURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
