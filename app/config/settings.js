@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const devMode = __DEV__;
-export const baseUrl = 'http://103.253.14.203:4029/Mainapi/';
+export const baseUrl = 'http://103.253.15.75:7018/Main_API/';
 const BaseSetting = {
   name: 'Mydemo',
   displayName: 'Mydemo',
@@ -23,9 +23,13 @@ const BaseSetting = {
     appTransSearchInvoice: '/appTransSearchInvoiceDetail', //appTransSearchInvoice
     changePasscode: '/changePasscode',
     availableSlots: '/AvailableSlots',
+    availableSlotsTnc: '/AvailableSlotsTnc',
+    availableDatesTnc: '/AvailableDatesTnc',
+    rescheduleAppointment:'/rescheduleAppointment',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',
+    appAppointmentBookingFromCart:'/appAppointmentBookingFromCart',
     customerReferalCode: '/customerReferalCode',
     sendOtp: '/sendOtp',
     updateCustomerProfile: '/updateCustomerProfile',
@@ -49,6 +53,8 @@ const BaseSetting = {
     AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
     getClientDetails: '/getClientDetails',
+    appUpdatePaymentDetails:'/appUpdatePaymentDetails',
+    appHitpayCallback:'/appHitpayCallback',
   },
 };
 

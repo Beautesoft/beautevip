@@ -10,9 +10,10 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
-//import { Modal } from 'react-native';//this is for android
-import Modal from 'react-native-modals'; //this is for ios
+import { Modal } from 'react-native';//this is for android
+//import Modal from 'react-native-modals'; //this is for ios
 
 import LinearGradient from 'react-native-linear-gradient';
 import CButton from '../../components/CButton';
@@ -23,7 +24,6 @@ import { FontFamily } from '../../config/typography';
 import { styledFunc } from './styles';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { Images } from '../../config/images';
-import { enableAnimateInEaseOut } from '../../config/commonFunctions';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
@@ -39,25 +39,29 @@ import MyModal from '../../components/MyModal';
 import { baseUrl } from '../../config/settings';
 import { theme } from '../../redux/reducer/theme';
 import AuthAction from '../../redux/reducer/auth/actions';
+import { useIsFocused } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
+import SelectDropdown from 'react-native-select-dropdown';
+import HitPay from '../HitPay';
+import BookingDatePicker from './BookingDatePicker';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Import your icon library
+
+import addToCart from './AddToCartService';
 export default function BookingScreenNew({ navigation, route }) {
   const styles = styledFunc();
+  const type = route?.params?.type;
 
-  console.log(
-    '🚀 ~ file: vk index.js ~ line 36 ~ BookingScreenNew ~ orderData',
-    route?.params,
-  );
-
-  const type = 'package';
 
   const packageType = type === 'package' ? true : false;
   const orderData = route?.params?.itemData;
+  //console.log("packagetobooking", orderData);
   const { userData } = useSelector((state) => state.auth);
   const [rateService, setrateService] = useState(false);
   const [expandLocation, setexpandLocation] = useState(false);
   const [expandService, setexpandService] = useState(false);
   const [expandTime, setexpandTime] = useState(false);
   const [expandBeaut, setexpandBeaut] = useState(false);
+  const [expandDate, setexpandDate] = useState(false);
   const [selectedDateTime, setselectedDateTime] = useState();
   const [selectedDate, setselectedDate] = useState();
 
@@ -70,12 +74,25 @@ export default function BookingScreenNew({ navigation, route }) {
 
   const [customerStripeID, setcustomerStripeID] = useState('');
   const [availableSlots, setavailableSlots] = useState([]);
-  const [staffArr, setstaffArr] = useState([]);
+  const [availableDates, setavailableDates] = useState([]);
+  const { logout } = AuthAction;
+  const Item = ({ title }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
+
+  const isFocused = useIsFocused();
+  const [staffArr, setstaffArr] = useState([
+  ]);
+
   const [saloonList, setsaloonList] = useState([]);
 
   const [cardType, setcardType] = useState('');
   const [intentStripeID, setintentStripeID] = useState('');
+  const [intentTransactionID, setintentTransactionID] = useState('');
   const [cardInputModal, setcardInputModal] = useState(false);
+  const [isValidateForm, setIsValidateForm] = useState(false);
 
   const [cardObj, setcardObj] = useState({});
 
@@ -86,17 +103,31 @@ export default function BookingScreenNew({ navigation, route }) {
 
   const [visible, setVisible] = useState(false);
   const [timeAndStaffLoader, setTimeAndStaffLoader] = useState(false);
-
+  const { clientDetails } = useSelector((state) => state.auth);
+  let localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
+  let isHitPayPayment = clientDetails.hitpayApiKey.length>1 ? true : false;
+  let isStripeAndCashPayment =false;
+  if (packageType) {
+    localAppointmentAdvanceAmount = 0;
+  }
+  else {
+    localAppointmentAdvanceAmount = clientDetails.appointmentAdvanceAmount;
+  }
+  const [openDateModal, setOpenDateModal] = useState(false);
+  const handleCloseDateModal = (date) => {
+    setOpenDateModal(false);
+    setselectedDate(date);
+    setexpandTime(true);
+    getAvailableSlots(date);
+  };
   const GetAddress = () => {
     const addressType = 'Shipping';
     // const url = `/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=${addressType}&siteCode=${userData?.siteCode}`;
     const url = `${baseUrl}api/myAddress?phoneNumber=${userData?.customerPhone}&customerCode=${userData?.customerCode}&addressType=Shipping&siteCode=${userData?.siteCode}`;
-    console.log('🚀 ~ file: index.js ~ line 45 ~ GetAddress ~ url', url);
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setlocation(json?.result);
-        console.log('VAddress:>', JSON.stringify(json));
       })
       .catch((error) => {
         console.error(error);
@@ -105,6 +136,20 @@ export default function BookingScreenNew({ navigation, route }) {
   const { addBookingData } = AuthAction;
   const dispatch = useDispatch();
   const { bookingData } = useSelector((state) => state.auth);
+
+
+  const handleAddToCart = () => {
+    const appointmentRequest = {
+      appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
+      appointmentTime: selectedDateTime?.timeIn24Hrs,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
+      appointmentRemark: "",
+      appointmentStaffCode: beauty?.staffCode,
+    }
+    addToCart(userData, orderData, navigation, appointmentRequest, Toast);
+  };
+
+
   let backPressed = 0;
 
   function handleBackButtonClick() {
@@ -123,7 +168,6 @@ export default function BookingScreenNew({ navigation, route }) {
   }
 
   useEffect(() => {
-    console.log('booking screen new ');
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -132,6 +176,16 @@ export default function BookingScreenNew({ navigation, route }) {
       );
     };
   }, []);
+  useEffect(() => {
+    GetSaloonList();
+
+  }, [isFocused]);
+  useEffect(() => {
+    //setcardInputModal(false);
+    // AvailableSlots();
+    //GetAddress();
+  }, []);
+
 
   const renderTimeSlots = ({ item, index }) => {
     return (
@@ -141,12 +195,7 @@ export default function BookingScreenNew({ navigation, route }) {
         onPress={() => {
           setexpandTime(false);
           setselectedDateTime(item);
-          GetStaffMemberList(item);
-          console.log(
-            '🚀 ~ file: index.js ~ line 148 ~ renderTimeSlots ~ item',
-            item,
-          );
-          setTimeAndStaffLoader(true);
+          //setTimeAndStaffLoader(true);
         }}>
         <Text style={{ color: theme().white90 }}>{item?.time}</Text>
       </TouchableOpacity>
@@ -159,7 +208,6 @@ export default function BookingScreenNew({ navigation, route }) {
         style={styles.locCont}
         activeOpacity={0.7}
         onPress={() => {
-          console.log('item---->', item);
           setSelectedLoation(item);
           setexpandLocation(false);
         }}>
@@ -200,6 +248,9 @@ export default function BookingScreenNew({ navigation, route }) {
         onPress={() => {
           setbeauty(item);
           setexpandBeaut(false);
+          setexpandDate(false);
+          setexpandTime(false);
+          getAvailableDates(item?.staffCode);
         }}>
         <Image
           source={item?.profilePic ? { uri: item?.profilePic } : Images.logo}
@@ -218,173 +269,295 @@ export default function BookingScreenNew({ navigation, route }) {
     );
   };
 
-  const BookAppointment = () => {
-    if (!selectedLocation) {
-      return;
-    }
-    if (!selectedDate) {
-      return;
-    }
-    if (!selectedDateTime) {
-      return;
-    }
-    if (!beauty) {
-      return;
-    }
-    setloader(true);
+  const renderDates = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        style={styles.dateCont}
+        activeOpacity={0.7}
+        onPress={() => {
+          setselectedDate(item?.date);
+          setexpandDate(false);
+          setexpandTime(true);
+          getAvailableSlots(item?.date);
+        }}
+      >
+        <CText
+          value={`${item?.date}`}
+          size={22}
+          fontFamily={FontFamily.Poppins_Medium}
+          style={{
+            textAlign: 'center',
+          }}
+        />
+        <View style={{ borderColor: 'grey', borderBottomWidth: 1, }}></View>
+      </TouchableOpacity>
+    );
+  };
+
+  const BookAppointment = (paymentMode) => {
     const data = {
       phoneNumber: userData?.customerPhone,
       customerCode: userData?.customerCode,
-      itemCode: orderData?.itemCode,
-      appointmentDate: moment(selectedDate).format('YYYY-MM-DD'),
+      itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
+      appointmentDate: moment(selectedDate, "DD/MM/YYYY").format('YYYY-MM-DD'),
       appointmentTime: selectedDateTime?.timeIn24Hrs,
-      appointmentDuration: orderData?.duration,
+      appointmentDuration: packageType ? orderData?.packageList[0]?.duration : orderData?.duration,
       siteCode: selectedLocation?.siteCode, //userData?.siteCode,
-      itemName: orderData?.itemName,
+      itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
       treatmentId: '',
-      appointmentRemark: '',
+      appointmentRemark: paymentMode == "qr" ? "payment pending" : "",
       staffCode: beauty?.staffCode,
       appointmentItemDetails: [
         {
           lineNumber: '1',
-          itemCode: orderData?.itemCode,
-          itemName: orderData?.itemName,
-          unitPrice: orderData?.price,
+          itemCode: packageType ? orderData?.packageList[0]?.itemCode : orderData?.itemCode,
+          itemName: packageType ? orderData?.packageList[0]?.itemName : orderData?.itemName,
+          unitPrice: packageType ? 0 : orderData?.price,
         },
       ],
+      appointmentAdvanceAmount: paymentMode == "Cash" || packageType ? 0 : clientDetails.appointmentAdvanceAmount,
+      numberOfAppointments: orderData?.numberOfAppointments > 1 ? orderData?.numberOfAppointments : 1
     };
-    console.log('🚀 ~ file: index.js ~ line 372 ~ ', data);
+    console.log('BookAppointment - Request Section', data);
     getApiData(BaseSetting.endpoints.bookAppointment, 'post', data)
       .then((result) => {
+        console.log('BookAppointment - Response Section', result);
         setloader(false);
-        console.log('🚀 ~ file: index.js ~ line 188 ~ .then ~ result', result);
         if (result?.success == 1) {
           Toast.show('Appointment Booked');
           navigation.navigate('BottomTabsNavigator');
         } else {
+          console.log('BookAppointment - Response Section -Error', result?.error);
           Toast.show(result?.error);
         }
       })
       .catch((err) => {
-        console.log('🚀 ~ file: index.js ~ line 190 ~ .then ~ err', err);
         Toast.show('Something went wrong!');
         setloader(false);
       });
   };
 
-  useEffect(() => {
-    //setcardInputModal(false);
-    // AvailableSlots();
-    //GetAddress();
-    // GetStaffMemberList();
-    GetSaloonList();
-  }, []);
 
   const getAvailableSlots = (date) => {
     setloader(true);
     const data = {
       siteCode: selectedLocation?.siteCode,
-      slotDate: moment(date).format('YYYY-MM-DD'),
+      slotDate: moment(date, "DD/MM/YYYY").format('YYYY-MM-DD'),
+      empCode: beauty?.staffCode
     };
-    console.log('data time slot', data);
-    getApiData(BaseSetting.endpoints.availableSlots, 'post', data)
+    console.log("getAvailableSlots", data);
+    getApiData(BaseSetting.endpoints.availableSlotsTnc, 'post', data)
       .then((result) => {
         setTimeAndStaffLoader(false);
-        console.log('result time slot', result);
         setavailableSlots(result?.result);
-        setTimeout(() => {
-          setloader(false);
+        console.log("getAvailableSlots", result?.result);
+        if (result?.result.length === 0) {
+
+          // The result is empty (no elements)
+          // Your code here for the empty result
+          Toast.show('No Slots available');
+        } else {
+          // The result is not empty (contains elements)
+          // Your code here for a non-empty result
           setexpandTime(true);
-        }, 100);
+          setTimeout(() => {
+            setloader(false);
+          }, 100);
+        }
+
       })
       .catch((err) => {
         setloader(false);
         setTimeAndStaffLoader(false);
-        console.log('🚀 ~ file: index.js ~ line 213 ~ .then ~ err', err);
       });
   };
 
-  const GetStaffMemberList = (slotTime) => {
-    // const data = {
-    //   SiteListing: [
-    //     {
-    //       siteCode: userData?.siteCode,
-    //     },
-    //   ],
-    //   staffName: '',
-    //   staffCode: '',
-    //   userID: '',
-    //   siteCode: userData?.siteCode,
-    //   isActive: '1',
-    // };
+
+  const getAvailableDates = async (staffCode) => {
+    setloader(true);
     const data = {
       siteCode: selectedLocation?.siteCode,
-      apptDate: moment(selectedDate).format('YYYY-MM-DD'),
-      slotTimeIn24Hrs: slotTime.timeIn24Hrs,
+      empCode: staffCode ? staffCode : beauty?.staffCode
+    };
+    console.log("getAvailableDates - Request", data);
+    await getApiData(BaseSetting.endpoints.availableDatesTnc, 'post', data)
+      .then((result) => {
+        //console.log("getAvailableDates - Response", result);
+        setavailableDates(result?.result);
+      })
+      .catch((err) => {
+        return false;
+        setloader(false);
+      });
+  };
+
+  const GetStaffMemberList = (siteCodeSelected) => {
+    const request = {
+      siteCode: siteCodeSelected?.siteCode,
+      apptDate: "",
+      slotTimeIn24Hrs: "",
+      itemCode: orderData ? orderData.itemCode : ""
+      //apptDate: moment(selectedDate).format('YYYY-MM-DD'),
+      //slotTimeIn24Hrs: slotTime.timeIn24Hrs,
       //itemCode: orderData.packageList[0].itemCode,
     };
-    console.log('line>>349>>', data);
-
-    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', data)
+    //console.log("AvailableStaffsTnc-Request", request);
+    getApiData(BaseSetting.endpoints.AvailableStaffsTnc, 'post', request)
       .then((result) => {
+        //console.log("AvailableStaffsTnc-Response", result);
         setTimeAndStaffLoader(false);
         const filterList = !isEmpty(result?.result)
           ? result?.result.filter((item) => item?.showInAppt === true)
           : [];
-        console.log(
-          '🚀 ~ file: index.js ~ line 300 ~ .then ~ filterList',
-          filterList,
-        );
         setstaffArr(result?.result);
       })
       .catch((err) => {
         setTimeAndStaffLoader(false);
-        console.log('🚀 ~ file: index.js ~ line 213 ~ .then ~ err', err);
       });
   };
 
   const GetSaloonList = () => {
-    if (packageType) {
-      const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
-      console.log('GetSaloonListURL', url);
-      fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-          const filtered = json?.result?.filter((response) => {
-            return response.siteCode === userData.siteCode;
-          });
-          setsaloonList(json?.result);
-          setSelectedLoation(filtered[0]);
-        })
-        .catch((error) => {
-          console.error(error);
+
+    setloader(true);
+    const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
+    //console.log("GetSaloonList");
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        const filtered = json?.result?.filter((response) => {
+          return response.siteCode === userData.siteCode;
         });
-    }
-  };
-
-  const cartAllItemDelete = () => {
-    const data = {
-      phoneNumber: userData?.customerPhone,
-      customerCode: userData?.customerCode,
-      siteCode: userData?.siteCode,
-    };
-
-    getApiData(BaseSetting.endpoints.cartAllItemDelete, 'post', data)
-      .then((result) => {
-        console.log('🚀 ~ file: index.js ~ line 448 ~ .then ~ result', result);
-        if (result?.success == 1) {
-          AddToCart();
-        }
+        //console.log("GetSaloonList-Response : ", json.result[0]);
+        setsaloonList(json?.result);
+        setSelectedLoation(json?.result[0]);
+        GetStaffMemberList(json?.result[0]);
+        setTimeout(() => {
+          setloader(false);
+        }, 500);
       })
-      .catch((err) => {
-        console.log(
-          '🚀 ~ file: index.js ~ line 451 ~ cartAllItemDelete ~ err',
-          err,
-        );
+      .catch((error) => {
+        console.error(error);
+        setTimeout(() => {
+          setloader(false);
+        }, 500);
       });
   };
 
-  // enableAnimateInEaseOut();
+
+
+  const StripeCustomerCreate = () => {
+    setloader(true);
+
+    const data = {
+      customerName: userData?.customerName,
+      customerEmail: userData?.email,
+      customerPhone: userData?.customerPhone,
+    };
+    console.log('StripeCustomerCreate');
+    console.log(data);
+
+    getApiData(BaseSetting.endpoints.stripeCustomerCreate, 'post', data)
+      .then((result) => {
+        console.log('🚀 ~ file: index.js ~ line 86 ~ .then ~ result', result);
+        if (result?.success == 1) {
+          // setcustomerStripeID(result?.result?.id);
+          StripePaymentIntentCreate(result?.result?.id);
+        } else {
+          Toast.show(result?.error);
+          setcardInputModal(false);
+          setloader(false);
+        }
+
+      })
+      .catch((err) => {
+        console.log('🚀 ~ file: index.js ~ line 64 ~ .then ~ err', err);
+        setloader(false);
+      });
+  };
+  const StripePaymentIntentCreate = (customerId) => {
+    setloader(true);
+    console.log('inside StripePaymentIntentCreate--->');
+    const data = {
+      customerId: customerId,
+      customerCode: userData?.customerCode,
+      amount: localAppointmentAdvanceAmount,
+      currency: 'sgd',
+      isAppointment: true,
+    };
+    console.log('StripePaymentIntentCreate - Request Section', data);
+
+    getApiData(BaseSetting.endpoints.stripePaymentIntentCreate, 'post', data)
+      .then((result) => {
+        console.log('StripePaymentIntentCreate - Response Section', result);
+        setloader(false);
+        if (result?.success == 1) {
+          setintentStripeID(result?.result?.id);
+          setintentTransactionID(result?.result?.transactionId);
+          setTimeout(() => {
+            setcardInputModal(true);
+          }, 100);
+        }
+      })
+      .catch((err) => {
+        console.log('StripePaymentIntentCreate - Error Section', err);
+        setloader(false);
+      });
+    };
+    const StripePaymentIntentConfirm = () => {
+    setloader(true);
+
+    const data = {
+      cardNumber: cardObj?.number,
+      expMonth: cardObj?.exp_month,
+      expYear: cardObj?.exp_year,
+      cvc: cardObj?.cvc,
+      paymentIntentId: intentStripeID,
+      transactionId: intentTransactionID,
+      paymentType: 'Credit Card',
+    };
+    console.log('StripePaymentIntentConfirm - Request Section', data);
+
+    getApiData(BaseSetting.endpoints.stripePaymentIntentConfirm, 'post', data)
+      .then((result) => {
+        console.log('StripePaymentIntentConfirm - Response Section', result);
+        if (result?.success == 1) {
+          BookAppointment("Credit");
+          setcardInputModal(false);
+        } else {
+          Toast.show(result?.error);
+          setloader(false);
+        }
+      })
+      .catch((err) => {
+        console.log('StripePaymentIntentConfirm - Error Section', err);
+        setloader(false);
+      });
+  };
+
+  function ValidateForm() {
+    if (!selectedLocation) {
+      Toast.show('Please Select Site');
+      return;
+    }
+    if (!orderData) {
+      Toast.show('Please Select Service');
+      return;
+    }
+    if (!beauty) {
+      Toast.show('Please Select  Staff');
+      return;
+    }
+    if (!selectedDate) {
+      Toast.show('Please Select Date');
+      return;
+    }
+    if (!selectedDateTime) {
+      Toast.show('Please Select  Time');
+      return;
+    }
+    return true;
+  }
+
   return (
     <>
       <CHeader
@@ -432,14 +605,16 @@ export default function BookingScreenNew({ navigation, route }) {
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
-            {orderData?.price && (
+            {orderData?.price !== undefined && (
               <CText
-                value={`S$ ${orderData?.price}`}
+                value={`S$ ${orderData?.price.toFixed(2)}`}
                 color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
             )}
+
+
           </View>
         </View>
 
@@ -500,62 +675,32 @@ export default function BookingScreenNew({ navigation, route }) {
                 Toast.show('Please select location first.');
               }
             }}>
-            <Text style={styles.btnTxt}>
-              {orderData ? orderData?.itemDescription : t('selectService')}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.btnCont]}
-            activeOpacity={0.7}
-            onPress={() => {
-              if (selectedLocation) {
-                setexpandBeaut(false);
-                setexpandLocation(false);
-                setisDatePickerVisible(!isDatePickerVisible);
-              } else {
-                Toast.show('Please select location first.');
-              }
-
-              // setexpandTime(!expandTime);
-            }}>
-            <Text style={styles.btnTxt}>
-              {selectedDateTime?.time
-                ? `${moment(selectedDate).format('YYYY-MM-DD')} ${selectedDateTime?.time
-                }`
-                : t('setDateTime')}
-            </Text>
-            {expandTime && (
-              <View style={{ height: 300, width: '100%', paddingTop: 12 }}>
-                <FlatList
-                  data={availableSlots}
-                  keyExtractor={(item, index) => index}
-                  renderItem={renderTimeSlots}
-                  contentContainerStyle={{
-                    width: '100%',
-                  }}
-                  showsVerticalScrollIndicator={false}
-                />
-              </View>
-            )}
+            {packageType ?
+              <Text style={styles.btnTxt}>
+                {orderData ? orderData?.packageName : t('selectService')}
+              </Text>
+              : <Text style={styles.btnTxt}>
+                {orderData ? orderData?.itemDescription : t('selectService')}
+              </Text>
+            }
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.btnCont}
             activeOpacity={0.7}
             onPress={() => {
-              if (selectedLocation && selectedDate && selectedDateTime) {
+              if (orderData) {
                 setexpandTime(false);
                 setexpandLocation(false);
                 setisDatePickerVisible(false);
                 setexpandBeaut(!expandBeaut);
               } else {
-                Toast.show('Please select location,date and time first.');
+                Toast.show('Please select service');
               }
             }}>
             <Text style={styles.btnTxt}>
               {beauty
-                ? `${beauty?.firstName} ${beauty?.lastName}`
+                ? `${beauty?.displayName} `
                 : t('selectAvail')}
             </Text>
 
@@ -580,82 +725,262 @@ export default function BookingScreenNew({ navigation, route }) {
               </View>
             )}
           </TouchableOpacity>
-        </View>
-      </View>
-      <View
-        style={{
-          height: 100,
-          backgroundColor: theme().darkGrey,
-          paddingHorizontal: 20,
-        }}>
-        <CButton
-          title={packageType ? 'Book Now' : 'Add to cart'}
-          onPress={() => {
-            console.log('🚀 ~sCode>', userData?.siteCode);
-            if (userData?.customerCode === 'CUSTAPP001') {
-              navigation.navigate('Login');
-            } else {
-              if (packageType) {
-                BookAppointment();
+
+
+          <TouchableOpacity
+            style={styles.btnCont}
+            activeOpacity={0.7}
+            onPress={() => {
+              if (beauty) {
+                setexpandTime(false);
+                setexpandLocation(false);
+                setisDatePickerVisible(false);
+                setexpandBeaut(false);
+                setOpenDateModal(!expandDate)
+              } else {
+                Toast.show('Please select staff');
               }
-            }
-          }}
-        />
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedDate
+                ? selectedDate
+                : t('Select Available Date')}
+            </Text>
+
+            {expandDate && (
+              <View
+                style={{
+                  height: 130,
+                  width: '100%',
+                  paddingTop: 12,
+                  marginBottom: '10%',
+                }}>
+                <FlatList
+                  data={availableDates}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderDates}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  numColumns={1}
+                  showsVerticalScrollIndicator={true}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.btnCont]}
+            activeOpacity={0.7}
+            onPress={() => {
+              if (selectedDate) {
+                setexpandBeaut(false);
+                setexpandLocation(false);
+                setexpandTime(!expandTime);
+
+              } else {
+                Toast.show('Please select date.');
+              }
+            }}>
+            <Text style={styles.btnTxt}>
+              {selectedDateTime?.time
+                ? ` ${selectedDateTime?.time
+                }`
+                : t('Select Available Slot')}
+            </Text>
+            {expandTime && (
+              <View style={{ height: 130, width: '100%', paddingTop: 12 }}>
+                <FlatList
+                  data={availableSlots}
+                  keyExtractor={(item, index) => index}
+                  renderItem={renderTimeSlots}
+                  contentContainerStyle={{
+                    width: '100%',
+                  }}
+                  numColumns={1}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+
+        </View>
+
       </View>
+      {packageType && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
+      {orderData?.numberOfAppointments > 1 && <Text style={{ paddingHorizontal: 20, fontSize: 20 }}>Selected item is a package </Text>}
+      {isStripeAndCashPayment &&
+        <View
+          style={{
+            height: 60,
+            backgroundColor: theme().darkGrey,
+            paddingHorizontal: 20,
+          }}>
 
-      <DatePicker
-        modal
-        mode="date"
-        open={isDatePickerVisible}
-        date={new Date(new Date().getTime())}
-        minimumDate={new Date(new Date().getTime())}
-        maximumDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 365)}
-        onConfirm={(val) => {
-          console.log('date picker on confirm trigger');
-          if (val.getDay() === new Date().getDay()) {
-            console.log(
-              '🚀 ~VskingMatched>>>',
-              val.getDay(),
-              new Date().getDay(),
-            );
-            setselectedDate(
-              new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 1),
-            );
-          } else {
-            console.log(
-              '🚀 ~VskingNotMatched>>>',
-              val.getDay(),
-              new Date().getDay(),
-            );
-            setselectedDate(val);
-          }
+          <CButton
+            title={'Book Now'}
+            onPress={() => {
+              if (userData?.customerCode === 'CUSTAPP001') {
+                navigation.navigate('Login');
+              } else {
+                if (ValidateForm()) {
+                  if (localAppointmentAdvanceAmount > 0) {
+                    setcardInputModal(true);
+                    StripeCustomerCreate();
+                  }
+                  else {
+                    BookAppointment("Cash");
+                  }
+                }
+              }
+            }}
+          />
 
-          getAvailableSlots(val);
-          setisDatePickerVisible(false);
-          setTimeAndStaffLoader(true);
+        </View>
+      }
 
-          // console.log(
-          //   '🚀 ~VskingNotMatched>>>',
-          //   val.getDay(),
-          //   new Date().getDay(),
-          // );
-          // setTimeAndStaffLoader(true);
-          // setselectedDate(val);
-          // getAvailableSlots(val);
-          // setisDatePickerVisible(false);
 
-          console.log(
-            '🚀 ~ file: index.js ~ line 266 ~ BookingScreenNew ~ val Vk>>',
-            val + ',' + new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-            moment().add(2, 'days'),
-          );
+      <View>
+          <View
+            style={{
+              height: 120,
+              backgroundColor: theme().darkGrey,
+              paddingHorizontal: 20,
+            }}>
+            <CButton
+              style={{ marginBottom: 10 }}
+              title={'Add to Cart'}
+              onPress={() => {
+                if (userData?.customerCode === 'CUSTAPP001') {
+                  dispatch(logout());
+                  setTimeout(() => {
+                    navigation.navigate('Login');
+                  }, 300);
+                } else {
+                  if (ValidateForm()) {
+                    handleAddToCart()
+                  }
+                }
+              }
+              }
+            />
+
+
+          </View>
+
+        {/* <CLoader loader={loader} /> */}
+        <CLoader loader={timeAndStaffLoader} />
+        <Modal
+          style={{ flex: 1 }}
+          transparent
+          visible={cardInputModal}
+          animationType="slide"
+          onRequestClose={() => {
+            if (!loader) {
+              setcardInputModal(false);
+            }
+          }}>
+
+          <TouchableOpacity
+            activeOpacity={1}
+            style={{
+              backgroundColor: '#ffffff40',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              top: 0,
+            }}
+            onPress={() => {
+              if (!loader) {
+                setcardInputModal(false);
+              }
+            }}>
+
+            <View
+              style={{
+                padding: 8,
+                backgroundColor: theme().always_white,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '88%',
+              }}>
+              <View
+                style={{
+                  position: 'absolute',
+                  alignSelf: 'center',
+                  top: 70,
+                  //left: 0,
+                }}>
+
+                <CreditCardInput
+                  onChange={(val) => {
+                    const expMonth = split(val?.values?.expiry, '/')[0];
+                    const expYear = split(val?.values?.expiry, '/')[1];
+
+                    const tempObj = {
+                      number: val?.values?.number,
+                      exp_month: expMonth,
+                      exp_year: 20 + expYear,
+                      cvc: val?.values?.cvc,
+                    };
+                    setcardType(val?.values?.type);
+
+                    setcardObj(tempObj);
+                  }}
+                  cardFontFamily={FontFamily.arial_bold}
+                  // validColor={theme().whiteColor}
+                  labelStyle={{ color: theme().black }}
+                  allowScroll={true}
+                />
+              </View>
+              <Text style={{ paddingHorizontal: 20, top: Platform.OS === 'ios' ? '55%' : '70%', color: 'red', fontSize: 20 }}> Booking Advance :  {orderData?.numberOfAppointments * localAppointmentAdvanceAmount} $</Text>
+              <CButton
+                loader={loader}
+                title={t('submit')}
+                onPress={() => {
+                  StripePaymentIntentConfirm();
+                }}
+                style={{
+                  position: 'absolute',
+                  top: Platform.OS === 'ios' ? '55%' : '80%',
+                  width: '90%',
+                  marginBottom: 0,
+                  alignSelf: 'center',
+                  backgroundColor: theme().btnBlue,
+                }}
+                titleStyle={{
+                  color: theme().whiteColor,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
+
+
+      </View>
+      <Modal
+        style={{ flex: 1 }}
+        transparent
+        visible={openDateModal}
+        animationType="slide"
+        onRequestClose={() => {
+
         }}
-        onCancel={() => {
-          setisDatePickerVisible(false);
-        }}
-      />
-      {/* <CLoader loader={loader} /> */}
-      <CLoader loader={timeAndStaffLoader} />
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.closeIcon}
+            onPress={() => setOpenDateModal(false)}
+          >
+            <FontAwesomeIcon name="close" size={30} color="black" />
+          </TouchableOpacity>
+          <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
+        </View>
+      </Modal>
     </>
   );
 }
