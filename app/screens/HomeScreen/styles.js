@@ -18,7 +18,7 @@ export const styledFunc = () => {
       marginStart: 8,
     },
     mainCont: {
-      height: 250,
+      height: Dimensions.get('window').height * 0.4, //40 % height
       width: Dimensions.get('window').width - 16,
       paddingHorizontal: 16,
     },
@@ -59,6 +59,41 @@ export const styledFunc = () => {
       justifyContent: 'center',
       alignItems: 'center',
       marginEnd: 8,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      width: 100,
+    },
+    buttonOpen: {
+      backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+      backgroundColor: '#2196F3',
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    button: {
+      width: '80%',
+      height: 50,
+      marginVertical: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 8,
+    },
+    buttonText: {
+      color: 'black',
+      fontSize: 32,
+      fontFamily: 'BebasNeue-Regular', 
     },
   });
 };

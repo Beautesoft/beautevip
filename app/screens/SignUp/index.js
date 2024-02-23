@@ -19,6 +19,7 @@ import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import validator from 'validator';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {  Text } from 'react-native';
 
 export default function SignUp({ navigation }) {
   const styles = styledFunc();
@@ -46,7 +47,7 @@ export default function SignUp({ navigation }) {
     } else if (!validatePassword(password)) {
       Alert.alert(
         'Error!',
-        'Password must contains uppercase, lowercase,number,special character and minimium length should be 6.',
+        'Password must contains uppercase, lowercase,number,special character and minimium length should be 8.',
       );
     } else if (password !== confirmPassword) {
       Alert.alert('Error!', 'Password and Confirm Password must be same');
@@ -67,7 +68,7 @@ export default function SignUp({ navigation }) {
   const validatePassword = (value) => {
     if (
       validator.isStrongPassword(value, {
-        minLength: 4,
+        minLength: 8,
         minLowercase: 1,
         minUppercase: 1,
         minNumbers: 1,
@@ -169,6 +170,9 @@ export default function SignUp({ navigation }) {
             contStyle={styles.cInput}
             maxLength={15}
           />
+           <View style={{ marginTop: 5, paddingHorizontal: 10 }}>
+        <Text style={{ fontSize: 12, color: 'gray' }}>Min: 8 & Max: 15 characters</Text>
+      </View>
           <CInput
             placeholder={t('phConfirmPassword')}
             showLeftIcon
@@ -183,6 +187,9 @@ export default function SignUp({ navigation }) {
             contStyle={styles.cInput}
             maxLength={15}
           />
+          <View style={{ marginTop: 5, paddingHorizontal: 10 }}>
+        <Text style={{ fontSize: 12, color: 'gray' }}>Min: 8 & Max: 15 characters</Text>
+      </View>
           {/* <CInput
             placeholder={t('phEnterPromoCode')}
             showLeftIcon

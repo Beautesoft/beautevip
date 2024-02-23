@@ -57,7 +57,7 @@ export const BottomTabsNavigator = () => {
         },
         tabBarStyle: {
           backgroundColor: theme().darkGrey,
-          height: 70,
+          height: 80,
           paddingTop: 10,
           justifyContent: 'center',
         },
@@ -65,9 +65,9 @@ export const BottomTabsNavigator = () => {
       initialRouteName="Home">
       <Tab.Screen name="My Booking" component={OrdersScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
-      {clientDetails?.isEnableAddtoCart == "Yes" &&
+
         <Tab.Screen name="Cart" component={ShoppingBag} />
-      }
+
       <Tab.Screen name="My Profile" component={SettingsScreen} />
     </Tab.Navigator>
   );

@@ -21,6 +21,7 @@ import CLoader from '../../components/CLoader';
 import { t } from 'i18next';
 import CText from '../../components/CText';
 import { Images } from '../../config/images';
+import BaseColor from '../../config/colors';
 
 export default function MyPackages({ navigation }) {
   const styles = styledFunc();
@@ -90,7 +91,24 @@ export default function MyPackages({ navigation }) {
                 </Text>
               </View>
             </View>
-            <View style={styles.secondView} />
+            <View style={styles.secondView}>
+              <TouchableOpacity
+                style={styles.bookBtn}
+                activeOpacity={0.7}
+                onPress={() => {
+                  navigation.navigate('BookingScreenNew', {
+                    itemData: item,
+                    type: 'package',
+                  });
+                }}>
+                <Text style={[styles.viewSession, { color: BaseColor.amberTxt }]}>
+                  {t('bookNow')}
+                </Text>
+              </TouchableOpacity>
+              {/* <Text style={[styles.viewSession, { marginTop: 8 }]}>
+              Amount: {item?.balanceAmount}
+            </Text> */}
+            </View>
           </View>
         </>
       );
@@ -129,9 +147,8 @@ export default function MyPackages({ navigation }) {
           )} */}
           <Text style={styles.headTxt}>
             {`${t('sessions')}: `}
-            <Text style={styles.secTxt}>{`${
-              packageList?.totalSessions || 0
-            }`}</Text>
+            <Text style={styles.secTxt}>{`${packageList?.totalSessions || 0
+              }`}</Text>
           </Text>
         </View>
         <FlatList

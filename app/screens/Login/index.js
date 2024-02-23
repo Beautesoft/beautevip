@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
   const currentTheme = useSelector((state) => state.theme.theme);
   useEffect(() => {
     GetSaloonList();
-  }, []);
+  }, [isFocused]);
   const Validate = () => {
     if (isEmpty(moNumber)) {
       Alert.alert('Error !', 'Please Enter Mobile Number!');
@@ -92,10 +92,12 @@ export default function Login({ navigation }) {
               data: result?.result,
             });
           }
+          Toast.show(result?.error);
         }
-        navigation.navigate('BottomTabsNavigator');
+        if (result?.success == 0) {
+          Alert.alert('Error', result?.error);
+        }
         setFcmToken(result?.result);
-        Toast.show(result?.error);
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
@@ -124,15 +126,16 @@ export default function Login({ navigation }) {
   const GetSaloonList = () => {
     const url = `${baseUrl}api/getSaloonList?siteCode=&userID=&hq=0`;
     console.log('GetSaloonListURL', url);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('🚀 line 371>', json);
-        setSaloonListResponse(json?.result);
-        for (let i = 0; i < json?.result.length; i++) {
-          saloonList.push(json?.result[i].siteName);
-        }
-      });
+    if (saloonList.length === 0) {
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          setSaloonListResponse(json?.result);
+          for (let i = 0; i < json?.result.length; i++) {
+            saloonList.push(json?.result[i].siteName);
+          }
+        });
+    }
   };
   return (
     <>
@@ -241,6 +244,16 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
                   value={t('newUser')}
+                  color={theme().yellow}
+                  size={14}
+                  fontFamily={FontFamily.Poppins_Regular}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Splash')}>
+                <CText
+                  value={t('Welcome Page')}
                   color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}

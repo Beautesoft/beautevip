@@ -20,13 +20,11 @@ export default function ServiceScreen({ navigation }) {
 
   const StoreDetails = () => {
     const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
-    // const url = `/dashBoardF21?siteCode=TN01&customerCode=GC01T1100002`;
-    console.log('🚀 ~ file: index.js ~ line 146 ~ StoreDeatils ~ url', url);
-
     getApiData(url, 'get', {})
       .then((result) => {
         if (result?.success == 1) {
           setserviceList(result?.service);
+          console.log('ServiceScreen-Response', result?.service);
         }
       })
       .catch((err) => {
@@ -38,7 +36,7 @@ export default function ServiceScreen({ navigation }) {
     return (
       <View
         style={{
-          width: '25%',
+          width: '33%',
           alignItems: 'center',
           marginTop: 12,
         }}>

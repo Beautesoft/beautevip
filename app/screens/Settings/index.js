@@ -211,7 +211,7 @@ export default function Settings({ navigation }) {
     {
       title: t('aboutUs'),
       onPress: () => {
-        Linking.openURL('https://pages.flycricket.io/beautesoft-Kirei/');
+        Linking.openURL('https://pages.flycricket.io/beautesoft-vip/');
       },
     },
     {
@@ -247,7 +247,7 @@ export default function Settings({ navigation }) {
     },
     {
       title: 'Version',
-      value: '1.0.0.3',
+      value: '04.11.2023',
       onPress: () => {
         //navigation.navigate('Language');
       },
@@ -293,6 +293,7 @@ export default function Settings({ navigation }) {
       navigation.navigate('ChangePassword');
     },
   });
+  
   listArr.push({
     title: t('deleteAccount'),
     onPress: () => {
@@ -313,7 +314,7 @@ export default function Settings({ navigation }) {
   });
   listArr.push({
     title: 'Version',
-    value: '5.11.2023',
+    value: '13.FEB.2024',
     onPress: () => {
       //navigation.navigate('Language');
     },

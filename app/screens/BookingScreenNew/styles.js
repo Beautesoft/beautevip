@@ -49,9 +49,20 @@ export const styledFunc = () => {
       width: '90%',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 8,
+      padding: 3,
       marginVertical: 8,
     },
+    recheduleBtn: {
+      borderWidth: 0,
+      borderColor: theme().darkAmber,
+      borderRadius: 12,
+      width: '90%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 3,
+      marginVertical: 8,
+    },
+
     locCont: {
       flexDirection: 'row',
       width: '100%',
@@ -65,5 +76,24 @@ export const styledFunc = () => {
       marginTop: 12,
       padding: 4,
     },
+    dateCont: {
+      borderBottomColor: 'red',
+
+    },
+
+    modalContainer: {
+      flex: 1,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      alignItems: 'center',
+      top: 150,
+    },
+    closeIcon: {
+      position: 'absolute',
+      top: 150,
+      right: 16,
+    },
+
+
   });
 };

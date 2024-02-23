@@ -2,7 +2,7 @@
 const devMode = __DEV__;
 
 //const baseUrl = 'http://103.253.15.102:88/main_api';
-export const baseUrl = 'http://sequoiasg.ddns.net:7049/Main_API_Train/';
+export const baseUrl = 'http://103.253.15.75:7054/Main_API/';
 //export const baseUrl = 'http://sequoiasg.ddns.net:7015/mainapi/';  // my demo url
 // const baseUrl = "http://192.168.0.5:1337";
 const BaseSetting = {
@@ -29,9 +29,11 @@ const BaseSetting = {
     availableSlots: '/AvailableSlots',
     availableSlotsTnc: '/AvailableSlotsTnc',
     availableDatesTnc: '/AvailableDatesTnc',
+    rescheduleAppointment:'/rescheduleAppointment',
     getStaffMemberList: '/getStaffMemberList',
     cartItemInput: '/CartItemInput',
     cartItemDelete: '/CartItemDelete',
+    appAppointmentBookingFromCart:'/appAppointmentBookingFromCart',
     customerReferalCode: '/customerReferalCode',
     sendOtp: '/sendOtp',
     updateCustomerProfile: '/updateCustomerProfile',
@@ -55,6 +57,8 @@ const BaseSetting = {
     AvailableStaffsTnc: '/AvailableStaffsTnc',
     updateNotificationStatus: '/updatePushNotificationStatus',
     getClientDetails: '/getClientDetails',
+    appUpdatePaymentDetails:'/appUpdatePaymentDetails',
+    appHitpayCallback:'/appHitpayCallback',
   },
 };
 

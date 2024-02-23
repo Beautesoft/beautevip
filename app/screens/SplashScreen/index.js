@@ -64,7 +64,6 @@ export default function SplashScreen({ navigation }) {
         );
       });
   };
-
   return (
     <>
       <BackgroundImage image={theme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
@@ -85,8 +84,15 @@ export default function SplashScreen({ navigation }) {
           title={t('getStarted')}
           style={styles.btnStyle}
           onPress={
+            () => navigation.navigate('Login')
+            //dispatch(setUserData(uData))
+          }
+        />
+        <CButton
+          title={t('Get Started Without Login')}
+          style={styles.btnStyle}
+          onPress={
             () => 
-            //navigation.navigate('Login')
             //dispatch(setUserData(uData))
             dispatch({
               type: 'LOGIN_SUCCESS',
