@@ -157,10 +157,10 @@ export default function HomeScreen({ navigation }) {
     getApiData(url, 'get', {})
       .then((result) => {
         if (result?.success == 1) {
-          console.log('result home page----->', userData, result);
-          console.log("response_product_data", result?.product);
-          console.log("response_service", result?.service);
-          console.log("response_product_data_images", result?.product[0].items);
+          //console.log('result home page----->', userData, result);
+          //console.log("response_product_data", result?.product);
+          //console.log("response_service", result?.service);
+          //console.log("response_product_data_images", result?.product[0].items);
           sethStoreData(result);
           setserviceList(result?.service);
           setPriceList(result?.pricelist);
@@ -239,13 +239,13 @@ export default function HomeScreen({ navigation }) {
       .then((result) => {
         if (result?.success == 1) {
           setSallonDetail(result?.result);
-          console.log("getSallonDetail", result?.result)
+          //console.log("getSallonDetail", result?.result)
         }
         setrefreshing(false);
       })
       .catch((err) => {
         setrefreshing(false);
-        console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
+        //console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
       });
   };
 
@@ -400,63 +400,61 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.headerCont}>
 
         <Image
-          style={{ height: 48, width: 40 }}
+          style={{ borderRadius:24, height: 48, width: 40 }}
           source={{ uri: clientDetails?.clientLogo }}
           resizeMode="center"
         />
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-
+     
           <View style={styles.searchCont}>
+          {clientDetails?.isShowProducts == "Yes" &&
             <Image
               source={Icons.search}
               style={{ height: 18, width: 18 }}
               resizeMode="center"
             />
-            <TextInput
-              placeholder={t('searchProducts')}
-              style={{
-                marginStart: 12,
-                marginEnd: 8,
-                color: theme().yellow,
-                fontSize: 14,
-              }}
-              value={searchTxt}
-              placeholderTextColor={theme().amber}
-              onChangeText={setsearchTxt}
-              onChange={() => {
-                const tempArr = productList.filter((item) =>
-                  item?.itemName
-                    .toLowerCase()
-                    .replace(/\s+/g, '')
-                    .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
-                );
-                // const tempArr = productList.filter((item) => {
+  }
+     {clientDetails?.isShowProducts == "Yes" &&
+              <TextInput
+                placeholder={t('searchProducts')}
+                style={{
+                  marginStart: 12,
+                  marginEnd: 8,
+                  color: theme().yellow,
+                  fontSize: 14,
+                }}
+                value={searchTxt}
+                placeholderTextColor={theme().amber}
+                onChangeText={setsearchTxt}
+                onChange={() => {
+                  const tempArr = productList.filter((item) =>
+                    item?.itemName
+                      .toLowerCase()
+                      .replace(/\s+/g, '')
+                      .includes(searchTxt.toLowerCase().replace(/\s+/g, '')),
+                  );
+                  // const tempArr = productList.filter((item) => {
 
-                //   const name =
-                //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
-                //   return name.includes(searchTxt.toLowerCase());
-                // });
-                if (!!searchTxt) {
-                  setfilterArr(tempArr);
-                } else {
-                  setfilterArr(productList);
-                }
-              }}
-              resizeMode="center"
-            />
+                  //   const name =
+                  //     item && item?.itemName ? item?.itemName.toLowerCase() : '';
+                  //   return name.includes(searchTxt.toLowerCase());
+                  // });
+                  if (!!searchTxt) {
+                    setfilterArr(tempArr);
+                  } else {
+                    setfilterArr(productList);
+                  }
+                }}
+                resizeMode="center"
+              /> }
           </View>
-
+        
           <TouchableOpacity
             activeOpacity={0.9}
             onPress={() => navigation.navigate('Notification')}>
             <Image
               source={Icons.notification_o}
-              style={{
-                marginHorizontal: 8,
-                marginEnd: 8,
-                height: 22,
-                width: 22,
-              }}
+              style={{ height: 48, width: 40 }}
               resizeMode="center"
             />
           </TouchableOpacity>
@@ -465,12 +463,7 @@ export default function HomeScreen({ navigation }) {
             onPress={() => handleLogout()}>
             <Image
               source={Icons.exit_o}
-              style={{
-                height: 22,
-                width: 22,
-                marginHorizontal: 8,
-                marginStart: 8,
-              }}
+              style={{ height: 48, width: 40 }}
               resizeMode="center"
             />
           </TouchableOpacity>
@@ -686,13 +679,13 @@ export default function HomeScreen({ navigation }) {
         }
         {IsRenderButtonGroup &&
           <View style={styles.container}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'black' }]} onPress={handleNavigationPriceList}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationPriceList}>
               <Text style={styles.buttonText}>Price List</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'black' }]} onPress={handleNavigationTerms}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationTerms}>
               <Text style={styles.buttonText}>Terms & Conditions</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'black' }]} onPress={handleNavigationLocation}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#E5D0BF' }]} onPress={handleNavigationLocation}>
               <Text style={styles.buttonText}>General Info</Text>
             </TouchableOpacity>
           </View>

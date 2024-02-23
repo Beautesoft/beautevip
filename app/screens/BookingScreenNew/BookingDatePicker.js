@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const BookingDatePicker = ({ onCloseDateModal, selectedDates }) => {
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log("BookingDatePicker", selectedDates);
+  //console.log("BookingDatePicker", selectedDates);
   const handleDateChange = (date) => {
     const formattedDate = date ? moment(date).format('DD/MM/YYYY') : null;
     setSelectedDate(date);

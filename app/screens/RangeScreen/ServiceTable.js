@@ -7,15 +7,17 @@ const ServiceTable = ({ serviceData, onServiceSelect }) => {
       <View style={styles.container}>
         <View style={styles.body}>
           {serviceData.map((product, index) => (
-            <View key={index} style={styles.row}>
-              <Image source={{ uri: product.imageUrl }} style={styles.image} />
-              <Text style={styles.description}>{product.itemDescription}</Text>
-              <TouchableOpacity
-                style={styles.selectButton}
-                onPress={() => onServiceSelect(product)}>
-                <Text style={styles.buttonText}>Book</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => onServiceSelect(product)}>
+              <View key={index} style={styles.row}>
+                <Image source={{ uri: product.imageUrl }} style={styles.image} />
+                <Text style={styles.description}>{product.itemDescription}</Text>
+                <TouchableOpacity
+                  style={styles.selectButton}
+                  onPress={() => onServiceSelect(product)}>
+                  <Text style={styles.buttonText}>  >> </Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -57,9 +59,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 5,
+    color: '#B78D05',
   },
   selectButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#B78D05',
     padding: 10,
     borderRadius: 5,
   },

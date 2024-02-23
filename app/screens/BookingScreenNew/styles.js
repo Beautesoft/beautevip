@@ -62,7 +62,7 @@ export const styledFunc = () => {
       padding: 3,
       marginVertical: 8,
     },
-    
+
     locCont: {
       flexDirection: 'row',
       width: '100%',
@@ -77,17 +77,23 @@ export const styledFunc = () => {
       padding: 4,
     },
     dateCont: {
-      borderBottomColor:'red',
-      
+      borderBottomColor: 'red',
+
     },
 
-      modalContainer: {
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
+    modalContainer: {
+      flex: 1,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      alignItems: 'center',
+      top: 150,
+    },
+    closeIcon: {
+      position: 'absolute',
+      top: 150,
+      right: 16,
+    },
 
-    
+
   });
 };

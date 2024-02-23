@@ -92,9 +92,12 @@ export default function Login({ navigation }) {
               data: result?.result,
             });
           }
+          Toast.show(result?.error);
+        }
+        if (result?.success == 0) {
+          Alert.alert('Error', result?.error);
         }
         setFcmToken(result?.result);
-        Toast.show(result?.error);
       })
       .catch((err) => {
         console.log('🚀 ~ file: index.js ~ line 48 ~ .then ~ err', err);
@@ -241,6 +244,16 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate('SignUp')}>
                 <CText
                   value={t('newUser')}
+                  color={theme().yellow}
+                  size={14}
+                  fontFamily={FontFamily.Poppins_Regular}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('Splash')}>
+                <CText
+                  value={t('Welcome Page')}
                   color={theme().yellow}
                   size={14}
                   fontFamily={FontFamily.Poppins_Regular}

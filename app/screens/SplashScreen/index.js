@@ -36,7 +36,7 @@ export default function SplashScreen({ navigation }) {
       'http://103.253.15.102:88/wellness/wellnessimages/GCHQ/ClientLogo.jpg',
     referenceCode: '',
     salutation: '',
-    siteCode: 'TN01',
+    siteCode: 'KBHQ',
     storeName: 'TC',
   };
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function SplashScreen({ navigation }) {
         );
       });
   };
-
   return (
     <>
       <BackgroundImage image={theme == 'Dark' ? Images.backgroundImageSec : Images.white_background} />
@@ -87,6 +86,18 @@ export default function SplashScreen({ navigation }) {
           onPress={
             () => navigation.navigate('Login')
             //dispatch(setUserData(uData))
+          }
+        />
+        <CButton
+          title={t('Get Started Without Login')}
+          style={styles.btnStyle}
+          onPress={
+            () => 
+            //dispatch(setUserData(uData))
+            dispatch({
+              type: 'LOGIN_SUCCESS',
+              data: uData,
+            })
           }
         />
       </View>

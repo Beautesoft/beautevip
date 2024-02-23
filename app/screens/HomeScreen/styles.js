@@ -18,7 +18,7 @@ export const styledFunc = () => {
       marginStart: 8,
     },
     mainCont: {
-      height: Dimensions.get('window').height *0.4, //40 % height
+      height: Dimensions.get('window').height * 0.4, //40 % height
       width: Dimensions.get('window').width - 16,
       paddingHorizontal: 16,
     },
@@ -91,8 +91,9 @@ export const styledFunc = () => {
       borderRadius: 8,
     },
     buttonText: {
-      color: 'white',
-      fontSize: 21,
+      color: 'black',
+      fontSize: 32,
+      fontFamily: 'BebasNeue-Regular', 
     },
   });
 };

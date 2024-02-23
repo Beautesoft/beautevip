@@ -1,23 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Linking, Platform ,TouchableOpacity } from 'react-native';
 import CHeader from '../../components/CHeader';
 import { t } from 'i18next';
 import { getApiData } from '../../config/apiHelper';
 import BaseSetting from '../../config/settings';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment-timezone';
+import { useSelector } from 'react-redux';
 
 
 const HitPay = ({ navigation, route }) => {
+  const { clientDetails } = useSelector((state) => state.auth);
   const [paymentInProgress, setPaymentInProgress] = useState(true);
   const [paymentUrl, setPaymentUrl] = useState('');
   const [hitPayRequestId, setHitPayRequestId] = useState('');
   const { hitpayrequest, customerCode, hitPayBookAppointmentRequest } = route.params;
   const { amount, email, phoneNumber, purpose } = hitpayrequest;
   console.log(hitPayBookAppointmentRequest);
+
+  // Function to open a custom URL scheme
+const openCustomUrlScheme = async (scheme,url) => {
+
+  try {
+    if (Platform.OS === 'ios') {
+      // Check if the app is installed before opening the URL
+      const canOpen = await Linking.canOpenURL(url);
+
+      if (canOpen) {
+        await Linking.openURL(url);
+      } else {
+        console.warn(`App with scheme ${scheme} is not installed.`);
+      }
+    } else {
+      // For Android, open the URL directly
+      await Linking.openURL(url);
+    }
+  } catch (error) {
+    console.error('Error opening URL:', error);
+  }
+};
   useEffect(() => {
     try {
-       handlePaymentRequest();
+      handlePaymentRequest();
     } catch (error) {
       // console.error('Error in useEffect:', error);
     }
@@ -30,7 +54,7 @@ const HitPay = ({ navigation, route }) => {
 
   const getHitPayPaymentStatus = () => {
     const request = {
-      reference: hitPayRequestId
+      custCode: customerCode
     };
     console.log("getHitPayPaymentStatus-Request", request);
     getApiData(BaseSetting.endpoints.appHitpayCallback, 'get', request)
@@ -39,7 +63,8 @@ const HitPay = ({ navigation, route }) => {
         if (result?.status === "Success") {
           Toast.show(result?.status);
           setPaymentInProgress(!paymentInProgress);
-          BookAppointment();
+          navigation.navigate('BottomTabsNavigator');
+          //BookAppointment();
         } else {
           Toast.show(result?.status);
         }
@@ -52,20 +77,17 @@ const HitPay = ({ navigation, route }) => {
   function getSingaporeDateTime() {
     const singaporeTime = moment().tz('Asia/Singapore');
     singaporeTime.add(5, 'minutes'); // Add 5 minutes
-  
+
     return singaporeTime.format('YYYY-MM-DD HH:mm:ss');
   }
-  
-  const expiryDate = getSingaporeDateTime();
-  console.log(expiryDate);
   const handlePaymentRequest = async () => {
     console.log("handlePaymentRequest");
     try {
-      const response = await fetch('https://api.sandbox.hit-pay.com/v1/payment-requests', {
+      const response = await fetch(clientDetails.hitpayURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-BUSINESS-API-KEY': 'c3e8ac834af59f0cf54d85e588735fb16feed9c0047c8d28a9b19a71f9f3c813',
+          'X-BUSINESS-API-KEY': clientDetails.hitpayApiKey,
         },
         body: JSON.stringify({
           "allow_repeated_payments": "true",
@@ -81,14 +103,15 @@ const HitPay = ({ navigation, route }) => {
           ],
           "phone": phoneNumber,
           "purpose": purpose,
-          "redirect_url": "http://sequoiasg.ddns.net:7049/Main_API_Train/api/appHitpayCallback",
+          "redirect_url":BaseSetting.api+BaseSetting.endpoints.appHitpayCallback,
           "reference_number": "true",
           "send_email": "false",
           "send_sms": "false",
-          "webhook": "http://sequoiasg.ddns.net:7049/Main_API_Train/"
+          "webhook": BaseSetting.baseUrl
         }),
       });
-
+      console.log(BaseSetting.api+BaseSetting.endpoints.appHitpayCallback);
+      console.log(BaseSetting.baseUrl);
       if (!response.ok) {
         const responseText = await response.text();
         Toast.show(responseText);
@@ -100,9 +123,15 @@ const HitPay = ({ navigation, route }) => {
         throw new Error('Payment URL is undefined');
       }
       const { url, id, redirect_url } = responseData;
+      console.log("Payment Request Id: ", id);
+      console.log("Payment Request URL: ", url);
+      console.log("Payment Request redirect_url: ", redirect_url);
       setHitPayRequestId(id);
       setPaymentUrl(url);
-      Linking.openURL(url);
+      const customSchemeToOpen = 'kirei';
+      openCustomUrlScheme(customSchemeToOpen,url);
+      //Linking.openURL("https://www.google.com/").catch((err) => console.error('Error opening URL:', err));
+      //Linking.openURL(encodedUrl);
       appUpdatePaymentDetails(id);
     } catch (error) {
       console.error('Error making payment request:', error.message);
