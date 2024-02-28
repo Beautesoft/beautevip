@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image, Linking } from 'react-native';
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, Dimensions, Image, Linking,Alert } from 'react-native';
 import CHeader from '../../components/CHeader';
 import BannerCarousel from '../Shared/Banner/BannerCarousel';
 import { Modal, Pressable } from 'react-native';//this is for android
@@ -71,7 +71,7 @@ const PriceList = ({ route, navigation }) => {
         }
       })
       .catch((err) => {
-        console.log('🚀 ~ file: index.js ~ line 149 ~ .then ~ err', err);
+        console.log('dashBoardF21-error', err);
       });
   };
 
@@ -97,9 +97,12 @@ const PriceList = ({ route, navigation }) => {
   };
 
   const openUrl = (url) => {
-    Linking.openURL(url);
+    if (url && typeof url === 'string' && url.trim() !== '') {
+      Linking.openURL(url);
+    } else {
+      Alert.alert('Warning!', 'Please check the URL');
+    }
   };
-
   return (
     <>
       <CHeader
@@ -130,7 +133,7 @@ const PriceList = ({ route, navigation }) => {
             />
           </View>
         }
-        {(type === 'location' && pricelist.length>0) &&
+        {(type === 'location' && isGetSaloonListEndpointSuccess) &&
           <View style={{ padding: 10, paddingLeft: 20 }}>
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
               <View style={{ flex: 0 }}>
