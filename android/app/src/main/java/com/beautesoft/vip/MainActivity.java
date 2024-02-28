@@ -1,4 +1,4 @@
-package com.beautesoft.kirei;
+package com.kireibeauty;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
