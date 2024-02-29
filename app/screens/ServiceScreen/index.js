@@ -65,7 +65,7 @@ export default function ServiceScreen({ navigation }) {
       />
       <View style={styles.container}>
         <FlatList
-          numColumns={4}
+          numColumns={3}
           data={serviceList}
           renderItem={renderServiceBtn}
           keyExtractor={(item, index) => index}
