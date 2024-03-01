@@ -606,14 +606,27 @@ export default function BookingScreenNew({ navigation, route }) {
               />
             )}
             {orderData?.price !== undefined && (
+              <View style={{ flexDirection: 'row' }}>
               <CText
                 value={`S$ ${orderData?.price.toFixed(2)}`}
                 color={theme().amberTxt}
                 size={18}
                 fontFamily={FontFamily.Poppins_Regular}
               />
+                <CText
+                  value={orderData?.priceInfo}
+                  color={theme().amberTxt}
+                  size={18}
+                  fontFamily={FontFamily.Poppins_Regular}
+                />
+              </View>
             )}
-
+            <CText
+              value={orderData?.priceInfo2}
+              color={theme().amberTxt}
+              size={16}
+              fontFamily={FontFamily.Poppins_Regular}
+            />
 
           </View>
         </View>
