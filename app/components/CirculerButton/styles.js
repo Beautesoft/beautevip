@@ -1,3 +1,4 @@
+import { wrap } from 'lodash';
 import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
@@ -12,7 +13,8 @@ export default styles = StyleSheet.create({
   },
   titleSty: {
     textAlign: 'center',
-    marginTop: 6,
+    marginTop: 3,
+    width:70
   },
   rootCont: {
     alignItems: 'center',

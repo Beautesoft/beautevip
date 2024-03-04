@@ -5,27 +5,17 @@ import CircularButton from '../../components/CirculerButton';
 import { theme } from '../../redux/reducer/theme';
 import { Icons } from '../../config/icons';
 import { styledFunc } from './styles';
-
+import { useSelector } from 'react-redux';
+import ServiceTable from './ServiceTable';
 export default function RangeScreen({ navigation, route }) {
   const styles = styledFunc();
   const serviceData = route?.params?.serviceData;
-
-  const renderServiceBtn = ({ item, index }) => {
-    return (
-      <View
-        style={{
-          width: '25%',
-          alignItems: 'center',
-          marginTop: 12,
-        }}>
-        <CircularButton
-          iconSrouce={item.image}
-          title={item?.rangeName}
-          onPress={() => navigation.navigate('SubService', { itemData: item })}
-        />
-      </View>
-    );
+  const { bookingData } = useSelector((state) => state.auth);
+  const handleServiceSelect = (service) => {
+    console.log("handleServiceSelect", service);
+    navigation.navigate(bookingData === 'oldflow' ? 'BookingScreen' : 'BookingScreenNew', { itemData: service })
   };
+
   return (
     <>
       <CHeader
@@ -36,15 +26,7 @@ export default function RangeScreen({ navigation, route }) {
         onCartIconPress={() => navigation?.navigate('ShoppingBag', {})}
       />
       <View style={styles.container}>
-        <FlatList
-          numColumns={4}
-          data={serviceData?.ranges}
-          renderItem={renderServiceBtn}
-          // contentContainerStyle={{
-          //   width: '100%',
-          // }}
-          keyExtractor={(item, index) => index}
-        />
+        <ServiceTable serviceData={serviceData.items} onServiceSelect={handleServiceSelect} />
       </View>
     </>
   );

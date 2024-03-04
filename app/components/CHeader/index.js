@@ -44,7 +44,7 @@ export default function CHeader(props) {
           value={
             title.length < 15 ? `${title}` : `${title.substring(0, 15)}...`
           }
-          size={24}
+          size={23}
           color={theme().darkGrey}
         />
         {showLeftFirstIcon && (
