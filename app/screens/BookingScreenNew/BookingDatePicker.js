@@ -3,9 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 
-const BookingDatePicker = ({ onCloseDateModal, selectedDates }) => {
+const BookingDatePicker = ({ onCloseDateModal, selectedDates,componentName }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   //console.log("BookingDatePicker", selectedDates);
+  // Calculate the current date
+  const currentDate = moment();
+
+  // Calculate the date 30 days from the current date
+  const maxDate = moment().add(30, 'days');
+
+
   const handleDateChange = (date) => {
     const formattedDate = date ? moment(date).format('DD/MM/YYYY') : null;
     setSelectedDate(date);
@@ -28,6 +35,7 @@ const BookingDatePicker = ({ onCloseDateModal, selectedDates }) => {
         screenWidth={adjustedWidth}
         startFromMonday={true}
         minDate={new Date()}
+        maxDate={componentName === "Reschedule" ? maxDate.toDate() : undefined}
         weekdays={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
       />
     </View>

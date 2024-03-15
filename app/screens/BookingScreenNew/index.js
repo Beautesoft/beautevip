@@ -210,6 +210,10 @@ export default function BookingScreenNew({ navigation, route }) {
         onPress={() => {
           setSelectedLoation(item);
           setexpandLocation(false);
+          navigation.navigate('BookingScreenNew', { itemData: null });
+          setbeauty();
+          setselectedDate();
+          setselectedDateTime();   
         }}>
         <Image
           source={
@@ -277,7 +281,6 @@ export default function BookingScreenNew({ navigation, route }) {
         onPress={() => {
           setselectedDate(item?.date);
           setexpandDate(false);
-          setexpandTime(true);
           getAvailableSlots(item?.date);
         }}
       >
@@ -340,6 +343,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
   const getAvailableSlots = (date) => {
     setloader(true);
+    setselectedDateTime("");
     const data = {
       siteCode: selectedLocation?.siteCode,
       slotDate: moment(date, "DD/MM/YYYY").format('YYYY-MM-DD'),
@@ -355,6 +359,7 @@ export default function BookingScreenNew({ navigation, route }) {
 
           // The result is empty (no elements)
           // Your code here for the empty result
+          setexpandTime(false);
           Toast.show('No Slots available');
         } else {
           // The result is not empty (contains elements)
@@ -374,6 +379,8 @@ export default function BookingScreenNew({ navigation, route }) {
 
 
   const getAvailableDates = async (staffCode) => {
+    setselectedDate();
+    setselectedDateTime();
     setloader(true);
     const data = {
       siteCode: selectedLocation?.siteCode,
@@ -392,6 +399,9 @@ export default function BookingScreenNew({ navigation, route }) {
   };
 
   const GetStaffMemberList = (siteCodeSelected) => {
+    setbeauty();
+    setselectedDate();
+    setselectedDateTime();
     const request = {
       siteCode: siteCodeSelected?.siteCode,
       apptDate: "",
@@ -991,7 +1001,7 @@ export default function BookingScreenNew({ navigation, route }) {
           >
             <FontAwesomeIcon name="close" size={30} color="black" />
           </TouchableOpacity>
-          <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} />
+          <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} componentName="BookingScreen" />
         </View>
       </Modal>
     </>
