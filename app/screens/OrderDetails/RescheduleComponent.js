@@ -12,8 +12,11 @@ import { theme } from '../../redux/reducer/theme';
 import CButton from '../../components/CButton';
 import { Modal, Pressable } from 'react-native';//this is for android
 import { useNavigation } from '@react-navigation/native';
-
-const RescheduleComponent = ({ orderData, closeModal }) => {
+import BookingDatePicker from '../BookingScreenNew/BookingDatePicker';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Import your icon library
+import CHeader from '../../components/CHeader';
+const RescheduleComponent = ({ route }) => {
+  const { orderData } = route.params;
   const [dateList, setDateList] = useState([]);
   const BookingScreenStyles = styledFunc();
   const [selectedDateTime, setselectedDateTime] = useState();
@@ -23,6 +26,14 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
   const [expandDate, setexpandDate] = useState(false);
   const [availableSlots, setavailableSlots] = useState([]);
   const [availableDates, setavailableDates] = useState([]);
+  const [openDateModal, setOpenDateModal] = useState(false);
+  const handleCloseDateModal = (date) => {
+    setOpenDateModal(false);
+    setselectedDate(date);
+    setexpandTime(true);
+    getAvailableSlots(date);
+  };
+
   useEffect(() => {
     getAvailableDates();
   }, []);
@@ -36,10 +47,10 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
       siteCode: orderData?.apptSiteCode,
       empCode: orderData?.employeeCode
     };
-    console.log("getAvailableDates - Request", RequestData);
+    //console.log("getAvailableDates - Request", RequestData);
     await getApiData(BaseSetting.endpoints.availableDatesTnc, 'post', RequestData)
       .then((result) => {
-        console.log("getAvailableDates - Response", result);
+        //console.log("getAvailableDates - Response", result);
 
         setavailableDates(result?.result);
       })
@@ -51,16 +62,17 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
 
   const getAvailableSlots = (date) => {
     // setloader(true);
+    setselectedDateTime("");
     const RequestData = {
       siteCode: orderData?.apptSiteCode,
       slotDate: moment(date, "DD/MM/YYYY").format('YYYY-MM-DD'),
       empCode: orderData?.employeeCode
     };
-    console.log("getAvailableSlots", RequestData);
+    //console.log("getAvailableSlots", RequestData);
     getApiData(BaseSetting.endpoints.availableSlotsTnc, 'post', RequestData)
       .then((result) => {
         setavailableSlots(result?.result);
-        console.log("getAvailableSlots", result?.result);
+        //console.log("getAvailableSlots", result?.result);
         if (result?.result.length === 0) {
           Toast.show('No Slots available');
         } else {
@@ -103,7 +115,6 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
         }
         else if (result?.success == 1) {
           Toast.show(result?.result);
-          closeModal();
           navigation.navigate('BottomTabsNavigator', { screen: 'My Booking' });
         }
         else {
@@ -119,30 +130,6 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
   };
 
 
-  const renderDates = ({ item, index }) => {
-    return (
-      <TouchableOpacity
-        style={styles.dateCont}
-        activeOpacity={0.7}
-        onPress={() => {
-          setselectedDate(item?.date);
-          setexpandDate(false);
-          setexpandTime(true);
-          getAvailableSlots(item?.date);
-        }}
-      >
-        <CText
-          value={`${item?.date}`}
-          size={22}
-          fontFamily={FontFamily.Poppins_Medium}
-          style={{
-            textAlign: 'center',
-          }}
-        />
-        <View style={{ borderColor: 'grey', borderBottomWidth: 1, }}></View>
-      </TouchableOpacity>
-    );
-  };
 
   const renderTimeSlots = ({ item, index }) => {
     return (
@@ -159,102 +146,103 @@ const RescheduleComponent = ({ orderData, closeModal }) => {
     );
   };
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={BookingScreenStyles.btnCont}
-        activeOpacity={0.7}
-        onPress={() => {
-          if (true) {
-            setexpandTime(false);
-            setexpandDate(!expandDate)
-          } else {
-            Toast.show('Please select staff');
-          }
-        }}>
-        <Text style={BookingScreenStyles.btnTxt}>
-          {selectedDate
-            ? selectedDate
-            : t('Select Reschedule Date')}
-        </Text>
-
-        {expandDate && (
-          <View
-            style={{
-              height: 130,
-              width: '100%',
-              paddingTop: 12,
-              marginBottom: '10%',
-            }}>
-            <FlatList
-              data={availableDates}
-              keyExtractor={(item, index) => index}
-              renderItem={renderDates}
-              contentContainerStyle={{
-                width: '100%',
-              }}
-              numColumns={1}
-              showsVerticalScrollIndicator={true}
-            />
-          </View>
-        )}
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[BookingScreenStyles.btnCont]}
-        activeOpacity={0.7}
-        onPress={() => {
-          if (selectedDate) {
-            setexpandTime(!expandTime);
-
-          } else {
-            Toast.show('Please select date.');
-          }
-        }}>
-        <Text style={BookingScreenStyles.btnTxt}>
-          {selectedDateTime?.time
-            ? ` ${selectedDateTime?.time
-            }`
-            : t('Select Reschedule Slot')}
-        </Text>
-        {expandTime && (
-          <View style={{ height: 130, width: '100%', paddingTop: 12 }}>
-            <FlatList
-              data={availableSlots}
-              keyExtractor={(item, index) => index}
-              renderItem={renderTimeSlots}
-              contentContainerStyle={{
-                width: '100%',
-              }}
-              numColumns={1}
-              showsVerticalScrollIndicator={false}
-            />
-          </View>
-        )}
-      </TouchableOpacity>
-      <CButton
-        style={BookingScreenStyles.recheduleBtn}
-        title={t('Reschedule')}
-        onPress={() => RescheduleAppointment()}
+    <>
+      <CHeader
+        title={('Reschedule Appointment')}
+        showLeftIcon
+        onLeftIconPress={() => navigation.goBack()}
       />
 
-      <CButton
-        style={BookingScreenStyles.recheduleBtn}
-        title={t('Close')}
-        onPress={() => closeModal()}
-      />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={BookingScreenStyles.btnCont}
+          activeOpacity={0.7}
+          onPress={() => {
+            if (true) {
+              setexpandTime(false);
+              setOpenDateModal(true);
+            } else {
+              Toast.show('Please select staff');
+            }
+          }}>
+          <Text style={BookingScreenStyles.btnTxt}>
+            {selectedDate
+              ? selectedDate
+              : t('Select Reschedule Date')}
+          </Text>
 
 
-    </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[BookingScreenStyles.btnCont]}
+          activeOpacity={0.7}
+          onPress={() => {
+            if (selectedDate) {
+              setexpandTime(!expandTime);
+
+            } else {
+              Toast.show('Please select date.');
+            }
+          }}>
+          <Text style={BookingScreenStyles.btnTxt}>
+            {selectedDateTime?.time
+              ? ` ${selectedDateTime?.time
+              }`
+              : t('Select Reschedule Slot')}
+          </Text>
+          {expandTime && (
+            <View style={{ height: 130, width: '100%', paddingTop: 12 }}>
+              <FlatList
+                data={availableSlots}
+                keyExtractor={(item, index) => index}
+                renderItem={renderTimeSlots}
+                contentContainerStyle={{
+                  width: '100%',
+                }}
+                numColumns={1}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          )}
+        </TouchableOpacity>
+        <CButton
+          style={BookingScreenStyles.recheduleBtn}
+          title={t('Reschedule')}
+          onPress={() => RescheduleAppointment()}
+        />
+
+        <Modal
+          style={{ flex: 1 }}
+          transparent
+          visible={openDateModal}
+          animationType="slide"
+          onRequestClose={() => {
+
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <TouchableOpacity
+              style={styles.closeIcon}
+              onPress={() => setOpenDateModal(false)}
+            >
+              <FontAwesomeIcon name="close" size={30} color="black" />
+            </TouchableOpacity>
+            <BookingDatePicker onCloseDateModal={handleCloseDateModal} selectedDates={availableDates} componentName="Reschedule" />
+          </View>
+        </Modal>
+
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    top: -120,
+    top: 0,
   },
   item: {
     padding: 10,
@@ -263,7 +251,19 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 150,
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: 150,
+    right: 16,
+  },
 });
 
 export default RescheduleComponent;

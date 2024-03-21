@@ -31,7 +31,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import thunk from 'redux-thunk';
 
-const enhancer = compose(applyMiddleware(thunk, logger));
+const enhancer = compose(applyMiddleware(thunk));
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,

@@ -81,7 +81,7 @@ export default function OrdersScreen({ navigation }) {
   }, []);
 
 
-  console.log('selectedTab.id', currentTab);
+  //console.log('selectedTab.id', currentTab);
   const appointmentSearch = () => {
     setorderList([]);
     setloader(true);

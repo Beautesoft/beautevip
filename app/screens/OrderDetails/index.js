@@ -36,8 +36,7 @@ import {
   Cell,
 } from 'react-native-table-component';
 import OrderDataTableComponent from './OrderDataTableComponent';
-import RescheduleComponent from './RescheduleComponent';
-import { style } from 'deprecated-react-native-prop-types/DeprecatedViewPropTypes';
+
 
 export default function OrderDetails({ navigation, route }) {
   const styles = styledFunc();
@@ -45,8 +44,6 @@ export default function OrderDetails({ navigation, route }) {
   const oid = route?.params?.oid;
   const tData = route?.params?.tData;
   const [rateService, setrateService] = useState(false);
-  const [Openreschedule, SetOpenreschedule] = useState(false);
-  console.log("OrderDetails", orderData);
   const state = {
     HeadTable: [
       'code',
@@ -80,7 +77,7 @@ export default function OrderDetails({ navigation, route }) {
         },
         {
           text: 'Yes',
-          onPress: () => SetOpenreschedule(true),
+          onPress: () =>  navigation.navigate('RescheduleComponent',{orderData:orderData}),
           style: 'cancel',
         },
       ],
@@ -130,7 +127,7 @@ export default function OrderDetails({ navigation, route }) {
   };
 
   useEffect(() => {
-    console.log('props route', route.params);
+    //console.log('props route', route.params);
     const backAction = () => {
       navigation.goBack();
       return true;
@@ -329,54 +326,6 @@ export default function OrderDetails({ navigation, route }) {
         </TouchableOpacity>
       </Modal>
 
-      <Modal
-        animationType="fade"
-        visible={false}
-        onRequestClose={() => SetOpenreschedule(!Openreschedule)}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => SetOpenreschedule(!Openreschedule)}
-          style={styles.modalContainer}>
-          <View style={[styles.modalContent, { height: modalHeight }]}>
-            <RescheduleComponent orderData={orderData} closeModal={closeModal} />
-          </View>
-        </TouchableOpacity>
-      </Modal>
-      <Modal
-        style={{ flex: 1 }}
-        transparent
-        visible={Openreschedule}
-        animationType="slide"
-      >
-
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            backgroundColor: '#ffffff40',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: 0,
-          }}>
-
-          <View
-            style={{
-              padding: 8,
-              backgroundColor: theme().always_white,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '88%',
-            }}>
-
-            <RescheduleComponent orderData={orderData} closeModal={closeModal} />
-
-
-          </View>
-        </TouchableOpacity>
-      </Modal>
     </>
   );
 }

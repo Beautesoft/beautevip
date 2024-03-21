@@ -18,16 +18,13 @@ const { width } = Dimensions.get('window');
 const PriceList = ({ route, navigation }) => {
   useEffect(() => {
     GetSaloonList();
-    getBanners();
   }, []);
-  const { type, data } = route.params;
+  const { type, data,pricelist,termsAndConditions} = route.params;
   const [priceListImageModal, setPriceListImageModal] = useState(false);
   const [priceListBannerImageURL, setPriceListBannerImageURL] = useState("");
   const [SaloonList, setSaloonList] = useState([]);
   const [isGetSaloonListEndpointSuccess, setGetSaloonListEndpointSuccess] = useState(false);
-  const [pricelist, setPricelist] = useState([]);
-  const [termsAndConditions, setTermsAndConditions] = useState([]);
-  
+
   // Assuming the API response looks like this
   const resetFlow = !!route.params?.resetFlow;
   const { clientDetails } = useSelector((state) => state.auth);
@@ -57,24 +54,6 @@ const PriceList = ({ route, navigation }) => {
       });
   };
 
-  const getBanners = () => {
-    const url = `/dashBoardF21?siteCode=${userData?.siteCode}&customerCode=${userData?.customerCode}`;
-    console.log('dashBoardF21-Request', url);
-
-    getApiData(url, 'get', {})
-      .then((result) => {
-        if (result?.success == 1) {
-          setPricelist(result?.pricelist);
-          setTermsAndConditions(result?.termsAndConditions);
-          console.log('dashBoardF21-Response-for-pricelist', result?.pricelist);
-          console.log('dashBoardF21-Response-for-pricelist', result?.termsAndConditions);
-        }
-      })
-      .catch((err) => {
-        console.log('dashBoardF21-error', err);
-      });
-  };
-
   const buttonWidth = 0.8 * width; // 80% of screen width
 
   const renderItem = ({ item }) => (
@@ -91,9 +70,7 @@ const PriceList = ({ route, navigation }) => {
 
 
   const handleButtonPress = (buttonData) => {
-    setPriceListImageModal(true);
-    console.log('Button pressed:', buttonData.bannerName);
-    setPriceListBannerImageURL(buttonData?.bannerImg);
+    navigation.navigate('FullScreenImage', { priceListBannerImageURL: buttonData?.bannerImg })
   };
 
   const openUrl = (url) => {
@@ -197,72 +174,6 @@ const PriceList = ({ route, navigation }) => {
           </View>
         }
       </ScrollView>
-
-      <Modal
-        style={{ flex: 1 }}
-        transparent
-        visible={priceListImageModal}
-        animationType="slide">
-
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            backgroundColor: '#ffffff40',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: 0,
-          }}>
-
-          <View
-            style={{
-              padding: 8,
-              backgroundColor: theme().always_white,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '100%',
-            }}>
-            <View
-              style={{
-                position: 'absolute',
-                alignSelf: 'center',
-                top: 10,
-                padding: 10,
-              }}>
-
-
-              <Image
-                style={{ height: 550, width: 300, borderRadius: 10 }}
-                source={{ uri: priceListBannerImageURL }}
-              />
-              {/* Separate View for Back arrow icon */}
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 570, // Adjust the top value as needed
-                  right: 10,
-                  backgroundColor: '#F5F5DC', // Add your desired background color here
-                  borderRadius: 15, // Optional: Add borderRadius for a rounded background
-                  padding: 5,
-                }}
-              >
-                {/* Back arrow icon with increased size and red color */}
-                <TouchableOpacity
-                  onPress={() => setPriceListImageModal(false)}
-                >
-                  <Icon name="long-arrow-left" size={28} color="black" />
-                </TouchableOpacity>
-              </View>
-
-            </View>
-
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
 
     </>
   );
