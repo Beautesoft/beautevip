@@ -250,15 +250,39 @@ export default function HomeScreen({ navigation }) {
   };
 
   const handleNavigationPriceList = () => {
-    navigation.navigate('PriceList', { type: 'price', data: banner });
+    try {
+      if (priceList?.length === 0) {
+        Toast.show('No Records');
+      }
+      else if (priceList?.length === 1) {
+        navigation.navigate('FullScreenImage', { priceListBannerImageURL: priceList[0]?.bannerImg });
+      } else {
+        navigation.navigate('PriceList', { type: 'price', data: banner, pricelist: priceList, termsAndConditions: termsAndConditions });
+      }
+    } catch (error) {
+      console.error('Error navigating to terms:', error);
+      // Handle the error as needed, such as showing an alert to the user
+    }
   };
 
   const handleNavigationTerms = () => {
-    navigation.navigate('PriceList', { type: 'terms', data: banner });
+    try {
+      if (termsAndConditions?.length === 0) {
+        Toast.show('No Records');
+      }
+      else if (termsAndConditions?.length === 1) {
+        navigation.navigate('FullScreenImage', { priceListBannerImageURL: termsAndConditions[0]?.bannerImg });
+      } else {
+        navigation.navigate('PriceList', { type: 'terms', data: banner, pricelist: priceList, termsAndConditions: termsAndConditions });
+      }
+    } catch (error) {
+      console.error('Error navigating to terms:', error);
+      // Handle the error as needed, such as showing an alert to the user
+    }
   };
 
   const handleNavigationLocation = () => {
-    navigation.navigate('PriceList', { type: 'location', data: banner });
+    navigation.navigate('PriceList', { type: 'location', data: banner,pricelist:priceList,termsAndConditions:termsAndConditions });
   };
 
 
