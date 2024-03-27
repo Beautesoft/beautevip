@@ -28,7 +28,7 @@ const addToCart = async (userData, orderData, navigation, appointmentRequest, To
             Toast.show('Added to cart.');
             navigation.navigate('ShoppingBag')
         } else {
-            // Handle failure scenario
+            Toast.show(result?.error);
             console.error('Add to cart failed:', result?.message);
         }
     } catch (error) {

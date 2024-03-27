@@ -46,11 +46,20 @@ const openCustomUrlScheme = async (scheme,url) => {
       // console.error('Error in useEffect:', error);
     }
   }, []);
-  const handleGetPaymentStatus = () => {
-    if (hitPayRequestId.length > 0) {
-      getHitPayPaymentStatus();
-    }
-  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      try {
+        getHitPayPaymentStatus();
+        console.log('service called');
+      } catch (error) {
+        console.error('Error in useEffect:', error);
+      }
+    }, 10000); // 10 seconds interval
+
+    // Clear the interval on component unmount to avoid memory leaks
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array to run only once on component mount
+
 
   const getHitPayPaymentStatus = () => {
     const request = {
@@ -201,7 +210,7 @@ const openCustomUrlScheme = async (scheme,url) => {
             <Text>Payment successful!</Text>
           </View>
         )}
-        <TouchableOpacity style={styles.getPaymentStatusButton} onPress={handleGetPaymentStatus}>
+        <TouchableOpacity style={styles.getPaymentStatusButton} onPress={getHitPayPaymentStatus}>
           <Text style={styles.buttonText}>Get Payment Status</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.getPaymentStatusButton} onPress={() => navigation.goBack()}>
